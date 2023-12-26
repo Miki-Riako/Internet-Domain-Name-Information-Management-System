@@ -1,0 +1,223 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>modifydialog</class>
+ <widget class="QDialog" name="modifydialog">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>400</width>
+    <height>800</height>
+   </rect>
+  </property>
+  <property name="minimumSize">
+   <size>
+    <width>400</width>
+    <height>800</height>
+   </size>
+  </property>
+  <property name="maximumSize">
+   <size>
+    <width>400</width>
+    <height>800</height>
+   </size>
+  </property>
+  <property name="windowTitle">
+   <string>Dialog</string>
+  </property>
+  <property name="windowIcon">
+   <iconset resource="resource.qrc">
+    <normaloff>:/images/modify.png</normaloff>:/images/modify.png</iconset>
+  </property>
+  <widget class="QWidget" name="widget" native="true">
+   <property name="geometry">
+    <rect>
+     <x>0</x>
+     <y>0</y>
+     <width>401</width>
+     <height>801</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">QWidget#widget
+{
+	background-image: url(:/images/loginbackground.jpeg);
+}</string>
+   </property>
+   <layout class="QGridLayout" name="gridLayout">
+    <item row="0" column="1">
+     <layout class="QHBoxLayout" name="horizontalLayout">
+      <item>
+       <widget class="QWidget" name="widget_2" native="true">
+        <property name="maximumSize">
+         <size>
+          <width>16777215</width>
+          <height>16777215</height>
+         </size>
+        </property>
+        <layout class="QVBoxLayout" name="verticalLayout_3">
+         <property name="leftMargin">
+          <number>30</number>
+         </property>
+         <property name="topMargin">
+          <number>30</number>
+         </property>
+         <property name="rightMargin">
+          <number>30</number>
+         </property>
+         <property name="bottomMargin">
+          <number>30</number>
+         </property>
+         <item>
+          <widget class="QLabel" name="label">
+           <property name="styleSheet">
+            <string notr="true">font-family: &quot;Microsoft YaHei&quot;;
+font-size: 35px;
+font-weight: bold;
+color: black;
+border: none;</string>
+           </property>
+           <property name="text">
+            <string>修改</string>
+           </property>
+           <property name="alignment">
+            <set>Qt::AlignCenter</set>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QtMaterialAutoComplete" name="domainNameLineEdit">
+           <property name="placeholderText">
+            <string>你要修改域名</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QtMaterialAutoComplete" name="domainTypeLineEdit">
+           <property name="placeholderText">
+            <string>类型</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QtMaterialAutoComplete" name="webNameLineEdit">
+           <property name="placeholderText">
+            <string>网站名称</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QtMaterialAutoComplete" name="sponsorNameLineEdit">
+           <property name="placeholderText">
+            <string>主办方名称</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QtMaterialAutoComplete" name="statusLineEdit">
+           <property name="placeholderText">
+            <string>状态</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QtMaterialAutoComplete" name="registerLineEdit">
+           <property name="placeholderText">
+            <string>注册商</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QtMaterialAutoComplete" name="contactInfoLineEdit">
+           <property name="placeholderText">
+            <string>联系方式</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QtMaterialAutoComplete" name="memoLineEdit">
+           <property name="placeholderText">
+            <string>备注</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QtMaterialAutoComplete" name="createDateLineEdit">
+           <property name="placeholderText">
+            <string>创建日期</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QtMaterialAutoComplete" name="updateDateLineEdit">
+           <property name="placeholderText">
+            <string>更新日期</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QtMaterialAutoComplete" name="expirationDateLineEdit">
+           <property name="placeholderText">
+            <string>过期日期</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QPushButton" name="confirmButton">
+           <property name="minimumSize">
+            <size>
+             <width>82</width>
+             <height>41</height>
+            </size>
+           </property>
+           <property name="cursor">
+            <cursorShape>PointingHandCursor</cursorShape>
+           </property>
+           <property name="styleSheet">
+            <string notr="true">QPushButton {
+	border: 0.5px solid white;
+	border-radius: 6px;
+	background-color: rgb(90, 194, 198);
+	min-width: 80px;
+	font-family: &quot;Times New Roman&quot;;
+	font-size: 11pt;
+	font-weight: bold;
+	color: white;
+}
+
+QPushButton:hover {
+	border: 0.5px solid white;
+	border-radius: 6px;
+	background-color: #1fab89;
+	min-width: 80px;
+	font-family: &quot;Times New Roman&quot;;
+	font-size: 10pt;
+	font-weight: bold;
+	color: white;
+}</string>
+           </property>
+           <property name="text">
+            <string>确认</string>
+           </property>
+          </widget>
+         </item>
+        </layout>
+       </widget>
+      </item>
+     </layout>
+    </item>
+   </layout>
+  </widget>
+ </widget>
+ <customwidgets>
+  <customwidget>
+   <class>QtMaterialAutoComplete</class>
+   <extends>QLineEdit</extends>
+   <header location="global">qtmaterialautocomplete.h</header>
+  </customwidget>
+ </customwidgets>
+ <resources>
+  <include location="resource.qrc"/>
+ </resources>
+ <connections/>
+</ui>
