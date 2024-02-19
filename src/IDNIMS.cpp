@@ -1,27 +1,6 @@
 #include "IDNIMS.h"
 #include "ui_IDNIMS.h"
 
-
-void fade(auto *control, int duration, int startValue, int endValue)
-{ // The function can provide the fade in and fade out animations.
-    QGraphicsOpacityEffect *opacityEffect = new QGraphicsOpacityEffect(control);
-    control->setGraphicsEffect(opacityEffect);
-    QPropertyAnimation *animation = new QPropertyAnimation(opacityEffect, "opacity", control);
-    animation->setDuration(duration);
-    animation->setStartValue(startValue);
-    animation->setEndValue(endValue);
-    animation->setEasingCurve(QEasingCurve::Linear);
-    animation->start();
-}
-QString removeFirstSegment(QString& input)
-{ // A small function to cut off the part after the first dot
-    int dotIndex = input.indexOf('.');
-    if (dotIndex != -1)
-        return input.mid(dotIndex + 1);
-    return input;
-}
-
-
 IDNIMS::IDNIMS(QWidget *parent) : QMainWindow(parent), ui(new Ui::IDNIMS), drawer(new QtMaterialDrawer)
 {
     ui->setupUi(this);
@@ -40,23 +19,25 @@ IDNIMS::IDNIMS(QWidget *parent) : QMainWindow(parent), ui(new Ui::IDNIMS), drawe
     drawer->setDrawerLayout(drawerLayout);
     QVector<QString> labels = {"Home", "Manage", "Searching", "Statistic", "Log", "Setting", "About"};
     int iLabels = 0;
-    for (QVector<QString>::iterator it = labels.begin(); it != labels.end(); ++it) { // Attend the buttons for the drawer
+    for (auto it = labels.begin(); it != labels.end(); ++it) { // Attend the buttons for the drawer
         drawerButtons[iLabels] = new QPushButton(*it);
-        drawerButtons[iLabels]->setStyleSheet("QPushButton {\
-                                                border: 0px;\
-                                                min-width: 80px;\
-                                                font-family: \"Microsoft YaHei UI\";\
-                                                font-size: 12pt;\
-                                                font-weight: bold;\
-                                                color: rgb(0, 0, 0);\
-                                            }\
-                                            QPushButton:hover {\
-                                                border: 0px;\
-                                                min-width: 80px;\
-                                                font-family: \"Microsoft YaHei UI\";\
-                                                font-size: 11pt;\
-                                                font-weight: bold;\
-                                                color: rgb(50, 50, 50);}");
+        drawerButtons[iLabels]->setStyleSheet("\
+            QPushButton {\
+                border: 0px;\
+                min-width: 80px;\
+                font-family: \"Microsoft YaHei UI\";\
+                font-size: 12pt;\
+                font-weight: bold;\
+                color: rgb(0, 0, 0);\
+            }\
+            QPushButton:hover {\
+                border: 0px;\
+                min-width: 80px;\
+                font-family: \"Microsoft YaHei UI\";\
+                font-size: 11pt;\
+                font-weight: bold;\
+                color: rgb(50, 50, 50);\
+        }");
         drawerButtons[iLabels]->setMinimumHeight(40);
         drawerLayout->addWidget(drawerButtons[iLabels++]);
     }
@@ -71,7 +52,6 @@ IDNIMS::IDNIMS(QWidget *parent) : QMainWindow(parent), ui(new Ui::IDNIMS), drawe
     pagePtr[5] = ui->pageSetting;
     pagePtr[6] = ui->pageAbout;
     // Drawer
-    
     /*
     Connect
     The following contains are about the buttons connected.
@@ -79,36 +59,52 @@ IDNIMS::IDNIMS(QWidget *parent) : QMainWindow(parent), ui(new Ui::IDNIMS), drawe
     connect(&login, &Login::guest_enter, this, [&](){
         administratorRights = false;
         enter();
-        });
+    });
     connect(&login, &Login::enter, this, [&](){
         administratorRights = true;
         user = login.name;
         enter();
-        });
+    });
     connect(&establishWindow, &establishdialog::send_request, this, [&](){
         establishWindow.user = user;
         establishWindow.establishOp = &sql;
-        });
+    });
     connect(&categorizeWindow, &categorizedialog::send_request, this, [&](){
         categorizeWindow.user = user;
         categorizeWindow.categorizeOp = &sql;
-        });
+    });
     connect(&insertWindow, &insertdialog::send_request, this, [&](){
         insertWindow.user = user;
         insertWindow.insertOp = &sql;
-        });
+    });
     connect(&removeWindow, &removedialog::send_request, this, [&](){removeWindow.removeOp = &sql;});
     connect(&modifyWindow, &modifydialog::send_request, this, [&](){
         modifyWindow.user = user;
         modifyWindow.modifyOp = &sql;
-        });
+    });
     for (int i = 0; i < 7; i++)
         connect(drawerButtons[i], &QPushButton::clicked, this, [=](){changePage(i);});
     // Connect
 }
-IDNIMS::~IDNIMS()
-{
-    delete ui;
+IDNIMS::~IDNIMS() {delete ui;}
+
+void IDNIMS::fade(auto *control, int duration, int startValue, int endValue)
+{ // The function can provide the fade in and fade out animations.
+    QGraphicsOpacityEffect *opacityEffect = new QGraphicsOpacityEffect(control);
+    control->setGraphicsEffect(opacityEffect);
+    QPropertyAnimation *animation = new QPropertyAnimation(opacityEffect, "opacity", control);
+    animation->setDuration(duration);
+    animation->setStartValue(startValue);
+    animation->setEndValue(endValue);
+    animation->setEasingCurve(QEasingCurve::Linear);
+    animation->start();
+}
+QString IDNIMS::removeFirstSegment(QString& input)
+{ // A small function to cut off the part after the first dot
+    int dotIndex = input.indexOf('.');
+    if (dotIndex != -1)
+        return input.mid(dotIndex + 1);
+    return input;
 }
 void IDNIMS::enter(void)
 { // When enter the main window
@@ -118,8 +114,6 @@ void IDNIMS::enter(void)
     initialHomePage();
     initialLogPage();
     initialSettingPage();
-    if (sql.host[3] == "Yes")
-        sql.createDataTree();
     if (!administratorRights)
         user = "Guest";
     ui->userLabel->setText("Welcome! " + user);
@@ -177,6 +171,8 @@ void IDNIMS::initialLogPage(void)
         file.close();
         ui->textEdit->insertPlainText(content);
     }
+    else
+        QMessageBox::information(this, "Error", "You may miss some important file, try to download again!");
 }
 void IDNIMS::initialSettingPage(void)
 { // This function aims to set the setting page
@@ -212,8 +208,6 @@ void IDNIMS::initialSettingPage(void)
     }
     ui->tipsL->setFixedHeight(20);
     ui->tipsR->setFixedHeight(20);
-    if (sql.host[3] == "Yes")
-        ui->nodeButton->setChecked(true);
     if (sql.host[4] == "BFS")
         ui->comboBox->setCurrentIndex(1);
     if (sql.host[5] == "On")
@@ -247,26 +241,7 @@ void IDNIMS::on_clearAll_clicked()
 }
 void IDNIMS::on_uploadAll_clicked()
 { // Upload the domain tree into the database
-    if (sql.host[3] == "Yes") { // Need to save as node
-        QSqlDatabase::database().transaction();
-        QSqlQuery query;
-        if (sql.host[5] == "On") { // If open the backup mode
-            query.exec(QString("CREATE TABLE %1 AS SELECT * FROM %2;").arg("domain_temp").arg("domain"));
-            query.exec(QString("TRUNCATE TABLE %1;").arg("domain_temp"));
-            sql.upload(sql.root);
-            query.exec(QString("DROP TABLE %1;").arg("domain"));
-        }
-        else { // No need to backup
-            query.exec(QString("ALTER TABLE %1 RENAME TO %2;").arg("domain").arg("domain_temp"));
-            query.exec(QString("TRUNCATE TABLE %1;").arg("domain_temp"));
-            sql.upload(sql.root);
-        }
-        query.exec(QString("ALTER TABLE %1 RENAME TO %2;").arg("domain_temp").arg("domain"));
-        QSqlDatabase::database().commit();
-        QMessageBox::information(this, "Success", "The data has been uploaded successfully.");
-    }
-    else
-        QMessageBox::information(this, "Error", "You have closed store data as the node model.");
+    QMessageBox::information(this, "Error", "You have closed store data as the node model.");
 }
 // The button on page 2
 void IDNIMS::on_establishButton_clicked()
@@ -333,86 +308,46 @@ void IDNIMS::on_searchDomain_clicked()
     ui->searchWidget->clearContents();
     ui->searchWidget->setRowCount(0);
     LARGE_INTEGER startTime, endTime, frequency;
-    if (sql.host[3] == "Yes") { // The case that data stored in the node
-        QueryPerformanceCounter(&startTime);
-        sql.howToSearch(targetDomain);
-        if (!sql.searchVector.empty()) { // If the search vector is not empty, paint it on the table
-            int rowCount = sql.searchVector.size();
-            ui->searchWidget->setRowCount(rowCount);
-            ui->searchWidget->setColumnCount(13);
+    QueryPerformanceCounter(&startTime);
+    if (targetType.isEmpty())
+        targetType = "domain_name";
+    QString queryString = QString("SELECT * FROM domain WHERE %1 LIKE '%%2%'").arg(targetType).arg(targetDomain);
+    bool found = true;
+    if (query.exec(queryString)) { // Updated the search table
+        int columnCount = query.record().count() - 4;
+        int rowCount = 0;
+        while (query.next())
+            rowCount++;
+        if (rowCount == 0)
+            found = false;
+        else { // Load in the search table
             QStringList headerLabels;
-            headerLabels << "domain name";
-            headerLabels << "domain name type";
-            headerLabels << "domain name level";
-            headerLabels << "web name";
-            headerLabels << "sponsor name";
-            headerLabels << "status";
-            headerLabels << "register";
-            headerLabels << "contact information";
-            headerLabels << "creator";
-            headerLabels << "create date";
-            headerLabels << "memo";
-            headerLabels << "updated date";
-            headerLabels << "expiration date";
-            ui->searchWidget->setHorizontalHeaderLabels(headerLabels);
-            for (int i = 0; i < rowCount; i++) {
-                ui->searchWidget->setItem(i, 0, new QTableWidgetItem(sql.searchVector[i]->domainName));
-                ui->searchWidget->setItem(i, 1, new QTableWidgetItem(sql.searchVector[i]->domainNameType));
-                ui->searchWidget->setItem(i, 2, new QTableWidgetItem(sql.searchVector[i]->domainLevel));
-                ui->searchWidget->setItem(i, 3, new QTableWidgetItem(sql.searchVector[i]->webName));
-                ui->searchWidget->setItem(i, 4, new QTableWidgetItem(sql.searchVector[i]->sponsorName));
-                ui->searchWidget->setItem(i, 5, new QTableWidgetItem(sql.searchVector[i]->status));
-                ui->searchWidget->setItem(i, 6, new QTableWidgetItem(sql.searchVector[i]->domainRegister));
-                ui->searchWidget->setItem(i, 7, new QTableWidgetItem(sql.searchVector[i]->contactInfo));
-                ui->searchWidget->setItem(i, 8, new QTableWidgetItem(sql.searchVector[i]->creator));
-                ui->searchWidget->setItem(i, 9, new QTableWidgetItem(sql.searchVector[i]->createDate));
-                ui->searchWidget->setItem(i, 10, new QTableWidgetItem(sql.searchVector[i]->memo));
-                ui->searchWidget->setItem(i, 11, new QTableWidgetItem(sql.searchVector[i]->updateDate));
-                ui->searchWidget->setItem(i, 12, new QTableWidgetItem(sql.searchVector[i]->expirationDate));
+            ifstream file(".\\table.idnims");
+            if (file.is_open()) {
+                string line;
+                while (getline(file, line))
+                    headerLabels << QString::fromStdString(line);
+                ui->searchWidget->setHorizontalHeaderLabels(headerLabels);
+                file.close();
             }
+            ui->searchWidget->setColumnCount(columnCount);
+            ui->searchWidget->setRowCount(rowCount);
+            query.exec(queryString);
+            for (int i = 0; query.next(); i++)
+                for (int j = 4; j < columnCount; j++)
+                    ui->searchWidget->setItem(i, j - 4, new QTableWidgetItem(query.value(j).toString()));
         }
-        else
-            QMessageBox::information(nullptr, "Search Result", "No results found, or you may not open the model that searching in Mysql?");
-        QueryPerformanceCounter(&endTime);
-        double time = (double)(endTime.QuadPart - startTime.QuadPart) / frequency.QuadPart;
-        ui->timeLabel->setText("search Time: " + QString::number(time, 'f', 4) + "s, in "+ sql.host[4]);
     }
-    else { // The case that search in the database directly
-        QueryPerformanceCounter(&startTime);
-        if (targetType.isEmpty())
-            targetType = "domain_name";
-        QString queryString = QString("SELECT * FROM domain WHERE %1 LIKE '%%2%'").arg(targetType).arg(targetDomain);
-        if (query.exec(queryString)) { // Updated the search table
-            int columnCount = query.record().count() - 4;
-            int rowCount = 0;
-            while (query.next())
-                rowCount++;
-            if (rowCount == 0)
-                QMessageBox::information(nullptr, "Search Result", "No results found.");
-            else { // Load in the search table
-                QStringList headerLabels;
-                ifstream file(".\\table.idnims");
-                if (file.is_open()) {
-                    string line;
-                    while (getline(file, line))
-                        headerLabels << QString::fromStdString(line);
-                    ui->searchWidget->setHorizontalHeaderLabels(headerLabels);
-                    file.close();
-                }
-                ui->searchWidget->setColumnCount(columnCount);
-                ui->searchWidget->setRowCount(rowCount);
-                query.exec(queryString);
-                for (int i = 0; query.next(); i++)
-                    for (int j = 4; j < columnCount; j++)
-                        ui->searchWidget->setItem(i, j - 4, new QTableWidgetItem(query.value(j).toString()));
-            }
-        }
-        else
-            QMessageBox::warning(nullptr, "Error", "Load the database failed, please check your database!");
-        QueryPerformanceCounter(&endTime);
-        double time = (double)(endTime.QuadPart - startTime.QuadPart) / frequency.QuadPart;
-        ui->timeLabel->setText("search Time: " + QString::number(time, 'f', 4) + "s, in MySQL");
-    }
+    else
+        QMessageBox::warning(nullptr, "Error", "Load the database failed, please check your database!");
+    QueryPerformanceCounter(&endTime);
+    if (!found)
+        QMessageBox::information(nullptr, "Search Result", "No results found.");
+    double time = (double)(endTime.QuadPart - startTime.QuadPart) / frequency.QuadPart;
+    QString timeStr = QString::number(time, 'f', 4);
+    if (timeStr == "inf")
+        timeStr = "less than 0.0001";
+    ui->timeLabel->setText("Search Time: " + timeStr + "s");
 }
 // The button on page 4
 void IDNIMS::on_calculateLevel_clicked()
@@ -545,29 +480,26 @@ void IDNIMS::on_nodeButton_clicked(bool checked)
 }
 void IDNIMS::on_comboBox_currentIndexChanged(int index)
 {
+    ofstream file(".\\config.idnims");
     switch (index) { // Check the index of the combo box
-    case 0: 
-        ofstream file(".\\config.idnims");
+    case 0:
         if (file.is_open()) {
             file << sql.host[0].toStdString() << endl;
             file << sql.host[1].toStdString() << endl;
             file << sql.host[2].toStdString() << endl;
             file << sql.host[3].toStdString() << endl;
             file << "DFS" << endl;
-            file.close();
         }
         else
             QMessageBox::information(this, "Error", "You may miss some important file, try to download again!");
         break;
     case 1:
-        ofstream file(".\\config.idnims");
         if (file.is_open()) {
             file << sql.host[0].toStdString() << endl;
             file << sql.host[1].toStdString() << endl;
             file << sql.host[2].toStdString() << endl;
             file << sql.host[3].toStdString() << endl;
             file << "BFS" << endl;
-            file.close();
         }
         else
             QMessageBox::information(this, "Error", "You may miss some important file, try to download again!");
@@ -575,6 +507,7 @@ void IDNIMS::on_comboBox_currentIndexChanged(int index)
     default:
         break;
     }
+    file.close();
 }
 void IDNIMS::on_saveButton_clicked(bool checked)
 {

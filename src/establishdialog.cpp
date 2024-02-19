@@ -27,48 +27,48 @@ establishdialog::~establishdialog()
 
 void establishdialog::establish(QString domain)
 { // Give a whole domain and create it
-    domainNode *establishNode = new domainNode;
-    establishNode->domainName = domain;
-    establishNode->parent = nullptr;
-    establishNode->firstChild = nullptr;
-    establishNode->nextSibling = nullptr;
-    establishNode->creator = user;
-    establishNode->id = -1;
-    establishNode->domainLevel = establishNode->domainName.count('.') + 1;
-    if (establishNode->domainLevel > 1) { // At least have father
-        domainNode *fatherNode = new domainNode;
-        fatherNode->domainName = establishOp->removeFirstSegment(establishNode->domainName);
-        fatherNode->parent = nullptr;
-        fatherNode->firstChild = nullptr;
-        fatherNode->nextSibling = nullptr;
-        fatherNode->creator = user;
-        fatherNode->id = -1;
-        fatherNode->domainLevel = establishNode->domainLevel - 1;
-        if (establishNode->domainLevel > 2) { // When level is 2
-            domainNode *grandFatherNode = new domainNode;
-            grandFatherNode->domainName = establishOp->removeFirstSegment(fatherNode->domainName);
-            grandFatherNode->creator = user;
-            grandFatherNode->parent = nullptr;
-            grandFatherNode->firstChild = nullptr;
-            grandFatherNode->nextSibling = nullptr;
-            grandFatherNode->id = -1;
-            grandFatherNode->domainLevel = fatherNode->domainLevel - 1;
-            if (establishNode->domainLevel > 3) { // When level is 1
-                domainNode *greatGrandFatherNode = new domainNode;
-                greatGrandFatherNode->domainName = establishOp->removeFirstSegment(grandFatherNode->domainName);
-                greatGrandFatherNode->creator = user;
-                greatGrandFatherNode->parent = nullptr;
-                greatGrandFatherNode->firstChild = nullptr;
-                greatGrandFatherNode->nextSibling = nullptr;
-                greatGrandFatherNode->id = -1;
-                greatGrandFatherNode->domainLevel = grandFatherNode->domainLevel - 1;
-                establishOp->insert(greatGrandFatherNode);
-            }
-            establishOp->insert(grandFatherNode);
-        }
-        establishOp->insert(fatherNode);
-    }
-    establishOp->insert(establishNode);
+    // domainNode *establishNode = new domainNode;
+    // establishNode->domainName = domain;
+    // establishNode->parent = nullptr;
+    // establishNode->firstChild = nullptr;
+    // establishNode->nextSibling = nullptr;
+    // establishNode->creator = user;
+    // establishNode->id = -1;
+    // establishNode->domainLevel = establishNode->domainName.count('.') + 1;
+    // if (establishNode->domainLevel > 1) { // At least have father
+    //     domainNode *fatherNode = new domainNode;
+    //     fatherNode->domainName = establishOp->removeFirstSegment(establishNode->domainName);
+    //     fatherNode->parent = nullptr;
+    //     fatherNode->firstChild = nullptr;
+    //     fatherNode->nextSibling = nullptr;
+    //     fatherNode->creator = user;
+    //     fatherNode->id = -1;
+    //     fatherNode->domainLevel = establishNode->domainLevel - 1;
+    //     if (establishNode->domainLevel > 2) { // When level is 2
+    //         domainNode *grandFatherNode = new domainNode;
+    //         grandFatherNode->domainName = establishOp->removeFirstSegment(fatherNode->domainName);
+    //         grandFatherNode->creator = user;
+    //         grandFatherNode->parent = nullptr;
+    //         grandFatherNode->firstChild = nullptr;
+    //         grandFatherNode->nextSibling = nullptr;
+    //         grandFatherNode->id = -1;
+    //         grandFatherNode->domainLevel = fatherNode->domainLevel - 1;
+    //         if (establishNode->domainLevel > 3) { // When level is 1
+    //             domainNode *greatGrandFatherNode = new domainNode;
+    //             greatGrandFatherNode->domainName = establishOp->removeFirstSegment(grandFatherNode->domainName);
+    //             greatGrandFatherNode->creator = user;
+    //             greatGrandFatherNode->parent = nullptr;
+    //             greatGrandFatherNode->firstChild = nullptr;
+    //             greatGrandFatherNode->nextSibling = nullptr;
+    //             greatGrandFatherNode->id = -1;
+    //             greatGrandFatherNode->domainLevel = grandFatherNode->domainLevel - 1;
+    //             establishOp->insert(greatGrandFatherNode);
+    //         }
+    //         establishOp->insert(grandFatherNode);
+    //     }
+    //     establishOp->insert(fatherNode);
+    // }
+    // establishOp->insert(establishNode);
 }
 
 
