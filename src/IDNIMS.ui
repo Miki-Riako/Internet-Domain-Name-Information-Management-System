@@ -150,7 +150,7 @@ QPushButton:hover {
          <item>
           <widget class="QStackedWidget" name="stackedWidget">
            <property name="currentIndex">
-            <number>6</number>
+            <number>3</number>
            </property>
            <widget class="QWidget" name="pageHome">
             <layout class="QGridLayout" name="gridLayout_4">
@@ -683,7 +683,7 @@ QPushButton:hover {
                    <enum>QLineEdit::Normal</enum>
                   </property>
                   <property name="placeholderText">
-                   <string>在类型中搜索（默认为域名搜索）. . .</string>
+                   <string>在类型中搜索（默认为域名搜索）（需要以MySQL的形式搜索）. . .</string>
                   </property>
                  </widget>
                 </item>
@@ -745,7 +745,7 @@ QPushButton:hover {
             </layout>
            </widget>
            <widget class="QWidget" name="pageStatistic">
-            <layout class="QVBoxLayout" name="verticalLayout_7" stretch="1,1,5,5,5">
+            <layout class="QVBoxLayout" name="verticalLayout_7" stretch="1,1,5">
              <item>
               <widget class="QLabel" name="label_31">
                <property name="styleSheet">
@@ -762,45 +762,6 @@ QPushButton:hover {
              <item>
               <widget class="QWidget" name="widget_9" native="true">
                <layout class="QHBoxLayout" name="horizontalLayout_5">
-                <item>
-                 <widget class="QPushButton" name="calculateKey">
-                  <property name="minimumSize">
-                   <size>
-                    <width>82</width>
-                    <height>20</height>
-                   </size>
-                  </property>
-                  <property name="cursor">
-                   <cursorShape>PointingHandCursor</cursorShape>
-                  </property>
-                  <property name="styleSheet">
-                   <string notr="true">QPushButton {
-	border: 0.5px solid white;
-	border-radius: 6px;
-	background-color: rgb(90, 194, 198);
-	min-width: 80px;
-	font-family: &quot;Times New Roman&quot;;
-	font-size: 11pt;
-	font-weight: bold;
-	color: white;
-}
-
-QPushButton:hover {
-	border: 0.5px solid white;
-	border-radius: 6px;
-	background-color: #1fab89;
-	min-width: 80px;
-	font-family: &quot;Times New Roman&quot;;
-	font-size: 10pt;
-	font-weight: bold;
-	color: white;
-}</string>
-                  </property>
-                  <property name="text">
-                   <string>统计关键字</string>
-                  </property>
-                 </widget>
-                </item>
                 <item>
                  <widget class="QPushButton" name="calculateLevel">
                   <property name="minimumSize">
@@ -840,70 +801,11 @@ QPushButton:hover {
                   </property>
                  </widget>
                 </item>
-                <item>
-                 <widget class="QPushButton" name="calculateType">
-                  <property name="minimumSize">
-                   <size>
-                    <width>82</width>
-                    <height>20</height>
-                   </size>
-                  </property>
-                  <property name="cursor">
-                   <cursorShape>PointingHandCursor</cursorShape>
-                  </property>
-                  <property name="styleSheet">
-                   <string notr="true">QPushButton {
-	border: 0.5px solid white;
-	border-radius: 6px;
-	background-color: rgb(90, 194, 198);
-	min-width: 80px;
-	font-family: &quot;Times New Roman&quot;;
-	font-size: 11pt;
-	font-weight: bold;
-	color: white;
-}
-
-QPushButton:hover {
-	border: 0.5px solid white;
-	border-radius: 6px;
-	background-color: #1fab89;
-	min-width: 80px;
-	font-family: &quot;Times New Roman&quot;;
-	font-size: 10pt;
-	font-weight: bold;
-	color: white;
-}</string>
-                  </property>
-                  <property name="text">
-                   <string>统计域名种类</string>
-                  </property>
-                 </widget>
-                </item>
                </layout>
               </widget>
              </item>
              <item>
-              <widget class="QWidget" name="showWidget1" native="true">
-               <property name="minimumSize">
-                <size>
-                 <width>0</width>
-                 <height>0</height>
-                </size>
-               </property>
-              </widget>
-             </item>
-             <item>
               <widget class="QWidget" name="showWidget2" native="true">
-               <property name="minimumSize">
-                <size>
-                 <width>0</width>
-                 <height>0</height>
-                </size>
-               </property>
-              </widget>
-             </item>
-             <item>
-              <widget class="QWidget" name="showWidget3" native="true">
                <property name="minimumSize">
                 <size>
                  <width>0</width>

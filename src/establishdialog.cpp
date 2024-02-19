@@ -35,8 +35,7 @@ void establishdialog::establish(QString domain)
     establishNode->creator = user;
     establishNode->id = -1;
     establishNode->domainLevel = establishNode->domainName.count('.') + 1;
-    if (establishNode->domainLevel > 1)
-    { // At least have father
+    if (establishNode->domainLevel > 1) { // At least have father
         domainNode *fatherNode = new domainNode;
         fatherNode->domainName = establishOp->removeFirstSegment(establishNode->domainName);
         fatherNode->parent = nullptr;
@@ -45,8 +44,7 @@ void establishdialog::establish(QString domain)
         fatherNode->creator = user;
         fatherNode->id = -1;
         fatherNode->domainLevel = establishNode->domainLevel - 1;
-        if (establishNode->domainLevel > 2)
-        { // When level is 2
+        if (establishNode->domainLevel > 2) { // When level is 2
             domainNode *grandFatherNode = new domainNode;
             grandFatherNode->domainName = establishOp->removeFirstSegment(fatherNode->domainName);
             grandFatherNode->creator = user;
@@ -55,8 +53,7 @@ void establishdialog::establish(QString domain)
             grandFatherNode->nextSibling = nullptr;
             grandFatherNode->id = -1;
             grandFatherNode->domainLevel = fatherNode->domainLevel - 1;
-            if (establishNode->domainLevel > 3)
-            { // When level is 1
+            if (establishNode->domainLevel > 3) { // When level is 1
                 domainNode *greatGrandFatherNode = new domainNode;
                 greatGrandFatherNode->domainName = establishOp->removeFirstSegment(grandFatherNode->domainName);
                 greatGrandFatherNode->creator = user;
@@ -79,36 +76,26 @@ void establishdialog::on_randomButton_clicked()
 {
     emit send_request();
     int length = ui->lengthBox->value();
-    switch (ui->spinBox->value())
-    { // Create the domain name with the level
-        case 4:
-        {
-            establish(randomString(length) + "." + randomString(length) + "." + randomString(length) + "." + randomString(length));
-            break;
-        }
-        case 3:
-        {
-            establish(randomString(length) + "." + randomString(length) + "." + randomString(length));
-            break;
-        }
-        case 2:
-        {
-            establish(randomString(length) + "." + randomString(length));
-            break;
-        }
-        default:
-        {
-            establish(randomString(length));
-            break;
-        }
+    switch (ui->spinBox->value()) { // Create the domain name with the level
+    case 4:
+        establish(randomString(length) + "." + randomString(length) + "." + randomString(length) + "." + randomString(length));
+        break;
+    case 3:
+        establish(randomString(length) + "." + randomString(length) + "." + randomString(length));
+        break;
+    case 2:
+        establish(randomString(length) + "." + randomString(length));
+        break;
+    default:
+        establish(randomString(length));
+        break;
     }
 }
 void establishdialog::on_fileButton_clicked()
 {
     emit send_request();
     ifstream file(".\\domain.txt");
-    if (file.is_open())
-    { // Enter the file
+    if (file.is_open()) { // Enter the file
         string line;
         while (getline(file, line))
             establish(QString::fromStdString(line));
@@ -116,8 +103,7 @@ void establishdialog::on_fileButton_clicked()
         ui->tips->animationStart();
         file.close();
     }
-    else
-    { // Enter failed
+    else { // Enter failed
         ui->tips->textLabel->setText("The txt is missing!");
         ui->tips->animationStart();
         return;

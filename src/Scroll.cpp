@@ -1,7 +1,6 @@
 #include "Scroll.h"
 
-Scroll::Scroll(QWidget *parent)
-    : QWidget{parent}
+Scroll::Scroll(QWidget *parent) : QWidget{parent}
 {
     // Initial
     textLabel = new QLabel(this);

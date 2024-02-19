@@ -16,14 +16,12 @@ void modifydialog::on_confirmButton_clicked()
     emit send_request();
     QString target = ui->domainNameLineEdit->text();
     modifyOp->howToSearch(target);
-    if (modifyOp->searchVector.size() == 0)
-    { // The input is wrong
+    if (modifyOp->searchVector.size() == 0) { // The input is wrong
         QMessageBox::information(nullptr, "Error", "The input is wrong!");
         return;
     }
     for (auto i = 0; i < modifyOp->searchVector.size(); i++)
-        if (modifyOp->searchVector[i]->domainName == target)
-        { // Find the target
+        if (modifyOp->searchVector[i]->domainName == target) { // Find the target
             domainNode *modifyNode = modifyOp->searchVector[i];
             modifyNode->domainNameType = ui->domainTypeLineEdit->text();
             modifyNode->webName        = ui->webNameLineEdit->text();

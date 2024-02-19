@@ -15,8 +15,7 @@ QString domainsql::removeFirstSegment(QString &domain)
 bool domainsql::connecting(void)
 { // Load the Local file and connect the database
     ifstream file(".\\config.idnims");
-    if (file.is_open())
-    { // Enter the file
+    if (file.is_open()) { // Enter the file
         string line;
         int iHost = 0;
         while (getline(file, line))
@@ -35,8 +34,7 @@ bool domainsql::connecting(void)
 }
 void domainsql::loginConnect(void)
 { // When enter the login widget, try to connect the database
-    if (QSqlDatabase::drivers().isEmpty())
-    { // When no drivers
+    if (QSqlDatabase::drivers().isEmpty()) { // When no drivers
         QMessageBox::information(nullptr, "No database drivers found", "If you are a new user, please enter as a guest and set the mysql database configuration in the settings section, then re-enter as an administrator. Otherwise, please check the database connection.");
         return;
     }
@@ -45,8 +43,7 @@ void domainsql::loginConnect(void)
 }
 void domainsql::connectDataBase(void)
 { // When user want to input their host to connect the database
-    if (QSqlDatabase::drivers().isEmpty())
-    { // When no drivers
+    if (QSqlDatabase::drivers().isEmpty()) { // When no drivers
         QMessageBox::information(nullptr, "No database drivers found", "Database drivers required! Please check your SQL plugins.");
         return;
     }
@@ -73,8 +70,7 @@ int domainsql::getIdFromDomain(QString &domainName)
     query.bindValue(":domainName", domainName);
     if (query.exec() && query.next())
         return query.value("id").toInt();
-    else
-    { // The case that can not find the id
+    else { // The case that can not find the id
         QMessageBox::warning(nullptr, "Failed", "Error while accessing the database.");
         return -1;
     }
@@ -82,10 +78,8 @@ int domainsql::getIdFromDomain(QString &domainName)
 void domainsql::createDataTree(void)
 { // Create the database tree
     QSqlQuery query(db);
-    if (query.exec("SELECT * FROM domain"))
-    { // Load the domain database
-        while (query.next())
-        { // Traverse the database and download it to the tree
+    if (query.exec("SELECT * FROM domain")) { // Load the domain database
+        while (query.next()) { // Traverse the database and download it to the tree
             domainNode* newNode = new domainNode;
             newNode->id             = query.value("id").toInt();
             newNode->domainLevel    = query.value("domain_name_level").toInt();
@@ -102,25 +96,21 @@ void domainsql::createDataTree(void)
             newNode->updateDate     = query.value("updated_date").toString();
             newNode->expirationDate = query.value("expiration_date").toString();
             int parentId = query.value("parent").toInt();
-            if (parentId == 0)
-            { // No parent node, the node is root
+            if (parentId == 0) { // No parent node, the node is root
                 newNode->parent = nullptr;
                 newNode->nextSibling = nullptr;
                 newNode->firstChild = nullptr;
                 root = newNode;
             }
-            else
-            { // Node is not the root
+            else { // Node is not the root
                 domainNode* parentNode = findNodeById(root, parentId);
-                if (parentNode)
-                { // When the parent node is not null
+                if (parentNode) { // When the parent node is not null
                     newNode->parent = parentNode;
                     newNode->nextSibling = nullptr;
                     newNode->firstChild = nullptr;
                     if (!parentNode->firstChild)
                         parentNode->firstChild = newNode;
-                    else
-                    { // The case that the parent node has already a node
+                    else { // The case that the parent node has already a node
                         domainNode* lastChild = parentNode->firstChild;
                         while (lastChild->nextSibling)
                             lastChild = lastChild->nextSibling;
@@ -186,8 +176,7 @@ void domainsql::BFS(domainNode *root, QString target)
     int front = 0;
     int rear = 0;
     queue[rear++] = root;
-    while (front < rear)
-    { // Using the queue to search in BFS
+    while (front < rear) { // Using the queue to search in BFS
         domainNode *cur = queue[front++];
         if (cur->domainName.contains(target))
             searchVector.push_back(cur);
@@ -205,34 +194,28 @@ void domainsql::insert(domainNode *child)
     QString father = removeFirstSegment(child->domainName);
     domainNode *parent = nullptr;
     howToSearch(father);
-    if (searchVector.size() == 0)
-    { // The input is wrong
+    if (searchVector.size() == 0) { // The input is wrong
         QMessageBox::information(nullptr, "Error", "The input is wrong!");
         return;
     }
     for (auto i = 0; i < searchVector.size(); i++)
-        if (searchVector[i]->domainName == father)
-        { // Find the father
+        if (searchVector[i]->domainName == father) { // Find the father
             parent = searchVector[i];
             break;
         }
-    if (host[3] == "Yes")
-    { // Stored as the node
+    if (host[3] == "Yes") { // Stored as the node
         int flagSibling = 0;
         if (father == child->domainName)
             parent = root;
         if (parent == nullptr || child == nullptr)
             return;
-        if (parent->firstChild == nullptr)
-        { // The parent node has no child
+        if (parent->firstChild == nullptr) { // The parent node has no child
             child->parent = parent;
             parent->firstChild = child;
         }
-        else
-        { // If the parent node has children, find the last sibling node and insert it
+        else { // If the parent node has children, find the last sibling node and insert it
             domainNode *sibling = parent->firstChild;
-            while (sibling->nextSibling != nullptr)
-            { // Find the last sibling
+            while (sibling->nextSibling != nullptr) { // Find the last sibling
                 if (sibling->nextSibling->nextSibling == nullptr)
                     flagSibling = sibling->nextSibling->id;
                 sibling = sibling->nextSibling;
@@ -240,15 +223,14 @@ void domainsql::insert(domainNode *child)
             child->parent = parent;
             sibling->nextSibling = child;
         }
-        while (true)
-        { // Give an id
+        for (int i = 0; true; ++i) { // Give an id
             int range = 2;
             if (child->domainLevel == 4)
-                range = 2000;
+                range = 20000;
             else if (child->domainLevel == 3)
-                range = 200;
+                range = 2000;
             else if (child->domainLevel == 2)
-                range = 20;
+                range = 200;
             srand(time(NULL));
             child->id = rand() % (range * 10 - range + 1) + range;
             QSqlQuery queryCheck;
@@ -261,6 +243,10 @@ void domainsql::insert(domainNode *child)
                 conflict = true;
             if (conflict && flagSibling < child->id)
                 break;
+            if (i > 1000) {
+                QMessageBox::information(nullptr, "Failed", "Your database is overflowed!");
+                break;
+            }
         }
         QMessageBox::information(nullptr, "Success", "Insert Successfully!");
     }
@@ -273,12 +259,10 @@ bool domainsql::remove(QString target)
     if (searchVector.size() == 0)
         return false;
     for (auto i = 0; i < searchVector.size(); i++)
-        if (searchVector[i]->domainName == target)
-        { // Find the target
+        if (searchVector[i]->domainName == target) { // Find the target
             domainNode *parent = searchVector[i]->parent;
             domainNode *prev = NULL;
-            for (domainNode *sibling = parent->firstChild; sibling != NULL; sibling = sibling->nextSibling)
-            {
+            for (domainNode *sibling = parent->firstChild; sibling != NULL; sibling = sibling->nextSibling) {
                 if (sibling == searchVector[i])
                     break;
                 prev = sibling;

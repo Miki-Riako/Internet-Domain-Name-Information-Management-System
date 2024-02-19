@@ -105,7 +105,7 @@
           <enum>QLineEdit::Normal</enum>
          </property>
          <property name="placeholderText">
-          <string>人工输入. . .</string>
+          <string>人工输入（注意：无法输入不合法的顶级域名！）. . .</string>
          </property>
         </widget>
        </item>

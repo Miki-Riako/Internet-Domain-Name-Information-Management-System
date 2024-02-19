@@ -40,8 +40,7 @@ IDNIMS::IDNIMS(QWidget *parent) : QMainWindow(parent), ui(new Ui::IDNIMS), drawe
     drawer->setDrawerLayout(drawerLayout);
     QVector<QString> labels = {"Home", "Manage", "Searching", "Statistic", "Log", "Setting", "About"};
     int iLabels = 0;
-    for (QVector<QString>::iterator it = labels.begin(); it != labels.end(); ++it)
-    { // Attend the buttons for the drawer
+    for (QVector<QString>::iterator it = labels.begin(); it != labels.end(); ++it) { // Attend the buttons for the drawer
         drawerButtons[iLabels] = new QPushButton(*it);
         drawerButtons[iLabels]->setStyleSheet("QPushButton {\
                                                 border: 0px;\
@@ -138,12 +137,10 @@ void IDNIMS::changePage(int page)
 }
 void IDNIMS::keyPressEvent(QKeyEvent *event)
 { // Ctrl+S to save the log
-    if (event->key() == Qt::Key_S && event->modifiers() == Qt::ControlModifier)
-    { // Catch the event
+    if (event->key() == Qt::Key_S && event->modifiers() == Qt::ControlModifier) { // Catch the event
         QString content = ui->textEdit->toPlainText();
         ofstream file(".\\log.idnims");
-        if (file.is_open())
-        { // Enter the file
+        if (file.is_open()) { // Enter the file
             file << content.toStdString();
             file.close();
         }
@@ -171,8 +168,7 @@ void IDNIMS::initialHomePage(void)
 void IDNIMS::initialLogPage(void)
 { // This function aims to set the log page
     ifstream file(".\\log.idnims");
-    if (file.is_open())
-    { // Enter the file
+    if (file.is_open()) { // Enter the file
         QString content;
         QTextStream stream(&content);
         string line;
@@ -191,26 +187,22 @@ void IDNIMS::initialSettingPage(void)
     pwdLineEdit[0] = ui->oldPwdLineEdit;
     pwdLineEdit[1] = ui->changePwdLineEdit;
     pwdLineEdit[2] = ui->changeConfirmLineEdit;
-    for (int i = 0; i < 3; i++)
-    { // Add eyes icon to the password line edits
+    for (int i = 0; i < 3; i++) { // Add eyes icon to the password line edits
         eye[i]->setIcon(QIcon(":/images/password-invisible.png"));
         connect(pwdLineEdit[i], &QtMaterialAutoComplete::textEdited, this, [=]{
-            if(first[i])
-            {
+            if(first[i]) {
                 pwdLineEdit[i]->addAction(eye[i], QLineEdit::TrailingPosition);
                 first[i] = false;
             }
         });
         connect(eye[i], &QAction::triggered, this, [=]() mutable{
-            if (!state[i])
-            {
+            if (!state[i]) {
                 eye[i]->setIcon(QIcon(":/images/password-visible.png"));
                 pwdLineEdit[i]->addAction(eye[i], QLineEdit::TrailingPosition);
                 state[i] = true;
                 pwdLineEdit[i]->setEchoMode(QLineEdit::Normal);
             }
-            else
-            {
+            else {
                 eye[i]->setIcon(QIcon(":/images/password-invisible.png"));
                 pwdLineEdit[i]->addAction(eye[i], QLineEdit::TrailingPosition);
                 state[i] = false;
@@ -255,19 +247,16 @@ void IDNIMS::on_clearAll_clicked()
 }
 void IDNIMS::on_uploadAll_clicked()
 { // Upload the domain tree into the database
-    if (sql.host[3] == "Yes")
-    { // Need to save as node
+    if (sql.host[3] == "Yes") { // Need to save as node
         QSqlDatabase::database().transaction();
         QSqlQuery query;
-        if (sql.host[5] == "On")
-        { // If open the backup mode
+        if (sql.host[5] == "On") { // If open the backup mode
             query.exec(QString("CREATE TABLE %1 AS SELECT * FROM %2;").arg("domain_temp").arg("domain"));
             query.exec(QString("TRUNCATE TABLE %1;").arg("domain_temp"));
             sql.upload(sql.root);
             query.exec(QString("DROP TABLE %1;").arg("domain"));
         }
-        else
-        { // No need to backup
+        else { // No need to backup
             query.exec(QString("ALTER TABLE %1 RENAME TO %2;").arg("domain").arg("domain_temp"));
             query.exec(QString("TRUNCATE TABLE %1;").arg("domain_temp"));
             sql.upload(sql.root);
@@ -344,12 +333,10 @@ void IDNIMS::on_searchDomain_clicked()
     ui->searchWidget->clearContents();
     ui->searchWidget->setRowCount(0);
     LARGE_INTEGER startTime, endTime, frequency;
-    if (sql.host[3] == "Yes")
-    { // The case that data stored in the node
+    if (sql.host[3] == "Yes") { // The case that data stored in the node
         QueryPerformanceCounter(&startTime);
         sql.howToSearch(targetDomain);
-        if (!sql.searchVector.empty())
-        { // If the search vector is not empty, paint it on the table
+        if (!sql.searchVector.empty()) { // If the search vector is not empty, paint it on the table
             int rowCount = sql.searchVector.size();
             ui->searchWidget->setRowCount(rowCount);
             ui->searchWidget->setColumnCount(13);
@@ -368,8 +355,7 @@ void IDNIMS::on_searchDomain_clicked()
             headerLabels << "updated date";
             headerLabels << "expiration date";
             ui->searchWidget->setHorizontalHeaderLabels(headerLabels);
-            for (int i = 0; i < rowCount; i++)
-            {
+            for (int i = 0; i < rowCount; i++) {
                 ui->searchWidget->setItem(i, 0, new QTableWidgetItem(sql.searchVector[i]->domainName));
                 ui->searchWidget->setItem(i, 1, new QTableWidgetItem(sql.searchVector[i]->domainNameType));
                 ui->searchWidget->setItem(i, 2, new QTableWidgetItem(sql.searchVector[i]->domainLevel));
@@ -386,31 +372,27 @@ void IDNIMS::on_searchDomain_clicked()
             }
         }
         else
-            QMessageBox::information(nullptr, "Search Result", "No results found.");
+            QMessageBox::information(nullptr, "Search Result", "No results found, or you may not open the model that searching in Mysql?");
         QueryPerformanceCounter(&endTime);
         double time = (double)(endTime.QuadPart - startTime.QuadPart) / frequency.QuadPart;
         ui->timeLabel->setText("search Time: " + QString::number(time, 'f', 4) + "s, in "+ sql.host[4]);
     }
-    else
-    { // The case that search in the database directly
+    else { // The case that search in the database directly
         QueryPerformanceCounter(&startTime);
         if (targetType.isEmpty())
             targetType = "domain_name";
         QString queryString = QString("SELECT * FROM domain WHERE %1 LIKE '%%2%'").arg(targetType).arg(targetDomain);
-        if (query.exec(queryString))
-        { // Updated the search table
+        if (query.exec(queryString)) { // Updated the search table
             int columnCount = query.record().count() - 4;
             int rowCount = 0;
             while (query.next())
                 rowCount++;
             if (rowCount == 0)
                 QMessageBox::information(nullptr, "Search Result", "No results found.");
-            else
-            { // Load in the search table
+            else { // Load in the search table
                 QStringList headerLabels;
                 ifstream file(".\\table.idnims");
-                if (file.is_open())
-                {
+                if (file.is_open()) {
                     string line;
                     while (getline(file, line))
                         headerLabels << QString::fromStdString(line);
@@ -433,64 +415,14 @@ void IDNIMS::on_searchDomain_clicked()
     }
 }
 // The button on page 4
-void IDNIMS::on_calculateKey_clicked()
-{
-    if (staticsAllowed[0])
-    {
-        staticsAllowed[0] = false;
-        QSqlQuery query;
-        QVector<QString> statisticName;
-        query.exec("SELECT DISTINCT domain_name FROM domain");
-        while (query.next())
-        { // Get the counts of domain name key types
-            QString domainName = query.value("domain_name").toString();
-            QString name = removeFirstSegment(domainName);
-            statisticName.push_back(name);
-        }
-        QVector<int> nameCounts(statisticName.size(), 0);
-        query.exec("SELECT domain_name FROM domain");
-        while (query.next())
-        { // Get the counts of every domain name
-            QString domainName = query.value("domain_name").toString();
-            QString name = removeFirstSegment(domainName);
-            int index = statisticName.indexOf(name);
-            if (index != -1)
-                nameCounts[index]++;
-        }
-        QChart *chart = new QChart();
-        chart->setTitle("Domain Name Distribution");
-        QBarSet *set = new QBarSet("Name");
-        for (int count : nameCounts)
-            *set << count;
-        QBarSeries *series = new QBarSeries();
-        series->append(set);
-        QBarCategoryAxis *axisX = new QBarCategoryAxis;
-        axisX->setTitleText("Name");
-        axisX->append(statisticName.toList());
-        chart->addAxis(axisX, Qt::AlignBottom);
-        QValueAxis *axisY = new QValueAxis();
-        axisY->setTitleText("Domain Number");
-        chart->addAxis(axisY, Qt::AlignLeft);
-        chart->addSeries(series);
-        series->attachAxis(axisX);
-        series->attachAxis(axisY);
-        QChartView *chartView = new QtCharts::QChartView(chart, this);
-        QVBoxLayout *layout = new QVBoxLayout(ui->showWidget1);
-        layout->addWidget(chartView);
-    }
-    else
-        QMessageBox::information(this, "Sorry", "Already Exits! You can reboot to load a new chart.");
-}
 void IDNIMS::on_calculateLevel_clicked()
 {
-    if (staticsAllowed[1])
-    {
-        staticsAllowed[1] = false;
+    if (staticsAllowed) {
+        staticsAllowed = false;
         QSqlQuery query;
         int statisticLevel[5] = {0, 0, 0, 0, 0};
         query.exec("SELECT domain_name_level FROM domain");
-        while(query.next())
-        { // Calculate the data
+        while(query.next()) { // Calculate the data
             int a = query.value("domain_name_level").toInt();
             statisticLevel[a]++;
         }
@@ -520,52 +452,6 @@ void IDNIMS::on_calculateLevel_clicked()
     else
         QMessageBox::information(this, "Sorry", "Already Exits! You can reboot to load a new chart.");
 }
-void IDNIMS::on_calculateType_clicked()
-{
-    if (staticsAllowed[2])
-    {
-        staticsAllowed[2] = false;
-        QSqlQuery query;
-        QVector<QString> statisticType;
-        query.exec("SELECT DISTINCT domain_name_type FROM domain");
-        while(query.next())
-        { // Calculate the data
-            QString type = query.value("domain_name_type").toString();
-            statisticType.push_back(type);
-        }
-        QVector<int> typeCounts(statisticType.size(), 0);
-        query.exec("SELECT domain_name_type FROM domain");
-        while (query.next())
-        { // Get the number of the different types
-            QString type = query.value("domain_name_type").toString();
-            int index = statisticType.indexOf(type);
-            if (index != -1)
-                typeCounts[index]++;
-        }
-        QChart *chart = new QChart();
-        chart->setTitle("Domain Name Type Distribution");
-        QBarSet *set = new QBarSet("Type");
-        for (int count : typeCounts)
-            *set << count;
-        QBarSeries *series = new QBarSeries();
-        series->append(set);
-        QBarCategoryAxis *axisX = new QBarCategoryAxis;
-        axisX->setTitleText("Type");
-        axisX->append(statisticType.toList());
-        chart->addAxis(axisX,Qt::AlignBottom);
-        QValueAxis *axisY=new QValueAxis();
-        axisY->setTitleText("Domain Number");
-        chart->addAxis(axisY, Qt::AlignLeft);
-        chart->addSeries(series);
-        series->attachAxis(axisX);
-        series->attachAxis(axisY);
-        QChartView *chartView = new QtCharts::QChartView(chart, this);
-        QVBoxLayout *layout = new QVBoxLayout(ui->showWidget3);
-        layout->addWidget(chartView);
-    }
-    else
-        QMessageBox::information(this, "Sorry", "Already Exits! You can reboot to load a new chart.");
-}
 // The button on page 6
 void IDNIMS::on_loadHost_clicked()
 { // Get the string on the three line edit and load into the local
@@ -573,8 +459,7 @@ void IDNIMS::on_loadHost_clicked()
     QString userName = ui->sqlUsernameLineEdit->text();
     QString pwd = ui->sqlPwdLineEdit->text();
     ofstream file(".\\config.idnims");
-    if (file.is_open())
-    { // Enter the file
+    if (file.is_open()) { // Enter the file
         file << dbName.toStdString() << endl;
         file << userName.toStdString() << endl;
         file << pwd.toStdString() << endl;
@@ -583,8 +468,7 @@ void IDNIMS::on_loadHost_clicked()
         file << "On" << endl;
         file.close();
     }
-    else
-    { // Can not open the file
+    else { // Can not open the file
         ui->tipsL->textLabel->setText("Could not open the file!");
         ui->tipsL->animationStart();
     }
@@ -592,41 +476,33 @@ void IDNIMS::on_loadHost_clicked()
 }
 void IDNIMS::on_loadChange_clicked()
 { // Allows user change their password
-    if (administratorRights)
-    {
+    if (administratorRights) {
         QString oldPassword = ui->oldPwdLineEdit->text();
         QString password = ui->changePwdLineEdit->text();
         QString passwordConfirm = ui->changeConfirmLineEdit->text();
-        if (oldPassword.isEmpty() || password.isEmpty() || passwordConfirm.isEmpty())
-        { // The case when all are empty
+        if (oldPassword.isEmpty() || password.isEmpty() || passwordConfirm.isEmpty()) { // The case when all are empty
             ui->tipsR->textLabel->setText("Please enter the pwd!");
             ui->tipsR->animationStart();
         }
-        else if (password != passwordConfirm)
-        { // The case when the both password are not the same
+        else if (password != passwordConfirm) { // The case when the both password are not the same
             ui->tipsR->textLabel->setText("The password is not the same!");
             ui->tipsR->animationStart();
         }
-        else
-        { // Successfully register
+        else { // Successfully register
             QSqlQuery query;
             QString qs = QString("select * from user where user_name = '%1' and password='%2'").arg(user).arg(oldPassword);
-            if (!query.exec(qs))
-            {
+            if (!query.exec(qs)) {
                 ui->tipsR->textLabel->setText("Login Failed! Check your password.");
                 ui->tipsR->animationStart();
                 return;
             }
-            else
-            {
+            else {
                 QString updateQuery = QString("UPDATE user SET password = '%1' WHERE user_name = '%2'").arg(password).arg(user);
-                if (query.exec(updateQuery))
-                {
+                if (query.exec(updateQuery)) {
                     ui->tipsR->textLabel->setText("Password updated successfully!");
                     ui->tipsR->animationStart();
                 }
-                else
-                {
+                else {
                     ui->tipsR->textLabel->setText("Failed to update password. Check your database connection.");
                     ui->tipsR->animationStart();
                 }
@@ -638,11 +514,9 @@ void IDNIMS::on_loadChange_clicked()
 }
 void IDNIMS::on_nodeButton_clicked(bool checked)
 {
-    if (checked)
-    { // Make the No to Yes
+    if (checked) { // Make the No to Yes
         ofstream file(".\\config.idnims");
-        if (file.is_open())
-        { // Enter the file
+        if (file.is_open()) { // Enter the file
             file << sql.host[0].toStdString() << endl;
             file << sql.host[1].toStdString() << endl;
             file << sql.host[2].toStdString() << endl;
@@ -654,11 +528,9 @@ void IDNIMS::on_nodeButton_clicked(bool checked)
         else
             QMessageBox::information(this, "Error", "You may miss some important file, try to download again!");
     }
-    else
-    { // Make the Yes to No
+    else { // Make the Yes to No
         ofstream file(".\\config.idnims");
-        if (file.is_open())
-        { // Enter the file
+        if (file.is_open()) { // Enter the file
             file << sql.host[0].toStdString() << endl;
             file << sql.host[1].toStdString() << endl;
             file << sql.host[2].toStdString() << endl;
@@ -673,51 +545,42 @@ void IDNIMS::on_nodeButton_clicked(bool checked)
 }
 void IDNIMS::on_comboBox_currentIndexChanged(int index)
 {
-    switch (index)
-    { // Check the index of the combo box
-        case 0:
-        {
-            ofstream file(".\\config.idnims");
-            if (file.is_open())
-            {
-                file << sql.host[0].toStdString() << endl;
-                file << sql.host[1].toStdString() << endl;
-                file << sql.host[2].toStdString() << endl;
-                file << sql.host[3].toStdString() << endl;
-                file << "DFS" << endl;
-                file.close();
-            }
-            else
-                QMessageBox::information(this, "Error", "You may miss some important file, try to download again!");
-            break;
+    switch (index) { // Check the index of the combo box
+    case 0: 
+        ofstream file(".\\config.idnims");
+        if (file.is_open()) {
+            file << sql.host[0].toStdString() << endl;
+            file << sql.host[1].toStdString() << endl;
+            file << sql.host[2].toStdString() << endl;
+            file << sql.host[3].toStdString() << endl;
+            file << "DFS" << endl;
+            file.close();
         }
-        case 1:
-        {
-            ofstream file(".\\config.idnims");
-            if (file.is_open())
-            {
-                file << sql.host[0].toStdString() << endl;
-                file << sql.host[1].toStdString() << endl;
-                file << sql.host[2].toStdString() << endl;
-                file << sql.host[3].toStdString() << endl;
-                file << "BFS" << endl;
-                file.close();
-            }
-            else
-                QMessageBox::information(this, "Error", "You may miss some important file, try to download again!");
-            break;
+        else
+            QMessageBox::information(this, "Error", "You may miss some important file, try to download again!");
+        break;
+    case 1:
+        ofstream file(".\\config.idnims");
+        if (file.is_open()) {
+            file << sql.host[0].toStdString() << endl;
+            file << sql.host[1].toStdString() << endl;
+            file << sql.host[2].toStdString() << endl;
+            file << sql.host[3].toStdString() << endl;
+            file << "BFS" << endl;
+            file.close();
         }
-        default:
-            break;
+        else
+            QMessageBox::information(this, "Error", "You may miss some important file, try to download again!");
+        break;
+    default:
+        break;
     }
 }
 void IDNIMS::on_saveButton_clicked(bool checked)
 {
-    if (checked)
-    { // Make the Off to On
+    if (checked) { // Make the Off to On
         ofstream file(".\\config.idnims");
-        if (file.is_open())
-        { // Enter the file
+        if (file.is_open()) { // Enter the file
             file << sql.host[0].toStdString() << endl;
             file << sql.host[1].toStdString() << endl;
             file << sql.host[2].toStdString() << endl;
@@ -729,11 +592,9 @@ void IDNIMS::on_saveButton_clicked(bool checked)
         else
             QMessageBox::information(this, "Error", "You may miss some important file, try to download again!");
     }
-    else
-    { // Make the On to Off
+    else { // Make the On to Off
         ofstream file(".\\config.idnims");
-        if (file.is_open())
-        { // Enter the file
+        if (file.is_open()) { // Enter the file
             file << sql.host[0].toStdString() << endl;
             file << sql.host[1].toStdString() << endl;
             file << sql.host[2].toStdString() << endl;

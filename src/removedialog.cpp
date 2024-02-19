@@ -16,19 +16,16 @@ void removedialog::on_searchDomain_clicked()
 {
     emit send_request();
     QString target = ui->searchLineEdit->text();
-    if (target.isEmpty())
-    { // No text
+    if (target.isEmpty()){ // No text
         ui->tips->textLabel->setText("Please input the remove target!");
         ui->tips->animationStart();
         return;
     }
-    if (removeOp->remove(target))
-    { // Found
+    if (removeOp->remove(target)){ // Found
         ui->tips->textLabel->setText("Success!");
         ui->tips->animationStart();
     }
-    else
-    { // Not Found
+    else{ // Not Found
         ui->tips->textLabel->setText("Not Found!");
         ui->tips->animationStart();
     }

@@ -1,1 +1,1 @@
-# IDNIMS-InternetDomainNameInformationManagementSystem-NEU-DataStructureCourseDesign
+# IDNIMS-InternetDomainNameInformationManagementSystem

@@ -26,7 +26,7 @@ public:
     QWidget *pagePtr[7];
     QString user = "Guest";
     domainsql sql;
-    bool staticsAllowed[3] = {true, true, true};
+    bool staticsAllowed = true;
     bool administratorRights = false;
     bool inSSL = false;
     bool state[3] = {false, false, false};
@@ -55,9 +55,7 @@ private slots:
     void on_nodeButton_clicked(bool checked);
     void on_comboBox_currentIndexChanged(int index);
     void on_saveButton_clicked(bool checked);
-    void on_calculateKey_clicked();
     void on_calculateLevel_clicked();
-    void on_calculateType_clicked();
 
 private:
     Ui::IDNIMS *ui;

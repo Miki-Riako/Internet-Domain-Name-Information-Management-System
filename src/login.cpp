@@ -14,11 +14,9 @@ void fade(auto *control, int duration, int startValue, int endValue)
 void hideLayout(auto *layout)
 { // The function aims to hide a layout
     layout->setEnabled(false);
-    for (auto i = 0; i < layout->count(); i++)
-    { // Traverse all the item
+    for (auto i = 0; i < layout->count(); i++) { // Traverse all the item
         QWidget *ptr = layout->itemAt(i)->widget();
-        if (ptr != nullptr)
-        { // And then set it invisible
+        if (ptr != nullptr) { // And then set it invisible
             ptr->setVisible(false);
             fade(ptr, 1500, 1, 0);
         }
@@ -54,26 +52,22 @@ Login::Login(QWidget *parent) : QWidget(parent), ui(new Ui::Login)
     pwdLineEdit[0] = ui->loginPwdLineEdit;
     pwdLineEdit[1] = ui->registerPwdLineEdit;
     pwdLineEdit[2] = ui->registerConfirmLineEdit;
-    for (int i = 0; i < 3; i++)
-    { // Add eyes icon to the password line edits
+    for (int i = 0; i < 3; i++) { // Add eyes icon to the password line edits
         eye[i]->setIcon(QIcon(":/images/password-invisible.png"));
         connect(pwdLineEdit[i], &QtMaterialAutoComplete::textEdited, this, [=]{
-            if(first[i])
-            {
+            if(first[i]) {
                 pwdLineEdit[i]->addAction(eye[i], QLineEdit::TrailingPosition);
                 first[i] = false;
             }
         });
         connect(eye[i], &QAction::triggered, this, [=]() mutable{
-            if (!state[i])
-            {
+            if (!state[i]) {
                 eye[i]->setIcon(QIcon(":/images/password-visible.png"));
                 pwdLineEdit[i]->addAction(eye[i], QLineEdit::TrailingPosition);
                 state[i] = true;
                 pwdLineEdit[i]->setEchoMode(QLineEdit::Normal);
             }
-            else
-            {
+            else {
                 eye[i]->setIcon(QIcon(":/images/password-invisible.png"));
                 pwdLineEdit[i]->addAction(eye[i], QLineEdit::TrailingPosition);
                 state[i] = false;
@@ -96,28 +90,23 @@ void Login::on_loginButton_clicked()
 {
     QString userName = ui->loginUsernameLineEdit->text();
     QString password = ui->loginPwdLineEdit->text();
-    if (userName.isEmpty() || password.isEmpty())
-    { // The case when the username and the password are all empty
+    if (userName.isEmpty() || password.isEmpty()) { // The case when the username and the password are all empty
         ui->tipsR->textLabel->setText("Please enter the username and pwd!");
         ui->tipsR->animationStart();
     }
-    else
-    { // Check wether can enter the program
+    else { // Check wether can enter the program
         QSqlQuery query;
         QString qs = QString("select * from user where user_name = '%1' and password='%2'").arg(userName).arg(password);
-        if (!query.exec(qs))
-        { // Password is not right
+        if (!query.exec(qs)) { // Password is not right
             ui->tipsR->textLabel->setText("Login Failed! Check your username and password.");
             ui->tipsR->animationStart();
             return;
         }
-        if (query.next())
-        { // Get the info
+        if (query.next()) { // Get the info
             name = userName;
             emit enter();
         }
-        else
-        { // Enter failed
+        else { // Enter failed
             ui->tipsR->textLabel->setText("Login Failed! Check your username and password.");
             ui->tipsR->animationStart();
         }
@@ -128,39 +117,32 @@ void Login::on_registerButton_clicked()
     QString userName = ui->registerUsernameLineEdit->text();
     QString password = ui->registerPwdLineEdit->text();
     QString passwordConfirm = ui->registerConfirmLineEdit->text();
-    if (userName.isEmpty() || password.isEmpty() || passwordConfirm.isEmpty())
-    { // The case when all are empty
+    if (userName.isEmpty() || password.isEmpty() || passwordConfirm.isEmpty()) { // The case when all are empty
         ui->tipsL->textLabel->setText("Please enter the username and pwd!");
         ui->tipsL->animationStart();
     }
-    else if (password != passwordConfirm)
-    { // The case when the both password are not the same
+    else if (password != passwordConfirm) { // The case when the both password are not the same
         ui->tipsL->textLabel->setText("The password is not the same!");
         ui->tipsL->animationStart();
     }
-    else
-    { // Successfully register
+    else { // Successfully register
         QSqlQuery queryCheck;
         queryCheck.prepare("SELECT user_name FROM user WHERE user_name = :userName");
         queryCheck.bindValue(":userName", userName);
-        if (queryCheck.exec() && queryCheck.next())
-        { // The condition that user already exits
+        if (queryCheck.exec() && queryCheck.next()) { // The condition that user already exits
             ui->tipsL->textLabel->setText("User name exits!");
             ui->tipsL->animationStart();
         }
-        else
-        { // Successfully register
+        else { // Successfully register
             QSqlQuery queryInsert;
             queryInsert.prepare("INSERT INTO user(user_name, password) VALUES(:userName, :password)");
             queryInsert.bindValue(":userName", userName);
             queryInsert.bindValue(":password", password);
-            if (queryInsert.exec())
-            {
+            if (queryInsert.exec()) {
                 ui->tipsL->textLabel->setText("Register Successfully!");
                 ui->tipsL->animationStart();
             }
-            else
-            {
+            else {
                 ui->tipsL->textLabel->setText("Register Failed!");
                 ui->tipsL->animationStart();
             }
