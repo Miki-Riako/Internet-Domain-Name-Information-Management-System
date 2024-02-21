@@ -4,6 +4,7 @@
 #include <QAction>
 #include <QApplication>
 #include <QComboBox>
+#include <QCryptographicHash>
 #include <QDateTime>
 #include <QDebug>
 #include <QDialog>

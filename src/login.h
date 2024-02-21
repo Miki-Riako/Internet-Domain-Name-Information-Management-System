@@ -19,6 +19,10 @@ public:
     bool first[3] = {true, true, true};
     QString name = "Guest";
     QtMaterialAutoComplete *pwdLineEdit[3];
+    void fade(auto *control, int duration, int startValue, int endValue);
+    void hideLayout(auto *layout);
+    void showLayout(auto *layout);
+    QString Sha256Encode(QString originalPwd);
 
 signals:
     void enter();

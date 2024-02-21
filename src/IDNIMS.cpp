@@ -402,7 +402,7 @@ void IDNIMS::on_loadHost_clicked()
     QString oldPwd = settings.value("Database/Password").toString();
     settings.setValue("Database/Name", ui->sqlDbNameLineEdit->text());
     settings.setValue("Database/User", ui->sqlUsernameLineEdit->text());
-    settings.setValue("Database/Password", ui->sqlPwdLineEdit->text());
+    settings.setValue("Database/Password", sql.XOREncode(ui->sqlPwdLineEdit->text()));
     if (!sql.connectDataBase()) {
         settings.setValue("Database/Name", oldName);
         settings.setValue("Database/User", oldUser);
@@ -414,9 +414,9 @@ void IDNIMS::on_loadHost_clicked()
 void IDNIMS::on_loadChange_clicked()
 { // Allows user change their password
     if (administratorRights) {
-        QString oldPassword = ui->oldPwdLineEdit->text();
-        QString password = ui->changePwdLineEdit->text();
-        QString passwordConfirm = ui->changeConfirmLineEdit->text();
+        QString oldPassword = sql.Sha256Encode(ui->oldPwdLineEdit->text());
+        QString password = sql.Sha256Encode(ui->changePwdLineEdit->text());
+        QString passwordConfirm = sql.Sha256Encode(ui->changeConfirmLineEdit->text());
         if (oldPassword.isEmpty() || password.isEmpty() || passwordConfirm.isEmpty()) { // The case when all are empty
             ui->tipsR->textLabel->setText("Please enter the pwd!");
             ui->tipsR->animationStart();
@@ -425,15 +425,15 @@ void IDNIMS::on_loadChange_clicked()
             ui->tipsR->textLabel->setText("The password is not the same!");
             ui->tipsR->animationStart();
         }
-        else { // Successfully register
+        else { // Successfully enter
             QSqlQuery query;
             QString qs = QString("select * from user where user_name = '%1' and password='%2'").arg(user).arg(oldPassword);
             if (!query.exec(qs)) {
-                ui->tipsR->textLabel->setText("Login Failed! Check your password.");
+                ui->tipsR->textLabel->setText("Change Failed! Check your password.");
                 ui->tipsR->animationStart();
                 return;
             }
-            else {
+            if (query.next()) { // Get the change
                 QString updateQuery = QString("UPDATE user SET password = '%1' WHERE user_name = '%2'").arg(password).arg(user);
                 if (query.exec(updateQuery)) {
                     ui->tipsR->textLabel->setText("Password updated successfully!");
@@ -444,101 +444,105 @@ void IDNIMS::on_loadChange_clicked()
                     ui->tipsR->animationStart();
                 }
             }
+            else { // Change failed
+                ui->tipsR->textLabel->setText("Change Failed! Check your password.");
+                ui->tipsR->animationStart();
+                return;
+            }
         }
-    }
-    else
+    } else
         QMessageBox::information(this, "Guest", "You are Guest!");
 }
 void IDNIMS::on_nodeButton_clicked(bool checked)
 {
-    if (checked) { // Make the No to Yes
-        ofstream file(".\\config.idnims");
-        if (file.is_open()) { // Enter the file
-            file << sql.host[0].toStdString() << endl;
-            file << sql.host[1].toStdString() << endl;
-            file << sql.host[2].toStdString() << endl;
-            file << "Yes" << endl;
-            file << sql.host[4].toStdString() << endl;
-            file << sql.host[5].toStdString() << endl;
-            file.close();
-        }
-        else
-            QMessageBox::information(this, "Error", "You may miss some important file, try to download again!");
-    }
-    else { // Make the Yes to No
-        ofstream file(".\\config.idnims");
-        if (file.is_open()) { // Enter the file
-            file << sql.host[0].toStdString() << endl;
-            file << sql.host[1].toStdString() << endl;
-            file << sql.host[2].toStdString() << endl;
-            file << "No" << endl;
-            file << sql.host[4].toStdString() << endl;
-            file << sql.host[5].toStdString() << endl;
-            file.close();
-        }
-        else
-            QMessageBox::information(this, "Error", "You may miss some important file, try to download again!");
-    }
+        // if (checked) { // Make the No to Yes
+        //     ofstream file(".\\config.idnims");
+        //     if (file.is_open()) { // Enter the file
+        //         file << sql.host[0].toStdString() << endl;
+        //         file << sql.host[1].toStdString() << endl;
+        //         file << sql.host[2].toStdString() << endl;
+        //         file << "Yes" << endl;
+        //         file << sql.host[4].toStdString() << endl;
+        //         file << sql.host[5].toStdString() << endl;
+        //         file.close();
+        //     }
+        //     else
+        //         QMessageBox::information(this, "Error", "You may miss some important file, try to download again!");
+        // }
+        // else { // Make the Yes to No
+        //     ofstream file(".\\config.idnims");
+        //     if (file.is_open()) { // Enter the file
+        //         file << sql.host[0].toStdString() << endl;
+        //         file << sql.host[1].toStdString() << endl;
+        //         file << sql.host[2].toStdString() << endl;
+        //         file << "No" << endl;
+        //         file << sql.host[4].toStdString() << endl;
+        //         file << sql.host[5].toStdString() << endl;
+        //         file.close();
+        //     }
+        //     else
+        //         QMessageBox::information(this, "Error", "You may miss some important file, try to download again!");
+        // }
 }
 void IDNIMS::on_comboBox_currentIndexChanged(int index)
 {
-    ofstream file(".\\config.idnims");
-    switch (index) { // Check the index of the combo box
-    case 0:
-        if (file.is_open()) {
-            file << sql.host[0].toStdString() << endl;
-            file << sql.host[1].toStdString() << endl;
-            file << sql.host[2].toStdString() << endl;
-            file << sql.host[3].toStdString() << endl;
-            file << "DFS" << endl;
-        }
-        else
-            QMessageBox::information(this, "Error", "You may miss some important file, try to download again!");
-        break;
-    case 1:
-        if (file.is_open()) {
-            file << sql.host[0].toStdString() << endl;
-            file << sql.host[1].toStdString() << endl;
-            file << sql.host[2].toStdString() << endl;
-            file << sql.host[3].toStdString() << endl;
-            file << "BFS" << endl;
-        }
-        else
-            QMessageBox::information(this, "Error", "You may miss some important file, try to download again!");
-        break;
-    default:
-        break;
-    }
-    file.close();
+        // ofstream file(".\\config.idnims");
+        // switch (index) { // Check the index of the combo box
+        // case 0:
+        //     if (file.is_open()) {
+        //         file << sql.host[0].toStdString() << endl;
+        //         file << sql.host[1].toStdString() << endl;
+        //         file << sql.host[2].toStdString() << endl;
+        //         file << sql.host[3].toStdString() << endl;
+        //         file << "DFS" << endl;
+        //     }
+        //     else
+        //         QMessageBox::information(this, "Error", "You may miss some important file, try to download again!");
+        //     break;
+        // case 1:
+        //     if (file.is_open()) {
+        //         file << sql.host[0].toStdString() << endl;
+        //         file << sql.host[1].toStdString() << endl;
+        //         file << sql.host[2].toStdString() << endl;
+        //         file << sql.host[3].toStdString() << endl;
+        //         file << "BFS" << endl;
+        //     }
+        //     else
+        //         QMessageBox::information(this, "Error", "You may miss some important file, try to download again!");
+        //     break;
+        // default:
+        //     break;
+        // }
+        // file.close();
 }
 void IDNIMS::on_saveButton_clicked(bool checked)
 {
-    if (checked) { // Make the Off to On
-        ofstream file(".\\config.idnims");
-        if (file.is_open()) { // Enter the file
-            file << sql.host[0].toStdString() << endl;
-            file << sql.host[1].toStdString() << endl;
-            file << sql.host[2].toStdString() << endl;
-            file << sql.host[3].toStdString() << endl;
-            file << sql.host[4].toStdString() << endl;
-            file << "On" << endl;
-            file.close();
-        }
-        else
-            QMessageBox::information(this, "Error", "You may miss some important file, try to download again!");
-    }
-    else { // Make the On to Off
-        ofstream file(".\\config.idnims");
-        if (file.is_open()) { // Enter the file
-            file << sql.host[0].toStdString() << endl;
-            file << sql.host[1].toStdString() << endl;
-            file << sql.host[2].toStdString() << endl;
-            file << sql.host[3].toStdString() << endl;
-            file << sql.host[4].toStdString() << endl;
-            file << "Off" << endl;
-            file.close();
-        }
-        else
-            QMessageBox::information(this, "Error", "You may miss some important file, try to download again!");
-    }
+        // if (checked) { // Make the Off to On
+        //     ofstream file(".\\config.idnims");
+        //     if (file.is_open()) { // Enter the file
+        //         file << sql.host[0].toStdString() << endl;
+        //         file << sql.host[1].toStdString() << endl;
+        //         file << sql.host[2].toStdString() << endl;
+        //         file << sql.host[3].toStdString() << endl;
+        //         file << sql.host[4].toStdString() << endl;
+        //         file << "On" << endl;
+        //         file.close();
+        //     }
+        //     else
+        //         QMessageBox::information(this, "Error", "You may miss some important file, try to download again!");
+        // }
+        // else { // Make the On to Off
+        //     ofstream file(".\\config.idnims");
+        //     if (file.is_open()) { // Enter the file
+        //         file << sql.host[0].toStdString() << endl;
+        //         file << sql.host[1].toStdString() << endl;
+        //         file << sql.host[2].toStdString() << endl;
+        //         file << sql.host[3].toStdString() << endl;
+        //         file << sql.host[4].toStdString() << endl;
+        //         file << "Off" << endl;
+        //         file.close();
+        //     }
+        //     else
+        //         QMessageBox::information(this, "Error", "You may miss some important file, try to download again!");
+        // }
 }

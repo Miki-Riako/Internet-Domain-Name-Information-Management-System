@@ -38,6 +38,8 @@ public:
     void loginConnect(void);
     bool connectDataBase(void);
         // domainNode *root = nullptr;
+    QString XOREncode(QString originalPwd);
+    QString Sha256Encode(QString originalPwd);
     QString removeFirstSegment(QString &domain);
         // domainNode *findNodeById(domainNode *rootNode, int targetId);
     int getIdFromDomain(QString &domainName);

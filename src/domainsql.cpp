@@ -1,7 +1,19 @@
 #include "domainsql.h"
 
 domainsql::domainsql(QObject *parent) : QObject{parent} {}
-
+QString domainsql::XOREncode(QString originalPwd)
+{ // Encode and Decode
+    QString key = "a-secret-key-a-secret-key-a-secret-key-a-secret-key-a-secret-key-a-secret-key-a-secret-key-a-secret-key-a-secret-key-a-secret-key";
+    QString encodedPwd;
+    for(int i = 0; i < originalPwd.length(); ++i)
+        encodedPwd.append(QChar(originalPwd[i].unicode() ^ key[i % key.length()].unicode()));
+    return encodedPwd;
+}
+QString domainsql::Sha256Encode(QString originalPwd) {
+    QCryptographicHash hash(QCryptographicHash::Sha256);
+    hash.addData(originalPwd.toUtf8());
+    return hash.result().toHex();
+}
 QString domainsql::removeFirstSegment(QString &domain)
 { // Find the first dot and delete it and its first string
     int dotIndex = domain.indexOf('.');
@@ -17,7 +29,7 @@ bool domainsql::connecting(void)
     db.setPort(3306);
     db.setDatabaseName(settings.value("Database/Name").toString());
     db.setUserName(settings.value("Database/User").toString());
-    db.setPassword(settings.value("Database/Password").toString());
+    db.setPassword(XOREncode(settings.value("Database/Password").toString()));
     return db.open();
 }
 void domainsql::loginConnect(void)

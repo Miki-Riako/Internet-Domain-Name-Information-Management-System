@@ -1,42 +1,5 @@
 #include "login.h"
 #include "ui_login.h"
-void fade(auto *control, int duration, int startValue, int endValue)
-{ // The function can provide the fade in and fade out animations.
-    QGraphicsOpacityEffect *opacityEffect = new QGraphicsOpacityEffect(control);
-    control->setGraphicsEffect(opacityEffect);
-    QPropertyAnimation *animation = new QPropertyAnimation(opacityEffect, "opacity", control);
-    animation->setDuration(duration);
-    animation->setStartValue(startValue);
-    animation->setEndValue(endValue);
-    animation->setEasingCurve(QEasingCurve::Linear);
-    animation->start();
-}
-void hideLayout(auto *layout)
-{ // The function aims to hide a layout
-    layout->setEnabled(false);
-    for (auto i = 0; i < layout->count(); i++) { // Traverse all the item
-        QWidget *ptr = layout->itemAt(i)->widget();
-        if (ptr != nullptr) { // And then set it invisible
-            ptr->setVisible(false);
-            fade(ptr, 1500, 1, 0);
-        }
-    }
-}
-void showLayout(auto *layout)
-{ // The function aims to show the layout hided
-    layout->setEnabled(true);
-    for (auto i = 0; i < layout->count(); i++)
-    { // Traverse all the item
-        QWidget *ptr = layout->itemAt(i)->widget();
-        if (ptr != nullptr)
-        { // And then set it visible
-            ptr->setVisible(true);
-            fade(ptr, 1500, 0, 1);
-        }
-    }
-}
-
-
 Login::Login(QWidget *parent) : QWidget(parent), ui(new Ui::Login)
 {
     ui->setupUi(this);
@@ -80,16 +43,50 @@ Login::Login(QWidget *parent) : QWidget(parent), ui(new Ui::Login)
     // Connect
     on_gotoLogin_clicked();
 }
-Login::~Login()
-{
-    delete ui;
+Login::~Login() {delete ui;}
+
+void Login::fade(auto *control, int duration, int startValue, int endValue)
+{ // The function can provide the fade in and fade out animations.
+    QGraphicsOpacityEffect *opacityEffect = new QGraphicsOpacityEffect(control);
+    control->setGraphicsEffect(opacityEffect);
+    QPropertyAnimation *animation = new QPropertyAnimation(opacityEffect, "opacity", control);
+    animation->setDuration(duration);
+    animation->setStartValue(startValue);
+    animation->setEndValue(endValue);
+    animation->setEasingCurve(QEasingCurve::Linear);
+    animation->start();
 }
-
-
+void Login::hideLayout(auto *layout)
+{ // The function aims to hide a layout
+    layout->setEnabled(false);
+    for (auto i = 0; i < layout->count(); i++) { // Traverse all the item
+        QWidget *ptr = layout->itemAt(i)->widget();
+        if (ptr != nullptr) { // And then set it invisible
+            ptr->setVisible(false);
+            fade(ptr, 1500, 1, 0);
+        }
+    }
+}
+void Login::showLayout(auto *layout)
+{ // The function aims to show the layout hided
+    layout->setEnabled(true);
+    for (auto i = 0; i < layout->count(); i++) { // Traverse all the item
+        QWidget *ptr = layout->itemAt(i)->widget();
+        if (ptr != nullptr) { // And then set it visible
+            ptr->setVisible(true);
+            fade(ptr, 1500, 0, 1);
+        }
+    }
+}
+QString Login::Sha256Encode(QString originalPwd) {
+    QCryptographicHash hash(QCryptographicHash::Sha256);
+    hash.addData(originalPwd.toUtf8());
+    return hash.result().toHex();
+}
 void Login::on_loginButton_clicked()
 {
     QString userName = ui->loginUsernameLineEdit->text();
-    QString password = ui->loginPwdLineEdit->text();
+    QString password = Sha256Encode(ui->loginPwdLineEdit->text());
     if (userName.isEmpty() || password.isEmpty()) { // The case when the username and the password are all empty
         ui->tipsR->textLabel->setText("Please enter the username and pwd!");
         ui->tipsR->animationStart();
@@ -115,8 +112,8 @@ void Login::on_loginButton_clicked()
 void Login::on_registerButton_clicked()
 {
     QString userName = ui->registerUsernameLineEdit->text();
-    QString password = ui->registerPwdLineEdit->text();
-    QString passwordConfirm = ui->registerConfirmLineEdit->text();
+    QString password = Sha256Encode(ui->registerPwdLineEdit->text());
+    QString passwordConfirm = Sha256Encode(ui->registerConfirmLineEdit->text());
     if (userName.isEmpty() || password.isEmpty() || passwordConfirm.isEmpty()) { // The case when all are empty
         ui->tipsL->textLabel->setText("Please enter the username and pwd!");
         ui->tipsL->animationStart();
@@ -169,8 +166,5 @@ void Login::on_gotoLogin_clicked()
     showLayout(ui->loginQLayout);
     showLayout(ui->registerWelcome);
 }
-void Login::on_guestButton_clicked()
-{
-    emit guest_enter();
-}
+void Login::on_guestButton_clicked() {emit guest_enter();}
 
