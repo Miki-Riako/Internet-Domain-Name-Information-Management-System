@@ -36,7 +36,7 @@ public:
     QString host[6] = {nullptr, nullptr, nullptr, nullptr, nullptr, nullptr};
     bool connecting(void);
     void loginConnect(void);
-    void connectDataBase(void);
+    bool connectDataBase(void);
         // domainNode *root = nullptr;
     QString removeFirstSegment(QString &domain);
         // domainNode *findNodeById(domainNode *rootNode, int targetId);

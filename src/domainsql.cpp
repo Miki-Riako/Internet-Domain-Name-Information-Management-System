@@ -11,22 +11,13 @@ QString domainsql::removeFirstSegment(QString &domain)
 }
 bool domainsql::connecting(void)
 { // Load the Local file and connect the database
-    ifstream file(".\\config.idnims");
-    if (file.is_open()) { // Enter the file
-        string line;
-        int iHost = 0;
-        while (getline(file, line))
-            host[iHost++] = QString::fromStdString(line);
-        file.close();
-    }
-    else
-        QMessageBox::information(nullptr, "Error", "You may miss some important file, try to download again!");
+    QSettings settings("config.ini", QSettings::IniFormat);
     db = QSqlDatabase::addDatabase("QODBC");
     db.setHostName("127.0.0.1");
     db.setPort(3306);
-    db.setDatabaseName(host[0]);
-    db.setUserName(host[1]);
-    db.setPassword(host[2]);
+    db.setDatabaseName(settings.value("Database/Name").toString());
+    db.setUserName(settings.value("Database/User").toString());
+    db.setPassword(settings.value("Database/Password").toString());
     return db.open();
 }
 void domainsql::loginConnect(void)
@@ -38,16 +29,19 @@ void domainsql::loginConnect(void)
     if (!connecting())
         QMessageBox::information(nullptr, "Connection disconnected", "If you are a new user, please enter as a guest and set the mysql database configuration in the settings section, then re-enter as an administrator. Otherwise, please check the database connection.");
 }
-void domainsql::connectDataBase(void)
+bool domainsql::connectDataBase(void)
 { // When user want to input their host to connect the database
     if (QSqlDatabase::drivers().isEmpty()) { // When no drivers
         QMessageBox::information(nullptr, "No database drivers found", "Database drivers required! Please check your SQL plugins.");
-        return;
+        return false;
     }
-    if (!connecting())
+    if (!connecting()) {
         QMessageBox::information(nullptr, "Unable to open database", "Error occurred! You may input the wrong information. Or the database has already been connected.");
-    else
+        return false;
+    } else {
         QMessageBox::information(nullptr, "Connected to database", "Connected to database successfully.");
+        return true;
+    }
 }
     // domainNode* domainsql::findNodeById(domainNode* rootNode, int targetId)
     // { // Using recursion to find the target id.

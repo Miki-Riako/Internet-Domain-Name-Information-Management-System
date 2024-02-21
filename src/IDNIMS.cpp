@@ -313,6 +313,7 @@ void IDNIMS::on_searchDomain_clicked()
         targetType = "domain_name";
     QString queryString = QString("SELECT * FROM domain WHERE %1 LIKE '%%2%'").arg(targetType).arg(targetDomain);
     bool found = true;
+    bool error = false;
     if (query.exec(queryString)) { // Updated the search table
         int columnCount = query.record().count() - 4;
         int rowCount = 0;
@@ -337,10 +338,15 @@ void IDNIMS::on_searchDomain_clicked()
                 for (int j = 4; j < columnCount; j++)
                     ui->searchWidget->setItem(i, j - 4, new QTableWidgetItem(query.value(j).toString()));
         }
-    }
-    else
+    } else {
         QMessageBox::warning(nullptr, "Error", "Load the database failed, please check your database!");
+        error = true;
+    }
     QueryPerformanceCounter(&endTime);
+    if (error) {
+        ui->timeLabel->setText("Error!");
+        return;
+    }
     if (!found)
         QMessageBox::information(nullptr, "Search Result", "No results found.");
     double time = (double)(endTime.QuadPart - startTime.QuadPart) / frequency.QuadPart;
@@ -390,24 +396,20 @@ void IDNIMS::on_calculateLevel_clicked()
 // The button on page 6
 void IDNIMS::on_loadHost_clicked()
 { // Get the string on the three line edit and load into the local
-    QString dbName = ui->sqlDbNameLineEdit->text();
-    QString userName = ui->sqlUsernameLineEdit->text();
-    QString pwd = ui->sqlPwdLineEdit->text();
-    ofstream file(".\\config.idnims");
-    if (file.is_open()) { // Enter the file
-        file << dbName.toStdString() << endl;
-        file << userName.toStdString() << endl;
-        file << pwd.toStdString() << endl;
-        file << "No" << endl;
-        file << "BFS" << endl;
-        file << "On" << endl;
-        file.close();
-    }
-    else { // Can not open the file
-        ui->tipsL->textLabel->setText("Could not open the file!");
+    QSettings settings("config.ini", QSettings::IniFormat);
+    QString oldName = settings.value("Database/Name").toString();
+    QString oldUser = settings.value("Database/User").toString();
+    QString oldPwd = settings.value("Database/Password").toString();
+    settings.setValue("Database/Name", ui->sqlDbNameLineEdit->text());
+    settings.setValue("Database/User", ui->sqlUsernameLineEdit->text());
+    settings.setValue("Database/Password", ui->sqlPwdLineEdit->text());
+    if (!sql.connectDataBase()) {
+        settings.setValue("Database/Name", oldName);
+        settings.setValue("Database/User", oldUser);
+        settings.setValue("Database/Password", oldPwd);
+        ui->tipsL->textLabel->setText("Connect Failed!");
         ui->tipsL->animationStart();
     }
-    sql.connectDataBase();
 }
 void IDNIMS::on_loadChange_clicked()
 { // Allows user change their password

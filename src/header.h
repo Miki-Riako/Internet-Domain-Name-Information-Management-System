@@ -18,6 +18,7 @@
 #include <QPropertyAnimation>
 #include <QPushButton>
 #include <QRadioButton>
+#include <QSettings>
 #include <QString>
 #include <QSqlDatabase>
 #include <QSqlQuery>
