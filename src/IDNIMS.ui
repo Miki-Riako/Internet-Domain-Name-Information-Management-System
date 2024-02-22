@@ -150,7 +150,7 @@ QPushButton:hover {
          <item>
           <widget class="QStackedWidget" name="stackedWidget">
            <property name="currentIndex">
-            <number>5</number>
+            <number>0</number>
            </property>
            <widget class="QWidget" name="pageHome">
             <layout class="QGridLayout" name="gridLayout_4">
@@ -268,34 +268,6 @@ QPushButton:hover {
                   </property>
                   <property name="text">
                    <string>清空域名</string>
-                  </property>
-                 </widget>
-                </item>
-                <item>
-                 <widget class="QPushButton" name="uploadAll">
-                  <property name="cursor">
-                   <cursorShape>PointingHandCursor</cursorShape>
-                  </property>
-                  <property name="styleSheet">
-                   <string notr="true">QPushButton {
-	border: 0px;
-	min-width: 80px;
-	font-family: &quot;Microsoft YaHei UI&quot;;
-	font-size: 25pt;
-	font-weight: bold;
-	color: rgb(0, 0, 0);
-}
-QPushButton:hover {
-	border: 0px;
-	min-width: 80px;
-	font-family: &quot;Microsoft YaHei UI&quot;;
-	font-size: 24pt;
-	font-weight: bold;
-	color: rgb(50, 50, 50);
-}</string>
-                  </property>
-                  <property name="text">
-                   <string>上传域名</string>
                   </property>
                  </widget>
                 </item>
@@ -1081,82 +1053,6 @@ QPushButton:hover {
                   </property>
                   <layout class="QVBoxLayout" name="verticalLayout_5">
                    <item>
-                    <widget class="QLabel" name="label_22">
-                     <property name="styleSheet">
-                      <string notr="true">font: 700 12pt &quot;Microsoft YaHei UI&quot;;</string>
-                     </property>
-                     <property name="text">
-                      <string>数据库导入策略</string>
-                     </property>
-                     <property name="alignment">
-                      <set>Qt::AlignCenter</set>
-                     </property>
-                    </widget>
-                   </item>
-                   <item>
-                    <widget class="QCheckBox" name="nodeButton">
-                     <property name="text">
-                      <string>以结点的形式存储</string>
-                     </property>
-                     <property name="checkable">
-                      <bool>true</bool>
-                     </property>
-                     <property name="checked">
-                      <bool>false</bool>
-                     </property>
-                    </widget>
-                   </item>
-                   <item>
-                    <widget class="QLabel" name="label_24">
-                     <property name="styleSheet">
-                      <string notr="true">font: 9pt &quot;Microsoft YaHei UI&quot;;</string>
-                     </property>
-                     <property name="text">
-                      <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;程序将在启动时直接构建一个树来存储数据，新数据依旧会导入数据库&lt;/p&gt;&lt;p&gt;请在操作数据时启用，不操作数据时推荐不开启&lt;/p&gt;&lt;p&gt;优点：对数据进行操作和搜索时耗时更短&lt;/p&gt;&lt;p&gt;缺点：程序启动时耗时长，占用内存较高&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-                     </property>
-                     <property name="alignment">
-                      <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
-                     </property>
-                    </widget>
-                   </item>
-                   <item>
-                    <widget class="QLabel" name="label_23">
-                     <property name="styleSheet">
-                      <string notr="true">font: 700 12pt &quot;Microsoft YaHei UI&quot;;</string>
-                     </property>
-                     <property name="text">
-                      <string>数据搜索策略</string>
-                     </property>
-                     <property name="alignment">
-                      <set>Qt::AlignCenter</set>
-                     </property>
-                    </widget>
-                   </item>
-                   <item>
-                    <widget class="QLabel" name="label_27">
-                     <property name="styleSheet">
-                      <string notr="true">font: 9pt &quot;Microsoft YaHei UI&quot;;</string>
-                     </property>
-                     <property name="text">
-                      <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;该策略只在以结点的形式储存时生效，此时，数据将以树形层次结构存储&lt;/p&gt;&lt;p&gt;如果不以结点的形式存储，搜索将以MySQL的策略进行&lt;/p&gt;&lt;p&gt;你可以根据你想搜索和操作的内容设置搜索策略&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-                     </property>
-                    </widget>
-                   </item>
-                   <item>
-                    <widget class="QComboBox" name="comboBox">
-                     <item>
-                      <property name="text">
-                       <string>DFS（只在搜索四级域名时耗时可能会比BFS短）</string>
-                      </property>
-                     </item>
-                     <item>
-                      <property name="text">
-                       <string>BFS（大部分情况下耗时都比DFS短）</string>
-                      </property>
-                     </item>
-                    </widget>
-                   </item>
-                   <item>
                     <widget class="QLabel" name="label_29">
                      <property name="styleSheet">
                       <string notr="true">font: 700 12pt &quot;Microsoft YaHei UI&quot;;</string>
@@ -1188,7 +1084,7 @@ QPushButton:hover {
                       <string notr="true">font: 9pt &quot;Microsoft YaHei UI&quot;;</string>
                      </property>
                      <property name="text">
-                      <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;该操作只会影响数据上传时的安全性和速度&lt;/p&gt;&lt;p&gt;数据备份将降低数据丢失的风险，但是会导致每次上传数据时的速度更慢&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+                      <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;该操作只会影响数据上传时的安全性和速度。&lt;/p&gt;&lt;p&gt;数据备份将降低数据丢失的风险，但是会导致每次上传数据时的速度更慢。&lt;/p&gt;&lt;p&gt;当你的数据丢失时，备份的文件名为domain_backup&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
                      </property>
                     </widget>
                    </item>
@@ -1201,7 +1097,7 @@ QPushButton:hover {
                    <string notr="true">font: 700 12pt &quot;Microsoft YaHei UI&quot;;</string>
                   </property>
                   <property name="text">
-                   <string>注意：所有设置需要重启以生效！</string>
+                   <string>注意：某些设置需要重启以生效！</string>
                   </property>
                  </widget>
                 </item>
@@ -1312,7 +1208,7 @@ QPushButton:hover {
                 <string notr="true">font: 12pt &quot;Microsoft YaHei UI&quot;;</string>
                </property>
                <property name="text">
-                <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;无法连接？&lt;/p&gt;&lt;p&gt;检查是否使用MySQL及其ODBC接口？&lt;/p&gt;&lt;p&gt;检查主机127.0.0.1是否被占用？&lt;/p&gt;&lt;p&gt;检查端口是否为3306？&lt;/p&gt;&lt;p&gt;用户设置？&lt;/p&gt;&lt;p&gt;以user_name和password键值对形式储存在user表格中。&lt;br/&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+                <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;无法连接？&lt;/p&gt;&lt;p&gt;检查是否使用MySQL及其ODBC接口？&lt;/p&gt;&lt;p&gt;检查主机是否被占用？&lt;/p&gt;&lt;p&gt;检查端口是否为3306？否则请修改端口。&lt;/p&gt;&lt;p&gt;用户设置及库设置？&lt;/p&gt;&lt;p&gt;没有表格时会自动创建，之后将正常运行。&lt;br/&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
                </property>
               </widget>
              </item>

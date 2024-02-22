@@ -44,7 +44,6 @@ public:
 private slots:
     void on_loadAll_clicked();
     void on_clearAll_clicked();
-    void on_uploadAll_clicked();
     void on_establishButton_clicked();
     void on_categorizeButton_clicked();
     void on_insertButton_clicked();
@@ -54,8 +53,6 @@ private slots:
     void on_searchDomain_clicked();
     void on_loadHost_clicked();
     void on_loadChange_clicked();
-    void on_nodeButton_clicked(bool checked);
-    void on_comboBox_currentIndexChanged(int index);
     void on_saveButton_clicked(bool checked);
     void on_calculateLevel_clicked();
 

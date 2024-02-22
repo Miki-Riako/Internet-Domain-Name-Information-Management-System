@@ -208,10 +208,11 @@ void IDNIMS::initialSettingPage(void)
     }
     ui->tipsL->setFixedHeight(20);
     ui->tipsR->setFixedHeight(20);
-    if (sql.host[4] == "BFS")
-        ui->comboBox->setCurrentIndex(1);
-    if (sql.host[5] == "On")
+    QSettings settings("config.ini", QSettings::IniFormat);
+    if (settings.value("Settings/DataBackup").toBool())
         ui->saveButton->setChecked(true);
+    else
+        ui->saveButton->setChecked(false);
 }
 // The button on page 1
 void IDNIMS::on_loadAll_clicked()
@@ -238,10 +239,6 @@ void IDNIMS::on_clearAll_clicked()
 {
     ui->tableWidget->clearContents();
     ui->numberLabel->setText(". . . Now the number of domain names: 0");
-}
-void IDNIMS::on_uploadAll_clicked()
-{ // Upload the domain tree into the database
-    QMessageBox::information(this, "Error", "You have closed store data as the node model.");
 }
 // The button on page 2
 void IDNIMS::on_establishButton_clicked()
@@ -427,7 +424,7 @@ void IDNIMS::on_loadChange_clicked()
         }
         else { // Successfully enter
             QSqlQuery query;
-            QString qs = QString("select * from user where user_name = '%1' and password='%2'").arg(user).arg(oldPassword);
+            QString qs = QString("SELECT * FROM user WHERE user_name = '%1' and password='%2'").arg(user).arg(oldPassword);
             if (!query.exec(qs)) {
                 ui->tipsR->textLabel->setText("Change Failed! Check your password.");
                 ui->tipsR->animationStart();
@@ -453,96 +450,11 @@ void IDNIMS::on_loadChange_clicked()
     } else
         QMessageBox::information(this, "Guest", "You are Guest!");
 }
-void IDNIMS::on_nodeButton_clicked(bool checked)
-{
-        // if (checked) { // Make the No to Yes
-        //     ofstream file(".\\config.idnims");
-        //     if (file.is_open()) { // Enter the file
-        //         file << sql.host[0].toStdString() << endl;
-        //         file << sql.host[1].toStdString() << endl;
-        //         file << sql.host[2].toStdString() << endl;
-        //         file << "Yes" << endl;
-        //         file << sql.host[4].toStdString() << endl;
-        //         file << sql.host[5].toStdString() << endl;
-        //         file.close();
-        //     }
-        //     else
-        //         QMessageBox::information(this, "Error", "You may miss some important file, try to download again!");
-        // }
-        // else { // Make the Yes to No
-        //     ofstream file(".\\config.idnims");
-        //     if (file.is_open()) { // Enter the file
-        //         file << sql.host[0].toStdString() << endl;
-        //         file << sql.host[1].toStdString() << endl;
-        //         file << sql.host[2].toStdString() << endl;
-        //         file << "No" << endl;
-        //         file << sql.host[4].toStdString() << endl;
-        //         file << sql.host[5].toStdString() << endl;
-        //         file.close();
-        //     }
-        //     else
-        //         QMessageBox::information(this, "Error", "You may miss some important file, try to download again!");
-        // }
-}
-void IDNIMS::on_comboBox_currentIndexChanged(int index)
-{
-        // ofstream file(".\\config.idnims");
-        // switch (index) { // Check the index of the combo box
-        // case 0:
-        //     if (file.is_open()) {
-        //         file << sql.host[0].toStdString() << endl;
-        //         file << sql.host[1].toStdString() << endl;
-        //         file << sql.host[2].toStdString() << endl;
-        //         file << sql.host[3].toStdString() << endl;
-        //         file << "DFS" << endl;
-        //     }
-        //     else
-        //         QMessageBox::information(this, "Error", "You may miss some important file, try to download again!");
-        //     break;
-        // case 1:
-        //     if (file.is_open()) {
-        //         file << sql.host[0].toStdString() << endl;
-        //         file << sql.host[1].toStdString() << endl;
-        //         file << sql.host[2].toStdString() << endl;
-        //         file << sql.host[3].toStdString() << endl;
-        //         file << "BFS" << endl;
-        //     }
-        //     else
-        //         QMessageBox::information(this, "Error", "You may miss some important file, try to download again!");
-        //     break;
-        // default:
-        //     break;
-        // }
-        // file.close();
-}
 void IDNIMS::on_saveButton_clicked(bool checked)
 {
-        // if (checked) { // Make the Off to On
-        //     ofstream file(".\\config.idnims");
-        //     if (file.is_open()) { // Enter the file
-        //         file << sql.host[0].toStdString() << endl;
-        //         file << sql.host[1].toStdString() << endl;
-        //         file << sql.host[2].toStdString() << endl;
-        //         file << sql.host[3].toStdString() << endl;
-        //         file << sql.host[4].toStdString() << endl;
-        //         file << "On" << endl;
-        //         file.close();
-        //     }
-        //     else
-        //         QMessageBox::information(this, "Error", "You may miss some important file, try to download again!");
-        // }
-        // else { // Make the On to Off
-        //     ofstream file(".\\config.idnims");
-        //     if (file.is_open()) { // Enter the file
-        //         file << sql.host[0].toStdString() << endl;
-        //         file << sql.host[1].toStdString() << endl;
-        //         file << sql.host[2].toStdString() << endl;
-        //         file << sql.host[3].toStdString() << endl;
-        //         file << sql.host[4].toStdString() << endl;
-        //         file << "Off" << endl;
-        //         file.close();
-        //     }
-        //     else
-        //         QMessageBox::information(this, "Error", "You may miss some important file, try to download again!");
-        // }
+    QSettings settings("config.ini", QSettings::IniFormat);
+    if (checked)
+        settings.setValue("Settings/DataBackup", true);
+    else
+        settings.setValue("Settings/DataBackup", false);
 }
