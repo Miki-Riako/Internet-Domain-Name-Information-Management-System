@@ -25,8 +25,8 @@ bool domainsql::connecting(void)
 { // Load the Local file and connect the database
     QSettings settings("config.ini", QSettings::IniFormat);
     db = QSqlDatabase::addDatabase("QODBC");
-    db.setHostName("127.0.0.1");
-    db.setPort(3306);
+    db.setHostName(settings.value("Database/HostName").toString());
+    db.setPort(settings.value("Database/Port").toInt());
     db.setDatabaseName(settings.value("Database/Name").toString());
     db.setUserName(settings.value("Database/User").toString());
     db.setPassword(XOREncode(settings.value("Database/Password").toString()));
@@ -55,17 +55,6 @@ bool domainsql::connectDataBase(void)
         return true;
     }
 }
-    // domainNode* domainsql::findNodeById(domainNode* rootNode, int targetId)
-    // { // Using recursion to find the target id.
-    //     if (!rootNode)
-    //         return nullptr;
-    //     if (rootNode->id == targetId)
-    //         return rootNode;
-    //     domainNode* foundNode = findNodeById(rootNode->firstChild, targetId);
-    //     if (!foundNode)
-    //         foundNode = findNodeById(rootNode->nextSibling, targetId);
-    //     return foundNode;
-    // }
 int domainsql::getIdFromDomain(QString &domainName)
 { // Input the domain name and return the ID in mysql
     QSqlQuery query;

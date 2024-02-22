@@ -19,6 +19,7 @@
 #include <QPropertyAnimation>
 #include <QPushButton>
 #include <QRadioButton>
+#include <QRegExp>
 #include <QSettings>
 #include <QString>
 #include <QSqlDatabase>

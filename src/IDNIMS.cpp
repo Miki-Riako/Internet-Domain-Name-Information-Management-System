@@ -460,12 +460,41 @@ void IDNIMS::on_saveButton_clicked(bool checked)
 }
 void IDNIMS::on_loadHostName_clicked()
 {
+    QString hostName = ui->sqlDbHostName->text();
+    QRegExp ipRegex("^(\\d{1,3}\\.){3}\\d{1,3}$");
+    if (!ipRegex.exactMatch(hostName)) { // Check whether follow the ruler
+        QMessageBox::warning(this, "Invalid", "Please enter a valid IP address.");
+        return;
+    }
+    QStringList parts = hostName.split(".");
+    bool valid = true;
+    for (const QString &part : parts) { // Check the number range
+        bool ok;
+        int ip = part.toInt(&ok);
+        if (!ok || ip < 0 || ip > 255) {
+            valid = false;
+            break;
+        }
+    }
+    if (!valid) { // Check whether follow the ruler
+        QMessageBox::warning(this, "Invalid", "Please enter a valid IP address.");
+        return;
+    }
     QSettings settings("config.ini", QSettings::IniFormat);
-    settings.setValue("Database/HostName", ui->sqlDbHostName->text());
+    settings.setValue("Database/HostName", hostName);
+    sql.connectDataBase();
 }
 void IDNIMS::on_loadPort_clicked()
 {
+    QString portStr = ui->sqlDbPort->text();
+    bool ok;
+    int port = portStr.toInt(&ok);
+    if (!ok || port < 0 || port > 65535) { // Check whether is a integer and follow the range
+        QMessageBox::warning(this, "Invalid", "Please enter a valid Port.");
+        return;
+    }
     QSettings settings("config.ini", QSettings::IniFormat);
     settings.setValue("Database/Port", ui->sqlDbPort->text());
+    sql.connectDataBase();
 }
 
