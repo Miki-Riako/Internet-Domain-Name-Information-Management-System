@@ -55,6 +55,8 @@ private slots:
     void on_loadChange_clicked();
     void on_saveButton_clicked(bool checked);
     void on_calculateLevel_clicked();
+    void on_loadHostName_clicked();
+    void on_loadPort_clicked();
 
 private:
     Ui::IDNIMS *ui;

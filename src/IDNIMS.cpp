@@ -458,3 +458,14 @@ void IDNIMS::on_saveButton_clicked(bool checked)
     else
         settings.setValue("Settings/DataBackup", false);
 }
+void IDNIMS::on_loadHostName_clicked()
+{
+    QSettings settings("config.ini", QSettings::IniFormat);
+    settings.setValue("Database/HostName", ui->sqlDbHostName->text());
+}
+void IDNIMS::on_loadPort_clicked()
+{
+    QSettings settings("config.ini", QSettings::IniFormat);
+    settings.setValue("Database/Port", ui->sqlDbPort->text());
+}
+

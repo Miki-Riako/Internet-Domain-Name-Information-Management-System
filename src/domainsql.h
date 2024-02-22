@@ -33,7 +33,6 @@ class domainsql : public QObject
 public:
     explicit domainsql(QObject *parent = nullptr);
     QSqlDatabase db;
-    QString host[6] = {nullptr, nullptr, nullptr, nullptr, nullptr, nullptr};
     bool connecting(void);
     void loginConnect(void);
     bool connectDataBase(void);
