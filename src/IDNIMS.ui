@@ -150,7 +150,7 @@ QPushButton:hover {
          <item>
           <widget class="QStackedWidget" name="stackedWidget">
            <property name="currentIndex">
-            <number>5</number>
+            <number>6</number>
            </property>
            <widget class="QWidget" name="pageHome">
             <layout class="QGridLayout" name="gridLayout_4">
@@ -1253,7 +1253,7 @@ QPushButton:hover {
                 <string notr="true">font: 12pt &quot;Microsoft YaHei UI&quot;;</string>
                </property>
                <property name="text">
-                <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Design by &lt;a href=&quot;https://github.com/Miki-Riako&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#007af4;&quot;&gt;Miki_Riako&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;&lt;p&gt;本项目用到的开源框架有：&lt;/p&gt;&lt;p&gt;QT可视化框架&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+                <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Design by &lt;a href=&quot;https://github.com/Miki-Riako&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#007af4;&quot;&gt;Miki_Riako&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;&lt;p&gt;本项目用到的开源框架：QT可视化框架&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
                </property>
                <property name="openExternalLinks">
                 <bool>true</bool>
@@ -1318,7 +1318,7 @@ QPushButton:hover {
                 <string notr="true">font: 12pt &quot;Microsoft YaHei UI&quot;;</string>
                </property>
                <property name="text">
-                <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;须知：数据库使用MySQL，接口使用ODBC，请用户提前配置好相关操作。&lt;/p&gt;&lt;p&gt;兼容性：数据库是全局数据库，意味着用户可以在其他程序调用本程序的数据。&lt;/p&gt;&lt;p&gt;高效：用户可以根据自己需求选择不同的搜索算法。&lt;/p&gt;&lt;p&gt;&lt;a href=&quot;https://www.mysql.com/&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#007af4;&quot;&gt;MySQL官网&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;&lt;p&gt;&lt;a href=&quot;https://dev.mysql.com/downloads/connector/odbc/&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#007af4;&quot;&gt;ODBC接口下载&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+                <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;须知：&lt;/p&gt;&lt;p&gt;数据库使用MySQL，接口使用ODBC，请用户提前配置好相关操作。&lt;/p&gt;&lt;p&gt;首先创建一个名为“idnims”的空库。&lt;/p&gt;&lt;p&gt;在配置ODBC时，数据源选择，ODBC Unicode Driver，库为idnims。&lt;/p&gt;&lt;p&gt;兼容性：&lt;/p&gt;&lt;p&gt;数据库是全局数据库，意味着用户可以在其他程序调用本程序的数据。&lt;/p&gt;&lt;p&gt;&lt;a href=&quot;https://www.mysql.com/&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#007af4;&quot;&gt;MySQL官网&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;&lt;p&gt;&lt;a href=&quot;https://dev.mysql.com/downloads/connector/odbc/&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#007af4;&quot;&gt;ODBC接口下载&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
                </property>
                <property name="openExternalLinks">
                 <bool>true</bool>
@@ -1331,7 +1331,7 @@ QPushButton:hover {
                 <string notr="true">font: 12pt &quot;Microsoft YaHei UI&quot;;</string>
                </property>
                <property name="text">
-                <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;无法连接？&lt;/p&gt;&lt;p&gt;检查是否使用MySQL及其ODBC接口？&lt;/p&gt;&lt;p&gt;检查主机是否被占用？&lt;/p&gt;&lt;p&gt;检查端口是否为3306？否则请修改端口。&lt;/p&gt;&lt;p&gt;用户设置及库设置？&lt;/p&gt;&lt;p&gt;没有表格时会自动创建，之后将正常运行。&lt;br/&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+                <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;无法连接？&lt;/p&gt;&lt;p&gt;检查是否使用MySQL及其ODBC接口？&lt;/p&gt;&lt;p&gt;检查主机是否被占用？主机问题请手动设置主机。&lt;/p&gt;&lt;p&gt;检查端口是否为3306？否则请手动在设置页面修改端口。&lt;/p&gt;&lt;p&gt;用户设置及库设置？&lt;/p&gt;&lt;p&gt;没有表格时会自动创建，之后将正常运行。&lt;br/&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
                </property>
               </widget>
              </item>
