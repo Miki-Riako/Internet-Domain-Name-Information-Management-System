@@ -79,14 +79,43 @@ bool domainsql::connecting(void)
     }
     return db.open();
 }
+void domainsql::backup(void)
+{ // Backup the database
+    if (!db.open()) {
+        QMessageBox::critical(nullptr, "Error", "Database not found!");
+        return;
+    }
+    QSqlQuery query(db);
+    if (!query.exec("SHOW TABLES LIKE 'domain_backup'")) {
+        QMessageBox::critical(nullptr, "Error", "Cannot backup!");
+        return;
+    }
+    if (query.next() && !query.exec("DROP TABLE domain_backup")) {
+        QMessageBox::critical(nullptr, "Error", "Cannot backup!");
+        return;
+    }
+    if (query.next() && !query.exec("DROP TABLE domain_backup")) {
+        QMessageBox::critical(nullptr, "Error", "Cannot backup!");
+        return;
+    }
+    if (!query.exec("CREATE TABLE domain_backup AS SELECT * FROM domain")) {
+        QMessageBox::critical(nullptr, "Error", "Cannot backup!");
+        return;
+    }
+}
+
 void domainsql::loginConnect(void)
-{ // When enter the login widget, try to connect the database
+{ // When enter the login widget, try to connect the database and backup the database
     if (QSqlDatabase::drivers().isEmpty()) { // When no drivers
         QMessageBox::information(nullptr, "No database drivers found", "If you are a new user, please enter as a guest and set the mysql database configuration in the settings section, then re-enter as an administrator. Otherwise, please check the database connection.");
         return;
     }
-    if (!connecting())
+    if (!connecting()) {
         QMessageBox::information(nullptr, "Connection disconnected", "If you are a new user, please enter as a guest and set the mysql database configuration in the settings section, then re-enter as an administrator. Otherwise, please check the database connection.");
+        return;
+    }
+    if (db.open())
+        backup();
 }
 bool domainsql::connectDataBase(void)
 { // When user want to input their host to connect the database

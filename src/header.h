@@ -24,6 +24,7 @@
 #include <QString>
 #include <QSqlDatabase>
 #include <QSqlQuery>
+#include <QTableWidgetItem>
 #include <QTextStream>
 #include <QTimer>
 #include <QTime>
@@ -34,6 +35,7 @@
 
 #include <iostream>
 #include <algorithm>
+#include <chrono>
 #include <cstdio>
 #include <cstdlib>
 #include <ctime>
@@ -42,7 +44,6 @@
 #include <sstream>
 #include <string>
 #include <vector>
-#include <windows.h>
 
 #include "qtmaterialautocomplete.h"
 #include "qtmaterialdrawer.h"

@@ -214,26 +214,34 @@ void IDNIMS::initialSettingPage(void)
     else
         ui->saveButton->setChecked(false);
 }
+void IDNIMS::loadDomainData(int level)
+{ // Show the domain data
+    QSqlQuery query(sql.db);
+    QString queryString = level == -1 ? "SELECT * FROM domain" : QString("SELECT * FROM domain WHERE DomainLevel = %1").arg(level);
+    if (!query.exec(queryString)) {
+        QMessageBox::warning(this, "Error!", "Cannot get data from database!");
+        return;
+    }
+    int columnCount = query.record().count();
+    int rowCount = 0;
+    ui->tableWidget->setColumnCount(columnCount);
+    ui->tableWidget->setRowCount(0);
+    QStringList headerLabels;
+    for (int i = 0; i < columnCount; ++i)
+        headerLabels << query.record().fieldName(i);
+    ui->tableWidget->setHorizontalHeaderLabels(headerLabels);
+    while (query.next()) {
+        ui->tableWidget->insertRow(rowCount);
+        for (int j = 0; j < columnCount; ++j)
+            ui->tableWidget->setItem(rowCount, j, new QTableWidgetItem(query.value(j).toString()));
+        ++rowCount;
+    }
+    ui->numberLabel->setText(". . . Now the number of domain names: " + QString::number(rowCount));
+}
 // The button on page 1
 void IDNIMS::on_loadAll_clicked()
 {
-    QSqlQuery query(sql.db);
-    query.exec("SELECT * FROM domain");
-    int columnCount = query.record().count() - 4;
-    int rowCount = 0;
-    ui->tableWidget->setColumnCount(columnCount);
-    if (query.last())
-        rowCount = query.at() + 1;
-    ui->tableWidget->setRowCount(rowCount);
-    ui->numberLabel->setText(". . . Now the number of domain names: " + QString::number(rowCount));
-    QStringList headerLabels;
-    for (int i = 4; i < columnCount + 4; i++)
-        headerLabels << query.record().fieldName(i);
-    ui->tableWidget->setHorizontalHeaderLabels(headerLabels);
-    query.exec("SELECT * FROM domain");
-    for (int i = 0; query.next(); i++)
-        for (int j = 4; j < columnCount; j++)
-            ui->tableWidget->setItem(i, j - 4, new QTableWidgetItem(query.value(j).toString()));
+    loadDomainData(-1);
 }
 void IDNIMS::on_clearAll_clicked()
 {
@@ -277,80 +285,40 @@ void IDNIMS::on_modifyButton_clicked()
         QMessageBox::information(this, "Guest", "You are Guest!");
 }
 void IDNIMS::on_domainButton_clicked()
-{ // Only shows the level 4 domain name
-    QSqlQuery query(sql.db);
-    query.exec("SELECT * FROM domain WHERE domain_name_level = 4");
-    int columnCount = query.record().count() - 4;
-    int rowCount = 0;
-    ui->tableWidget->setColumnCount(columnCount);
-    if (query.last())
-        rowCount = query.at() + 1;
-    ui->tableWidget->setRowCount(rowCount);
-    ui->numberLabel->setText(". . . Now the number of domain names: " + QString::number(rowCount));
-    QStringList headerLabels;
-    for (int i = 4; i < columnCount + 4; i++)
-        headerLabels << query.record().fieldName(i);
-    ui->tableWidget->setHorizontalHeaderLabels(headerLabels);
-    query.exec("SELECT * FROM domain WHERE domain_name_level = 4");
-    for (int i = 0; query.next(); i++)
-        for (int j = 4; j < columnCount; j++)
-            ui->tableWidget->setItem(i, j - 4, new QTableWidgetItem(query.value(j).toString()));
+{ // Only shows the targeted level domain name
+    loadDomainData(ui->spinBox->value());
 }
 // The button on page 3
 void IDNIMS::on_searchDomain_clicked()
 { // Search the target domain and show it
-    QString targetDomain = ui->searchLineEdit->text();
-    QString targetType = ui->typeLineEdit->text();
-    QSqlQuery query;
+    QString targetDomain = ui->searchLineEdit->text().trimmed();
+    QString targetType = ui->typeLineEdit->text().trimmed().isEmpty() ? "DomainName" : ui->typeLineEdit->text().trimmed();
+    QSqlQuery query(sql.db);
     ui->searchWidget->clearContents();
     ui->searchWidget->setRowCount(0);
-    LARGE_INTEGER startTime, endTime, frequency;
-    QueryPerformanceCounter(&startTime);
-    if (targetType.isEmpty())
-        targetType = "domain_name";
     QString queryString = QString("SELECT * FROM domain WHERE %1 LIKE '%%2%'").arg(targetType).arg(targetDomain);
-    bool found = true;
-    bool error = false;
-    if (query.exec(queryString)) { // Updated the search table
-        int columnCount = query.record().count() - 4;
+    auto startTime = std::chrono::high_resolution_clock::now();
+    if (query.exec(queryString)) {
+        int columnCount = query.record().count();
         int rowCount = 0;
-        while (query.next())
-            rowCount++;
-        if (rowCount == 0)
-            found = false;
-        else { // Load in the search table
-            QStringList headerLabels;
-            ifstream file(".\\table.idnims");
-            if (file.is_open()) {
-                string line;
-                while (getline(file, line))
-                    headerLabels << QString::fromStdString(line);
-                ui->searchWidget->setHorizontalHeaderLabels(headerLabels);
-                file.close();
-            }
-            ui->searchWidget->setColumnCount(columnCount);
-            ui->searchWidget->setRowCount(rowCount);
-            query.exec(queryString);
-            for (int i = 0; query.next(); i++)
-                for (int j = 4; j < columnCount; j++)
-                    ui->searchWidget->setItem(i, j - 4, new QTableWidgetItem(query.value(j).toString()));
+        ui->searchWidget->setColumnCount(columnCount);
+        QStringList headerLabels;
+        for (int i = 0; i < columnCount; ++i)
+            headerLabels << query.record().fieldName(i);
+        ui->searchWidget->setHorizontalHeaderLabels(headerLabels);
+        while (query.next()) {
+            ui->searchWidget->insertRow(rowCount);
+            for (int j = 0; j < columnCount; ++j)
+                ui->searchWidget->setItem(rowCount, j, new QTableWidgetItem(query.value(j).toString()));
+            ++rowCount;
         }
-    } else {
+        if (rowCount == 0)
+            QMessageBox::information(nullptr, "Search Result", "No results found.");
+    } else
         QMessageBox::warning(nullptr, "Error", "Load the database failed, please check your database!");
-        error = true;
-    }
-    QueryPerformanceCounter(&endTime);
-    if (error) {
-        ui->timeLabel->setText("Error!");
-        return;
-    }
-    if (!found)
-        QMessageBox::information(nullptr, "Search Result", "No results found.");
-    double time = (double)(endTime.QuadPart - startTime.QuadPart) / frequency.QuadPart;
-    QString timeStr = QString::number(time, 'f', 4);
-    if (timeStr == "inf")
-        timeStr = "less than 0.0001";
-    ui->timeLabel->setText("Search Time: " + timeStr + "s");
+    auto endTime = std::chrono::high_resolution_clock::now();
+    auto duration = std::chrono::duration<double, std::milli>(endTime - startTime).count();
+    ui->timeLabel->setText("Search Time: " + QString::number(duration / 1000, 'f', 4) + "s");
 }
 // The button on page 4
 void IDNIMS::on_calculateLevel_clicked()
@@ -359,9 +327,9 @@ void IDNIMS::on_calculateLevel_clicked()
         staticsAllowed = false;
         QSqlQuery query;
         int statisticLevel[5] = {0, 0, 0, 0, 0};
-        query.exec("SELECT domain_name_level FROM domain");
+        query.exec("SELECT DomainLevel FROM domain");
         while(query.next()) { // Calculate the data
-            int a = query.value("domain_name_level").toInt();
+            int a = query.value("DomainLevel").toInt();
             statisticLevel[a]++;
         }
         QChart *chart = new QChart();

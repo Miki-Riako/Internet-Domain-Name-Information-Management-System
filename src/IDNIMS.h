@@ -37,6 +37,7 @@ public:
     void initialHomePage(void);
     void initialLogPage(void);
     void initialSettingPage(void);
+    void loadDomainData(int level);
     void keyPressEvent(QKeyEvent *event);
     QString removeFirstSegment(QString& input);
     QtMaterialAutoComplete *pwdLineEdit[3];

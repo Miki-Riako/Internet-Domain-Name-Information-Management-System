@@ -11,6 +11,7 @@ public:
     explicit domainsql(QObject *parent = nullptr);
     QSqlDatabase db;
     bool connecting(void);
+    void backup(void);
     void loginConnect(void);
     bool connectDataBase(void);
     QString XOREncode(QString originalPwd);

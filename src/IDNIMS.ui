@@ -150,7 +150,7 @@ QPushButton:hover {
          <item>
           <widget class="QStackedWidget" name="stackedWidget">
            <property name="currentIndex">
-            <number>6</number>
+            <number>5</number>
            </property>
            <widget class="QWidget" name="pageHome">
             <layout class="QGridLayout" name="gridLayout_4">
@@ -655,7 +655,7 @@ QPushButton:hover {
                    <enum>QLineEdit::Normal</enum>
                   </property>
                   <property name="placeholderText">
-                   <string>在类型中搜索（默认为域名搜索）（需要以MySQL的形式搜索）. . .</string>
+                   <string>在类型中搜索（默认为域名搜索）. . .</string>
                   </property>
                  </widget>
                 </item>
@@ -1084,7 +1084,37 @@ QPushButton:hover {
                       <string notr="true">font: 9pt &quot;Microsoft YaHei UI&quot;;</string>
                      </property>
                      <property name="text">
-                      <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;该操作只会影响数据上传时的安全性和速度。&lt;/p&gt;&lt;p&gt;数据备份将降低数据丢失的风险，但是会导致每次上传数据时的速度更慢。&lt;/p&gt;&lt;p&gt;当你的数据丢失时，备份的文件名为domain_backup&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+                      <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;该操作会在每一次打开程序时，先为你的域名文件备份。&lt;/p&gt;&lt;p&gt;数据备份将降低数据丢失的风险，但是会导致每次上传数据时的速度更慢。&lt;/p&gt;&lt;p&gt;当你的数据丢失时，备份的文件名为domain_backup&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+                     </property>
+                    </widget>
+                   </item>
+                   <item>
+                    <widget class="QLabel" name="label_34">
+                     <property name="styleSheet">
+                      <string notr="true">font: 700 12pt &quot;Microsoft YaHei UI&quot;;</string>
+                     </property>
+                     <property name="text">
+                      <string>域名等级设置</string>
+                     </property>
+                     <property name="alignment">
+                      <set>Qt::AlignCenter</set>
+                     </property>
+                    </widget>
+                   </item>
+                   <item>
+                    <widget class="QSpinBox" name="spinBox">
+                     <property name="value">
+                      <number>4</number>
+                     </property>
+                    </widget>
+                   </item>
+                   <item>
+                    <widget class="QLabel" name="label_35">
+                     <property name="styleSheet">
+                      <string notr="true">font: 9pt &quot;Microsoft YaHei UI&quot;;</string>
+                     </property>
+                     <property name="text">
+                      <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;显示完整域名时，期望的满级域名，默认为4级。&lt;/p&gt;&lt;p&gt;此处设置可以在Manage页面中显示你期望看到的域名等级。&lt;/p&gt;&lt;p&gt;域名最大为4级，本程序兼容但不支持输入比4级更大的域名等级，实际上等级大于4级的域名无意义。&lt;br/&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
                      </property>
                     </widget>
                    </item>
