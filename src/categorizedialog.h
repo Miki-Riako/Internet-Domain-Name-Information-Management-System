@@ -16,6 +16,7 @@ public:
     explicit categorizedialog(QWidget *parent = nullptr);
     QString user = "Unknown";
     domainsql *categorizeOp = nullptr;
+    bool columnExists(QString columnName);
     ~categorizedialog();
 
 signals:

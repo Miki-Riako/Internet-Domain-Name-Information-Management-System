@@ -41,20 +41,17 @@ void establishdialog::establish(QString domain)
         query.prepare("SELECT COUNT(*) FROM domain WHERE DomainName = :DomainName");
         query.bindValue(":DomainName", currentDomain);
         if (!query.exec()) {
-            QMessageBox::critical(this, "Error", "Failed to establish domain!");
+            QMessageBox::critical(this, "Error", "Failed to establish domain! Error: " + query.lastError().text());
             return;
         }
         if (query.next() && query.value(0).toInt() == 0)
             isSuccess = isSuccess && establishOp->insert(currentDomain, level, user);
     }
-    if (isSuccess) {
+    if (isSuccess)
         ui->tips->textLabel->setText("Domain established!");
-        ui->tips->animationStart();
-    }
-    else {
+    else
         ui->tips->textLabel->setText("Failed to establish domain!");
-        ui->tips->animationStart();
-    }
+    ui->tips->animationStart();
 }
 void establishdialog::on_randomButton_clicked()
 {

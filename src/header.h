@@ -25,6 +25,7 @@
 #include <QStack>
 #include <QString>
 #include <QSqlDatabase>
+#include <QSqlError>
 #include <QSqlQuery>
 #include <QTableWidgetItem>
 #include <QTextStream>
