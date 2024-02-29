@@ -1,6 +1,16 @@
 #include "establishdialog.h"
 #include "ui_establishdialog.h"
-QString randomString(int length)
+establishdialog::establishdialog(QWidget *parent) : QDialog(parent), ui(new Ui::establishdialog)
+{
+    ui->setupUi(this);
+    ui->tips->setFixedHeight(20);
+}
+establishdialog::~establishdialog()
+{
+    delete ui;
+}
+
+QString establishdialog::randomString(int length)
 { // Give back a random string
     string charset = "abcdefghijklmnopqrstuvwxyz";
     mt19937 rng(static_cast<unsigned>(time(0)));
@@ -14,64 +24,38 @@ QString randomString(int length)
     }
     return QString::fromStdString(randomString);
 }
-establishdialog::establishdialog(QWidget *parent) : QDialog(parent), ui(new Ui::establishdialog)
-{
-    ui->setupUi(this);
-    ui->tips->setFixedHeight(20);
-}
-establishdialog::~establishdialog()
-{
-    delete ui;
-}
-
-
 void establishdialog::establish(QString domain)
 { // Give a whole domain and create it
-    // domainNode *establishNode = new domainNode;
-    // establishNode->domainName = domain;
-    // establishNode->parent = nullptr;
-    // establishNode->firstChild = nullptr;
-    // establishNode->nextSibling = nullptr;
-    // establishNode->creator = user;
-    // establishNode->id = -1;
-    // establishNode->domainLevel = establishNode->domainName.count('.') + 1;
-    // if (establishNode->domainLevel > 1) { // At least have father
-    //     domainNode *fatherNode = new domainNode;
-    //     fatherNode->domainName = establishOp->removeFirstSegment(establishNode->domainName);
-    //     fatherNode->parent = nullptr;
-    //     fatherNode->firstChild = nullptr;
-    //     fatherNode->nextSibling = nullptr;
-    //     fatherNode->creator = user;
-    //     fatherNode->id = -1;
-    //     fatherNode->domainLevel = establishNode->domainLevel - 1;
-    //     if (establishNode->domainLevel > 2) { // When level is 2
-    //         domainNode *grandFatherNode = new domainNode;
-    //         grandFatherNode->domainName = establishOp->removeFirstSegment(fatherNode->domainName);
-    //         grandFatherNode->creator = user;
-    //         grandFatherNode->parent = nullptr;
-    //         grandFatherNode->firstChild = nullptr;
-    //         grandFatherNode->nextSibling = nullptr;
-    //         grandFatherNode->id = -1;
-    //         grandFatherNode->domainLevel = fatherNode->domainLevel - 1;
-    //         if (establishNode->domainLevel > 3) { // When level is 1
-    //             domainNode *greatGrandFatherNode = new domainNode;
-    //             greatGrandFatherNode->domainName = establishOp->removeFirstSegment(grandFatherNode->domainName);
-    //             greatGrandFatherNode->creator = user;
-    //             greatGrandFatherNode->parent = nullptr;
-    //             greatGrandFatherNode->firstChild = nullptr;
-    //             greatGrandFatherNode->nextSibling = nullptr;
-    //             greatGrandFatherNode->id = -1;
-    //             greatGrandFatherNode->domainLevel = grandFatherNode->domainLevel - 1;
-    //             establishOp->insert(greatGrandFatherNode);
-    //         }
-    //         establishOp->insert(grandFatherNode);
-    //     }
-    //     establishOp->insert(fatherNode);
-    // }
-    // establishOp->insert(establishNode);
+    if (domain.isEmpty())
+        return;
+    int level = establishOp->getLevel(domain);
+    QStack<QString> domainStack;
+    for (int i = 0; i < level; ++i) {
+        domainStack.push(domain);
+        domain = establishOp->removeFirstSegment(domain);
+    }
+    QSqlQuery query(establishOp->db);
+    bool isSuccess = true;
+    for (int level = 1; !domainStack.isEmpty(); ++level) {
+        QString currentDomain = domainStack.pop();
+        query.prepare("SELECT COUNT(*) FROM domain WHERE DomainName = :DomainName");
+        query.bindValue(":DomainName", currentDomain);
+        if (!query.exec()) {
+            QMessageBox::critical(this, "Error", "Failed to establish domain!");
+            return;
+        }
+        if (query.next() && query.value(0).toInt() == 0)
+            isSuccess = isSuccess && establishOp->insert(currentDomain, level, user);
+    }
+    if (isSuccess) {
+        ui->tips->textLabel->setText("Domain established!");
+        ui->tips->animationStart();
+    }
+    else {
+        ui->tips->textLabel->setText("Failed to establish domain!");
+        ui->tips->animationStart();
+    }
 }
-
-
 void establishdialog::on_randomButton_clicked()
 {
     emit send_request();
@@ -94,24 +78,25 @@ void establishdialog::on_randomButton_clicked()
 void establishdialog::on_fileButton_clicked()
 {
     emit send_request();
-    ifstream file(".\\domain.txt");
-    if (file.is_open()) { // Enter the file
-        string line;
-        while (getline(file, line))
-            establish(QString::fromStdString(line));
-        ui->tips->textLabel->setText("Success!");
-        ui->tips->animationStart();
-        file.close();
-    }
-    else { // Enter failed
-        ui->tips->textLabel->setText("The txt is missing!");
-        ui->tips->animationStart();
+    QString fileName = QFileDialog::getOpenFileName(this, tr("Open File"), "", tr("Text Files (*.txt)"));
+    if (fileName.isEmpty())
+        return;
+    QFile file(fileName);
+    if (!file.open(QIODevice::ReadOnly | QIODevice::Text)) {
+        QMessageBox::critical(this, "Error", "Failed to open the file!");
         return;
     }
+    QTextStream in(&file);
+    while (!in.atEnd()) {
+        QString line = in.readLine();
+        establish(line);
+    }
+    ui->tips->textLabel->setText("Success!");
+    ui->tips->animationStart();
+    file.close();
 }
 void establishdialog::on_peopleButton_clicked()
 {
     emit send_request();
     establish(ui->searchLineEdit->text());
 }
-

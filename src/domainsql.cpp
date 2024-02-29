@@ -1,7 +1,7 @@
 #include "domainsql.h"
 
 domainsql::domainsql(QObject *parent) : QObject{parent} {}
-QString domainsql::XOREncode(QString originalPwd)
+QString domainsql::XOREncode(const QString &originalPwd)
 { // Encode and Decode
     QString key = "a-secret-key-a-secret-key-a-secret-key-a-secret-key-a-secret-key-a-secret-key-a-secret-key-a-secret-key-a-secret-key-a-secret-key";
     QString encodedPwd;
@@ -9,12 +9,12 @@ QString domainsql::XOREncode(QString originalPwd)
         encodedPwd.append(QChar(originalPwd[i].unicode() ^ key[i % key.length()].unicode()));
     return encodedPwd;
 }
-QString domainsql::Sha256Encode(QString originalPwd) {
+QString domainsql::Sha256Encode(const QString &originalPwd) {
     QCryptographicHash hash(QCryptographicHash::Sha256);
     hash.addData(originalPwd.toUtf8());
     return hash.result().toHex();
 }
-QString domainsql::removeFirstSegment(QString &domain)
+QString domainsql::removeFirstSegment(const QString &domain)
 { // Find the first dot and delete it and its first string
     int dotIndex = domain.indexOf('.');
     if (dotIndex != -1)
@@ -103,7 +103,6 @@ void domainsql::backup(void)
         return;
     }
 }
-
 void domainsql::loginConnect(void)
 { // When enter the login widget, try to connect the database and backup the database
     if (QSqlDatabase::drivers().isEmpty()) { // When no drivers
@@ -131,38 +130,34 @@ bool domainsql::connectDataBase(void)
         return true;
     }
 }
-int domainsql::getIdFromDomain(QString &domainName)
-{ // Input the domain name and return the ID in mysql
-    QSqlQuery query;
-    query.prepare("SELECT id FROM domain WHERE domain_name = :domainName");
-    query.bindValue(":domainName", domainName);
-    if (query.exec() && query.next())
-        return query.value("id").toInt();
-    else { // The case that can not find the id
-        QMessageBox::warning(nullptr, "Failed", "Error while accessing the database.");
-        return -1;
-    }
+int domainsql::getLevel(const QString &domain)
+{ // Get the level of the domain
+    if (domain == "root")
+        return 0;
+    return domain.count('.') + 1;
 }
-bool domainsql::remove(QString target)
-{ // Delete a node from the tree
-    // howToSearch(target);
-    // if (searchVector.size() == 0)
-    //     return false;
-    // for (auto i = 0; i < searchVector.size(); i++)
-    //     if (searchVector[i]->domainName == target) { // Find the target
-    //         domainNode *parent = searchVector[i]->parent;
-    //         domainNode *prev = NULL;
-    //         for (domainNode *sibling = parent->firstChild; sibling != NULL; sibling = sibling->nextSibling) {
-    //             if (sibling == searchVector[i])
-    //                 break;
-    //             prev = sibling;
-    //         }
-    //         if (prev != NULL)
-    //             prev->nextSibling = searchVector[i]->nextSibling;
-    //         else
-    //             parent->firstChild = searchVector[i]->nextSibling;
-    //         delete searchVector[i];
-    //         return true;
-    //     }
-    // return false;
+bool domainsql::insert(const QString &target, const int &level, const QString &user)
+{ // Insert a node
+    QSqlQuery query(this->db);
+    query.prepare("INSERT INTO domain (DomainName, DomainLevel, Creator, CreateDate) VALUES (:DomainName, :DomainLevel, :Creator, :CreateDate)");
+    query.bindValue(":DomainName", target);
+    query.bindValue(":DomainLevel", level);
+    query.bindValue(":Creator", user);
+    query.bindValue(":CreateDate", QDateTime::currentDateTime().toString("MM/dd/yyyy"));
+    if (!query.exec()) {
+        QMessageBox::warning(nullptr, "Error", "Failed to insert the domain" + target);
+        return false;
+    }
+    return true;
+}
+bool domainsql::remove(const QString &target)
+{ // Delete a node
+    QSqlQuery query(this->db);
+    query.prepare("DELETE FROM domain WHERE DomainName = :DomainName");
+    query.bindValue(":DomainName", target);
+    if (!query.exec()) {
+        QMessageBox::warning(nullptr, "Error", "Failed to remove the domain" + target);
+        return false;
+    }
+    return true;
 }

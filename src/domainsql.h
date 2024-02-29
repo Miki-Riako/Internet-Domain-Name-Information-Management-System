@@ -14,11 +14,12 @@ public:
     void backup(void);
     void loginConnect(void);
     bool connectDataBase(void);
-    QString XOREncode(QString originalPwd);
-    QString Sha256Encode(QString originalPwd);
-    QString removeFirstSegment(QString &domain);
-    int getIdFromDomain(QString &domainName);
-    bool remove(QString target);
+    QString XOREncode(const QString &originalPwd);
+    QString Sha256Encode(const QString &originalPwd);
+    QString removeFirstSegment(const QString &domain);
+    int getLevel(const QString &domain);
+    bool insert(const QString &target, const int &level, const QString &user);
+    bool remove(const QString &target);
 
 signals:
 private:

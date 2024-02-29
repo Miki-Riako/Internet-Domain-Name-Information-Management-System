@@ -15,6 +15,7 @@ public:
     explicit establishdialog(QWidget *parent = nullptr);
     QString user = "Unknown";
     domainsql *establishOp = nullptr;
+    QString randomString(int length);
     void establish(QString domain);
     ~establishdialog();
 

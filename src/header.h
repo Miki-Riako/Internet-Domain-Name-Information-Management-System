@@ -9,6 +9,7 @@
 #include <QDebug>
 #include <QDialog>
 #include <QFile>
+#include <QFileDialog>
 #include <QKeyEvent>
 #include <QLabel>
 #include <QGraphicsOpacityEffect>
@@ -21,6 +22,7 @@
 #include <QRadioButton>
 #include <QRegExp>
 #include <QSettings>
+#include <QStack>
 #include <QString>
 #include <QSqlDatabase>
 #include <QSqlQuery>
