@@ -13,27 +13,36 @@ modifydialog::~modifydialog()
 
 void modifydialog::on_confirmButton_clicked()
 {
-    // emit send_request();
-    // QString target = ui->domainNameLineEdit->text();
-    // modifyOp->howToSearch(target);
-    // if (modifyOp->searchVector.size() == 0) { // The input is wrong
-    //     QMessageBox::information(nullptr, "Error", "The input is wrong!");
-    //     return;
-    // }
-    // for (auto i = 0; i < modifyOp->searchVector.size(); i++)
-    //     if (modifyOp->searchVector[i]->domainName == target) { // Find the target
-    //         domainNode *modifyNode = modifyOp->searchVector[i];
-    //         modifyNode->domainNameType = ui->domainTypeLineEdit->text();
-    //         modifyNode->webName        = ui->webNameLineEdit->text();
-    //         modifyNode->sponsorName    = ui->sponsorNameLineEdit->text();
-    //         modifyNode->status         = ui->statusLineEdit->text();
-    //         modifyNode->domainRegister = ui->registerLineEdit->text();
-    //         modifyNode->contactInfo    = ui->contactInfoLineEdit->text();
-    //         modifyNode->memo           = ui->memoLineEdit->text();
-    //         modifyNode->createDate     = ui->createDateLineEdit->text();
-    //         modifyNode->updateDate     = ui->updateDateLineEdit->text();
-    //         modifyNode->expirationDate = ui->expirationDateLineEdit->text();
-    //         modifyNode->creator        = user;
-    //         QMessageBox::information(this, "Success", "Modify Successfully!");
-    //     }
+    emit send_request();
+    QString target = ui->domainNameLineEdit->text();
+    if (target.isEmpty()){ // No text
+        QMessageBox::information(this, "Failed", "Please input the remove target!");
+        return;
+    }
+    if (target == "root"){ // Root
+        QMessageBox::information(this, "Failed", "Cannot modify root domain!");
+        return;
+    }
+    if (!modifyOp->domainExists(target)) { // Not Found
+        QMessageBox::information(this, "Failed", "Not Found!");
+        return;
+    }
+    QSqlQuery query(modifyOp->db);
+    query.prepare("UPDATE domain SET DomainType = :DomainType, WebName = :WebName, SponsorName = :SponsorName, Status = :Status, Register = :Register, ContactInformation = :ContactInformation, Creator = :Creator, Memo = :Memo, CreateDate = :CreateDate, UpdatedDate = :UpdatedDate, ExpiredDate = :ExpiredDate WHERE DomainName = :DomainName");
+    query.bindValue(":DomainName", target);
+    query.bindValue(":DomainType", ui->domainTypeLineEdit->text().trimmed());
+    query.bindValue(":WebName", ui->webNameLineEdit->text().trimmed());
+    query.bindValue(":SponsorName", ui->sponsorNameLineEdit->text().trimmed());
+    query.bindValue(":Status", ui->statusLineEdit->text().trimmed());
+    query.bindValue(":Register", ui->registerLineEdit->text().trimmed());
+    query.bindValue(":ContactInformation", ui->contactInfoLineEdit->text().trimmed());
+    query.bindValue(":Creator", user);
+    query.bindValue(":Memo", ui->memoLineEdit->text().trimmed());
+    query.bindValue(":CreateDate", ui->createDateLineEdit->text().trimmed());
+    query.bindValue(":UpdatedDate", ui->updateDateLineEdit->text().trimmed());
+    query.bindValue(":ExpiredDate", ui->expirationDateLineEdit->text().trimmed());
+    if (query.exec())
+        QMessageBox::information(this, "Success", "Modify Successfully!");
+    else
+        QMessageBox::critical(this, "Error", "Failed to modify: " + query.lastError().text());
 }
