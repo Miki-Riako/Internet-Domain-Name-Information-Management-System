@@ -20,7 +20,7 @@ void insertdialog::on_confirmButton_clicked()
         QMessageBox::warning(this, "Error", "Father domain does not exist!");
         return;
     }
-    insertOp->insert(domainName, domainName.count('.') + 1, user);
+    bool exit = insertOp->insert(domainName, domainName.count('.') + 1, user);
     QSqlQuery query(insertOp->db);
     query.prepare("UPDATE domain SET DomainType = :DomainType, WebName = :WebName, SponsorName = :SponsorName, Status = :Status, Register = :Register, ContactInformation = :ContactInformation, Memo = :Memo, UpdatedDate = :UpdatedDate, ExpiredDate = :ExpiredDate WHERE DomainName = :DomainName");
     query.bindValue(":DomainName", domainName);
@@ -37,8 +37,12 @@ void insertdialog::on_confirmButton_clicked()
         QMessageBox::critical(this, "Error", query.lastError().text());
         return;
     }
-    if (query.numRowsAffected() > 0)
-        QMessageBox::information(this, "Success", "Domain and its information inserted successfully!");
+    if (query.numRowsAffected() > 0) {
+        if (exit)
+            QMessageBox::information(this, "Success", "Domain exits but its information updated successfully!");
+        else
+            QMessageBox::information(this, "Success", "Domain and its information inserted successfully!");
+    }
     else
         QMessageBox::warning(this, "Warning", "No information was updated.");
 }
