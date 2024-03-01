@@ -150,7 +150,7 @@ QPushButton:hover {
          <item>
           <widget class="QStackedWidget" name="stackedWidget">
            <property name="currentIndex">
-            <number>1</number>
+            <number>3</number>
            </property>
            <widget class="QWidget" name="pageHome">
             <layout class="QGridLayout" name="gridLayout_4">
@@ -717,36 +717,44 @@ QPushButton:hover {
             </layout>
            </widget>
            <widget class="QWidget" name="pageStatistic">
-            <layout class="QVBoxLayout" name="verticalLayout_7" stretch="1,1,5">
+            <layout class="QVBoxLayout" name="verticalLayout_7" stretch="0">
              <item>
-              <widget class="QLabel" name="label_31">
-               <property name="styleSheet">
-                <string notr="true">font: 700 24pt &quot;Microsoft YaHei UI&quot;;</string>
-               </property>
-               <property name="text">
-                <string>统计域名</string>
-               </property>
-               <property name="alignment">
-                <set>Qt::AlignCenter</set>
-               </property>
-              </widget>
-             </item>
-             <item>
-              <widget class="QWidget" name="widget_9" native="true">
-               <layout class="QHBoxLayout" name="horizontalLayout_5">
-                <item>
-                 <widget class="QPushButton" name="calculateLevel">
-                  <property name="minimumSize">
-                   <size>
-                    <width>82</width>
-                    <height>20</height>
-                   </size>
-                  </property>
-                  <property name="cursor">
-                   <cursorShape>PointingHandCursor</cursorShape>
-                  </property>
-                  <property name="styleSheet">
-                   <string notr="true">QPushButton {
+              <layout class="QVBoxLayout" name="verticalLayout_8">
+               <item>
+                <widget class="QLabel" name="label_27">
+                 <property name="styleSheet">
+                  <string notr="true">font: 700 24pt &quot;Microsoft YaHei UI&quot;;</string>
+                 </property>
+                 <property name="text">
+                  <string>统计域名</string>
+                 </property>
+                 <property name="alignment">
+                  <set>Qt::AlignCenter</set>
+                 </property>
+                </widget>
+               </item>
+               <item>
+                <widget class="QWidget" name="widget_9" native="true">
+                 <property name="minimumSize">
+                  <size>
+                   <width>0</width>
+                   <height>0</height>
+                  </size>
+                 </property>
+                 <layout class="QHBoxLayout" name="horizontalLayout_5">
+                  <item>
+                   <widget class="QPushButton" name="calculateName">
+                    <property name="minimumSize">
+                     <size>
+                      <width>82</width>
+                      <height>20</height>
+                     </size>
+                    </property>
+                    <property name="cursor">
+                     <cursorShape>PointingHandCursor</cursorShape>
+                    </property>
+                    <property name="styleSheet">
+                     <string notr="true">QPushButton {
 	border: 0.5px solid white;
 	border-radius: 6px;
 	background-color: rgb(90, 194, 198);
@@ -767,24 +775,143 @@ QPushButton:hover {
 	font-weight: bold;
 	color: white;
 }</string>
-                  </property>
-                  <property name="text">
-                   <string>统计域名等级</string>
-                  </property>
+                    </property>
+                    <property name="text">
+                     <string>统计域名数量</string>
+                    </property>
+                   </widget>
+                  </item>
+                  <item>
+                   <widget class="QPushButton" name="calculateType">
+                    <property name="minimumSize">
+                     <size>
+                      <width>82</width>
+                      <height>20</height>
+                     </size>
+                    </property>
+                    <property name="cursor">
+                     <cursorShape>PointingHandCursor</cursorShape>
+                    </property>
+                    <property name="styleSheet">
+                     <string notr="true">QPushButton {
+	border: 0.5px solid white;
+	border-radius: 6px;
+	background-color: rgb(90, 194, 198);
+	min-width: 80px;
+	font-family: &quot;Times New Roman&quot;;
+	font-size: 11pt;
+	font-weight: bold;
+	color: white;
+}
+
+QPushButton:hover {
+	border: 0.5px solid white;
+	border-radius: 6px;
+	background-color: #1fab89;
+	min-width: 80px;
+	font-family: &quot;Times New Roman&quot;;
+	font-size: 10pt;
+	font-weight: bold;
+	color: white;
+}</string>
+                    </property>
+                    <property name="text">
+                     <string>统计域名类型</string>
+                    </property>
+                   </widget>
+                  </item>
+                  <item>
+                   <widget class="QPushButton" name="calculateLevel">
+                    <property name="minimumSize">
+                     <size>
+                      <width>82</width>
+                      <height>20</height>
+                     </size>
+                    </property>
+                    <property name="cursor">
+                     <cursorShape>PointingHandCursor</cursorShape>
+                    </property>
+                    <property name="styleSheet">
+                     <string notr="true">QPushButton {
+	border: 0.5px solid white;
+	border-radius: 6px;
+	background-color: rgb(90, 194, 198);
+	min-width: 80px;
+	font-family: &quot;Times New Roman&quot;;
+	font-size: 11pt;
+	font-weight: bold;
+	color: white;
+}
+
+QPushButton:hover {
+	border: 0.5px solid white;
+	border-radius: 6px;
+	background-color: #1fab89;
+	min-width: 80px;
+	font-family: &quot;Times New Roman&quot;;
+	font-size: 10pt;
+	font-weight: bold;
+	color: white;
+}</string>
+                    </property>
+                    <property name="text">
+                     <string>统计域名等级</string>
+                    </property>
+                   </widget>
+                  </item>
+                 </layout>
+                </widget>
+               </item>
+               <item>
+                <widget class="QStackedWidget" name="statisticWidget">
+                 <property name="currentIndex">
+                  <number>3</number>
+                 </property>
+                 <widget class="QWidget" name="page">
+                  <layout class="QVBoxLayout" name="verticalLayout_9">
+                   <item>
+                    <widget class="QWidget" name="showWidgetName" native="true"/>
+                   </item>
+                  </layout>
                  </widget>
-                </item>
-               </layout>
-              </widget>
-             </item>
-             <item>
-              <widget class="QWidget" name="showWidget2" native="true">
-               <property name="minimumSize">
-                <size>
-                 <width>0</width>
-                 <height>0</height>
-                </size>
-               </property>
-              </widget>
+                 <widget class="QWidget" name="page_2">
+                  <layout class="QVBoxLayout" name="verticalLayout_10">
+                   <item>
+                    <widget class="QWidget" name="showWidgetType" native="true"/>
+                   </item>
+                  </layout>
+                 </widget>
+                 <widget class="QWidget" name="page_3">
+                  <layout class="QVBoxLayout" name="verticalLayout_11">
+                   <item>
+                    <widget class="QWidget" name="showWidgetLevel" native="true">
+                     <property name="minimumSize">
+                      <size>
+                       <width>0</width>
+                       <height>0</height>
+                      </size>
+                     </property>
+                    </widget>
+                   </item>
+                  </layout>
+                 </widget>
+                 <widget class="QWidget" name="page_4">
+                  <layout class="QVBoxLayout" name="verticalLayout_12">
+                   <item>
+                    <widget class="QLabel" name="label_22">
+                     <property name="styleSheet">
+                      <string notr="true">font: 12pt &quot;Microsoft YaHei UI&quot;;</string>
+                     </property>
+                     <property name="text">
+                      <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;统计功能&lt;/p&gt;&lt;p&gt;点击以开始！&lt;/p&gt;&lt;p&gt;鼠标左右键点击或拖动以缩小放大。&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+                     </property>
+                    </widget>
+                   </item>
+                  </layout>
+                 </widget>
+                </widget>
+               </item>
+              </layout>
              </item>
             </layout>
            </widget>
@@ -1273,7 +1400,7 @@ QPushButton:hover {
                 <string notr="true">font: 12pt &quot;Microsoft YaHei UI&quot;;</string>
                </property>
                <property name="text">
-                <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;联系作者：miki_riako@qq.com&lt;/p&gt;&lt;p&gt;已知的小Bug：暂无，如果发现请务必联系作者，十分感谢。&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+                <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;联系作者：20225443@stu.neu.edu.cn&lt;/p&gt;&lt;p&gt;已知的小Bug：暂无，如果发现请务必联系作者，十分感谢。&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
                </property>
               </widget>
              </item>
@@ -1348,7 +1475,7 @@ QPushButton:hover {
                 <string notr="true">font: 12pt &quot;Microsoft YaHei UI&quot;;</string>
                </property>
                <property name="text">
-                <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;须知：&lt;/p&gt;&lt;p&gt;数据库使用MySQL，接口使用ODBC，请用户提前配置好相关操作。&lt;/p&gt;&lt;p&gt;首先创建一个名为“idnims”的空库。&lt;/p&gt;&lt;p&gt;在配置ODBC时，数据源选择，ODBC Unicode Driver，库为idnims。&lt;/p&gt;&lt;p&gt;兼容性：&lt;/p&gt;&lt;p&gt;数据库是全局数据库，意味着用户可以在其他程序调用本程序的数据。&lt;/p&gt;&lt;p&gt;&lt;a href=&quot;https://www.mysql.com/&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#007af4;&quot;&gt;MySQL官网&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;&lt;p&gt;&lt;a href=&quot;https://dev.mysql.com/downloads/connector/odbc/&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#007af4;&quot;&gt;ODBC接口下载&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+                <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;须知：&lt;/p&gt;&lt;p&gt;数据库使用MySQL，接口使用ODBC，请用户提前配置好相关操作。&lt;/p&gt;&lt;p&gt;首先创建一个空库，假设名为example。或提前已存在一个空库。&lt;/p&gt;&lt;p&gt;在配置ODBC时，数据源选择，ODBC Unicode Driver，库为example。&lt;/p&gt;&lt;p&gt;兼容性：&lt;/p&gt;&lt;p&gt;数据库是全局数据库，意味着用户可以在其他程序调用本程序的数据。&lt;/p&gt;&lt;p&gt;&lt;a href=&quot;https://www.mysql.com/&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#007af4;&quot;&gt;MySQL官网&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;&lt;p&gt;&lt;a href=&quot;https://dev.mysql.com/downloads/connector/odbc/&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#007af4;&quot;&gt;ODBC接口下载&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
                </property>
                <property name="openExternalLinks">
                 <bool>true</bool>

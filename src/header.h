@@ -1,6 +1,15 @@
 #include <QtCharts>
+#include <QtCharts/QBarSeries>
+#include <QtCharts/QBarSet>
+#include <QtCharts/QCategoryAxis>
+#include <QtCharts/QChart>
+#include <QtCharts/QChartView>
+#include <QtCharts/QValueAxis>
 #include <QtSql>
+#include <QtWidgets>
 #include <QtWidgets/QGraphicsOpacityEffect>
+#include <QtGui>
+
 #include <QAction>
 #include <QApplication>
 #include <QComboBox>
@@ -15,6 +24,7 @@
 #include <QGraphicsOpacityEffect>
 #include <QGridLayout>
 #include <QMainWindow>
+#include <QMap>
 #include <QMessageBox>
 #include <QObject>
 #include <QPropertyAnimation>

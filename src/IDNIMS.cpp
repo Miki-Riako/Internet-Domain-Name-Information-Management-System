@@ -87,7 +87,14 @@ IDNIMS::IDNIMS(QWidget *parent) : QMainWindow(parent), ui(new Ui::IDNIMS), drawe
     // Connect
 }
 IDNIMS::~IDNIMS() {delete ui;}
-
+void IDNIMS::clearLayout(QLayout *layout)
+{ // Clear the layout
+    QLayoutItem *item;
+    while ((item = layout->takeAt(0)) != nullptr) {
+        delete item->widget();
+        delete item;
+    }
+}
 void IDNIMS::fade(auto *control, const int &duration, const int &startValue, const int &endValue)
 { // The function can provide the fade in and fade out animations.
     QGraphicsOpacityEffect *opacityEffect = new QGraphicsOpacityEffect(control);
@@ -314,42 +321,135 @@ void IDNIMS::on_searchDomain_clicked()
     ui->timeLabel->setText("Search Time: " + QString::number(duration / 1000, 'f', 4) + "s");
 }
 // The button on page 4
+void IDNIMS::on_calculateName_clicked()
+{
+    ui->statisticWidget->setCurrentIndex(0);
+    QVBoxLayout *layout = qobject_cast<QVBoxLayout *>(ui->showWidgetName->layout());
+    if (layout != nullptr)
+        clearLayout(layout);
+    else
+        layout = new QVBoxLayout(ui->showWidgetName);
+    QSqlQuery query;
+    if (!query.exec("SELECT DomainName FROM domain")) {
+        QMessageBox::critical(this, "Error", query.lastError().text());
+        return;
+    }
+    QMap<QString, int> unitStatistics;
+    while (query.next()) {
+        QString domainName = query.value(0).toString();
+        QStringList units = domainName.split('.');
+        for (const QString &unit : units)
+            unitStatistics[unit]++;
+    }
+    QChart *chart = new QChart();
+    chart->setTitle("Domain Unit Distribution");
+    QBarSet *set = new QBarSet("Count");
+    QBarSeries *series = new QBarSeries();
+    QStringList categories;
+    for (auto it = unitStatistics.begin(); it != unitStatistics.end(); ++it) {
+        categories << it.key();
+        *set << it.value();
+    }
+    series->append(set);
+    chart->addSeries(series);
+    QBarCategoryAxis *axisX = new QBarCategoryAxis();
+    axisX->append(categories);
+    chart->addAxis(axisX, Qt::AlignBottom);
+    QValueAxis *axisY = new QValueAxis();
+    chart->addAxis(axisY, Qt::AlignLeft);
+    series->attachAxis(axisX);
+    series->attachAxis(axisY);
+    QChartView *chartView = new QChartView(chart, this);
+    chartView->setRenderHint(QPainter::Antialiasing);
+    chartView->setRubberBand(QChartView::RectangleRubberBand);
+    chartView->setInteractive(true);
+    layout->addWidget(chartView);
+}
+void IDNIMS::on_calculateType_clicked()
+{
+    ui->statisticWidget->setCurrentIndex(1);
+    QVBoxLayout *layout = qobject_cast<QVBoxLayout *>(ui->showWidgetType->layout());
+    if (layout != nullptr)
+        clearLayout(layout);
+    else
+        layout = new QVBoxLayout(ui->showWidgetType);
+    QSqlQuery query;
+    if (!query.exec("SELECT DomainType, COUNT(*) FROM domain GROUP BY DomainType")) {
+        QMessageBox::critical(this, "Error", query.lastError().text());
+        return;
+    }
+    QMap<QString, int> typeStatistics;
+    while (query.next()) {
+        QString type = query.value(0).toString();
+        int count = query.value(1).toInt();
+        typeStatistics[type] = count;
+    }
+    QChart *chart = new QChart();
+    chart->setTitle("Domain Type Distribution");
+    QBarSet *set = new QBarSet("Count");
+    QBarSeries *series = new QBarSeries();
+    QStringList categories;
+    for (auto it = typeStatistics.begin(); it != typeStatistics.end(); ++it) {
+        categories << it.key();
+        *set << it.value();
+    }
+    series->append(set);
+    chart->addSeries(series);
+    QBarCategoryAxis *axisX = new QBarCategoryAxis();
+    axisX->append(categories);
+    chart->addAxis(axisX, Qt::AlignBottom);
+    QValueAxis *axisY = new QValueAxis();
+    chart->addAxis(axisY, Qt::AlignLeft);
+    series->attachAxis(axisX);
+    series->attachAxis(axisY);
+    QChartView *chartView = new QChartView(chart, this);
+    chartView->setRenderHint(QPainter::Antialiasing);
+    chartView->setRubberBand(QChartView::RectangleRubberBand);
+    chartView->setInteractive(true);
+    layout->addWidget(chartView);
+}
 void IDNIMS::on_calculateLevel_clicked()
 {
-    if (staticsAllowed) {
-        staticsAllowed = false;
-        QSqlQuery query;
-        int statisticLevel[5] = {0, 0, 0, 0, 0};
-        query.exec("SELECT DomainLevel FROM domain");
-        while(query.next()) { // Calculate the data
-            int a = query.value("DomainLevel").toInt();
-            statisticLevel[a]++;
-        }
-        QChart *chart = new QChart();
-        chart->setTitle("Domain Name Level Distribution");
-        QBarSet *set = new QBarSet("Level");
-        for (int i = 0; i < 5; i++)
-            *set << statisticLevel[i];
-        QStringList categories;
-        categories << "Level 0" << "Level 1" << "Level 2" << "Level 3" << "Level 4";
-        QBarSeries *series = new QBarSeries();
-        series->append(set);
-        QBarCategoryAxis *axisX = new QBarCategoryAxis;
-        axisX->setTitleText("Level");
-        axisX->append(categories);
-        chart->addAxis(axisX,Qt::AlignBottom);
-        QValueAxis *axisY=new QValueAxis();
-        axisY->setTitleText("Domain Number");
-        chart->addAxis(axisY, Qt::AlignLeft);
-        chart->addSeries(series);
-        series->attachAxis(axisX);
-        series->attachAxis(axisY);
-        QChartView *chartView = new QtCharts::QChartView(chart, this);
-        QVBoxLayout *layout = new QVBoxLayout(ui->showWidget2);
-        layout->addWidget(chartView);
-    }
+    ui->statisticWidget->setCurrentIndex(2);
+    QVBoxLayout *layout = qobject_cast<QVBoxLayout *>(ui->showWidgetLevel->layout());
+    if (layout != nullptr)
+        clearLayout(layout);
     else
-        QMessageBox::information(this, "Sorry", "Already Exits! You can reboot to load a new chart.");
+        layout = new QVBoxLayout(ui->showWidgetLevel);
+    QSqlQuery query;
+    if (!query.exec("SELECT DomainLevel FROM domain")) {
+        QMessageBox::critical(this, "Error", query.lastError().text());
+        return;
+    }
+    int statisticLevel[5] = {0, 0, 0, 0, 0};
+    while (query.next()) {
+        int a = query.value("DomainLevel").toInt();
+        if (a >= 0 && a < 5)
+            statisticLevel[a]++;
+    }
+    QChart *chart = new QChart();
+    chart->setTitle("Domain Name Level Distribution");
+    QBarSet *set = new QBarSet("Level");
+    for (int i = 0; i < 5; i++)
+        *set << statisticLevel[i];
+    QStringList categories = {"Level 0", "Level 1", "Level 2", "Level 3", "Level 4"};
+    QBarSeries *series = new QBarSeries();
+    series->append(set);
+    QBarCategoryAxis *axisX = new QBarCategoryAxis;
+    axisX->setTitleText("Level");
+    axisX->append(categories);
+    chart->addAxis(axisX, Qt::AlignBottom);
+    QValueAxis *axisY = new QValueAxis();
+    axisY->setTitleText("Domain Number");
+    chart->addAxis(axisY, Qt::AlignLeft);
+    chart->addSeries(series);
+    series->attachAxis(axisX);
+    series->attachAxis(axisY);
+    QChartView *chartView = new QChartView(chart, this);
+    chartView->setRenderHint(QPainter::Antialiasing);
+    chartView->setRubberBand(QChartView::RectangleRubberBand);
+    chartView->setInteractive(true);
+    layout->addWidget(chartView);
 }
 // The button on page 6
 void IDNIMS::on_loadHost_clicked()
@@ -458,4 +558,3 @@ void IDNIMS::on_loadPort_clicked()
     settings.setValue("Database/Port", ui->sqlDbPort->text());
     sql.connectDataBase();
 }
-

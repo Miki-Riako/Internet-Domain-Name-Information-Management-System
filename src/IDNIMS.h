@@ -26,11 +26,12 @@ public:
     QWidget *pagePtr[7];
     QString user = "Guest";
     domainsql sql;
-    bool staticsAllowed = true;
+    bool staticsAllowed[3] = {true, true, true};
     bool administratorRights = false;
     bool inSSL = false;
     bool state[3] = {false, false, false};
     bool first[3] = {true, true, true};
+    void clearLayout(QLayout *layout);
     void fade(auto *control, const int &duration, const int &startValue, const int &endValue);
     void enter(void);
     void changePage(const int &page);
@@ -54,6 +55,8 @@ private slots:
     void on_loadHost_clicked();
     void on_loadChange_clicked();
     void on_saveButton_clicked(bool checked);
+    void on_calculateName_clicked();
+    void on_calculateType_clicked();
     void on_calculateLevel_clicked();
     void on_loadHostName_clicked();
     void on_loadPort_clicked();
