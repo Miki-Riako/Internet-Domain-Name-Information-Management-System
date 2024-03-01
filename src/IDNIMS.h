@@ -45,6 +45,7 @@ public:
 private slots:
     void on_loadAll_clicked();
     void on_clearAll_clicked();
+    void on_deriveAll_clicked();
     void on_establishButton_clicked();
     void on_categorizeButton_clicked();
     void on_insertButton_clicked();

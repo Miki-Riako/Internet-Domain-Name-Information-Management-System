@@ -150,7 +150,7 @@ QPushButton:hover {
          <item>
           <widget class="QStackedWidget" name="stackedWidget">
            <property name="currentIndex">
-            <number>3</number>
+            <number>0</number>
            </property>
            <widget class="QWidget" name="pageHome">
             <layout class="QGridLayout" name="gridLayout_4">
@@ -268,6 +268,34 @@ QPushButton:hover {
                   </property>
                   <property name="text">
                    <string>清空域名</string>
+                  </property>
+                 </widget>
+                </item>
+                <item>
+                 <widget class="QPushButton" name="deriveAll">
+                  <property name="cursor">
+                   <cursorShape>PointingHandCursor</cursorShape>
+                  </property>
+                  <property name="styleSheet">
+                   <string notr="true">QPushButton {
+	border: 0px;
+	min-width: 80px;
+	font-family: &quot;Microsoft YaHei UI&quot;;
+	font-size: 25pt;
+	font-weight: bold;
+	color: rgb(0, 0, 0);
+}
+QPushButton:hover {
+	border: 0px;
+	min-width: 80px;
+	font-family: &quot;Microsoft YaHei UI&quot;;
+	font-size: 24pt;
+	font-weight: bold;
+	color: rgb(50, 50, 50);
+}</string>
+                  </property>
+                  <property name="text">
+                   <string>导出域名</string>
                   </property>
                  </widget>
                 </item>

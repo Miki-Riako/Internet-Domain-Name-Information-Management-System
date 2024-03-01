@@ -248,6 +248,30 @@ void IDNIMS::on_clearAll_clicked()
     ui->tableWidget->clearContents();
     ui->numberLabel->setText(". . . Now the number of domain names: 0");
 }
+void IDNIMS::on_deriveAll_clicked()
+{
+    QString fileName = QFileDialog::getSaveFileName(this, tr("Save File"), "", tr("Text Files (*.txt)"));
+    if (fileName.isEmpty())
+        return;
+    QFile file(fileName);
+    if (!file.open(QIODevice::WriteOnly | QIODevice::Text)) {
+        QMessageBox::critical(this, "Error", "Failed to open the file for writing!");
+        return;
+    }
+    QTextStream out(&file);
+    QSqlQuery query;
+    if (!query.exec("SELECT DomainName FROM domain")) {
+        QMessageBox::critical(this, "Error", query.lastError().text());
+        file.close();
+        return;
+    }
+    while(query.next()) {
+        QString domainName = query.value(0).toString();
+        out << domainName << "\n";
+    }
+    file.close();
+    QMessageBox::information(this, "Success", "All domains were successfully exported to " + fileName);
+}
 // The button on page 2
 void IDNIMS::on_establishButton_clicked()
 { // Establish a node
