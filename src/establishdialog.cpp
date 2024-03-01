@@ -23,7 +23,7 @@ QString establishdialog::randomString(int length)
     }
     return QString::fromStdString(randomString);
 }
-void establishdialog::establish(QString domain)
+bool establishdialog::establish(QString domain)
 { // Give a whole domain and create it
     if (domain.isEmpty())
         return;
@@ -47,32 +47,38 @@ void establishdialog::establish(QString domain)
             isSuccess = isSuccess && establishOp->insert(currentDomain, level, user);
     }
     if (isSuccess)
-        QMessageBox::information(this, "Success", "Domain established!");
+        return true;
     else
-        QMessageBox::critical(this, "Error", "Failed to establish domain!");
+        return false;
 }
 void establishdialog::on_randomButton_clicked()
 {
     emit send_request();
     int length = ui->lengthBox->value();
+    bool success = false;
     switch (ui->spinBox->value()) { // Create the domain name with the level
     case 4:
-        establish(randomString(length) + "." + randomString(length) + "." + randomString(length) + "." + randomString(length));
+        success = establish(randomString(length) + "." + randomString(length) + "." + randomString(length) + "." + randomString(length));
         break;
     case 3:
-        establish(randomString(length) + "." + randomString(length) + "." + randomString(length));
+        success = establish(randomString(length) + "." + randomString(length) + "." + randomString(length));
         break;
     case 2:
-        establish(randomString(length) + "." + randomString(length));
+        success = establish(randomString(length) + "." + randomString(length));
         break;
     default:
-        establish(randomString(length));
+        success = establish(randomString(length));
         break;
     }
+    if (success)
+        QMessageBox::information(this, "Success", "Domain established successfully!");
+    else
+        QMessageBox::critical(this, "Error", "Failed to establish domain!");
 }
 void establishdialog::on_fileButton_clicked()
 {
     emit send_request();
+    bool success = true;
     QString fileName = QFileDialog::getOpenFileName(this, tr("Open File"), "", tr("Text Files (*.txt)"));
     if (fileName.isEmpty())
         return;
@@ -84,13 +90,20 @@ void establishdialog::on_fileButton_clicked()
     QTextStream in(&file);
     while (!in.atEnd()) {
         QString line = in.readLine();
-        establish(line);
+        if (!establish(line))
+            success = false;
     }
-    QMessageBox::information(this, "Success", "Successfully read the file!");
     file.close();
+    if (success)
+        QMessageBox::information(this, "Success", "Domains established successfully!");
+    else
+        QMessageBox::critical(this, "Error", "Failed to establish domains!");
 }
 void establishdialog::on_peopleButton_clicked()
 {
     emit send_request();
-    establish(ui->searchLineEdit->text());
+    if (establish(ui->searchLineEdit->text()))
+        QMessageBox::information(this, "Success", "Domain established successfully!");
+    else
+        QMessageBox::critical(this, "Error", "Failed to establish domain!");
 }
