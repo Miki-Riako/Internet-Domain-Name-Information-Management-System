@@ -149,6 +149,20 @@ bool domainsql::domainExists(const QString &domainName)
         return query.value(0).toInt() > 0;
     return false;
 }
+bool domainsql::hasChildren(const QString &domainName)
+{
+    QSqlQuery query(db);
+    QString checkQuery = QString("SELECT COUNT(*) FROM domain WHERE DomainName LIKE :pattern");
+    query.prepare(checkQuery);
+    query.bindValue(":pattern", "%." + domainName);
+    if (!query.exec()) {
+        QMessageBox::critical(nullptr, "Error", query.lastError().text());
+        return false;
+    }
+    if (query.next() && query.value(0).toInt() > 0)
+        return true;
+    return false;
+}
 bool domainsql::insert(const QString &target, const int &level, const QString &user)
 { // Insert a node
     QRegExp regex("^[A-Za-z0-9-]+(\\.[A-Za-z0-9-]+)*$");
@@ -176,6 +190,39 @@ bool domainsql::remove(const QString &target)
     if (!query.exec()) {
         QMessageBox::warning(nullptr, "Error", "Failed to remove the domain" + target);
         return false;
+    }
+    return true;
+}
+bool domainsql::removeWithChildren(const QString &domainName)
+{ // Remove the node including its children
+    db.transaction();
+    try {
+        if (!recursiveDelete(domainName)) {
+            db.rollback();
+            return false;
+        }
+        db.commit();
+        return true;
+    } catch (...) {
+        db.rollback();
+        return false;
+    }
+}
+bool domainsql::recursiveDelete(const QString &domainName)
+{ // Help function to implement a recursive operation
+    if (!remove(domainName))
+        return false;
+    QSqlQuery query(db);
+    query.prepare("SELECT DomainName FROM domain WHERE DomainName LIKE :pattern");
+    query.bindValue(":pattern", "%." + domainName);
+    if (!query.exec()) {
+        QMessageBox::warning(nullptr, "Error", query.lastError().text());
+        return false;
+    }
+    while (query.next()) {
+        QString childDomain = query.value(0).toString();
+        if (!recursiveDelete(childDomain))
+            return false;
     }
     return true;
 }

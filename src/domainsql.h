@@ -19,8 +19,11 @@ public:
     QString removeFirstSegment(const QString &domain);
     int getLevel(const QString &domain);
     bool domainExists(const QString &domainName);
+    bool hasChildren(const QString &domainName);
     bool insert(const QString &target, const int &level, const QString &user);
     bool remove(const QString &target);
+    bool removeWithChildren(const QString &domainName);
+    bool recursiveDelete(const QString &domainName);
 
 signals:
 private:
