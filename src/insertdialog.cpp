@@ -39,9 +39,9 @@ void insertdialog::on_confirmButton_clicked()
     }
     if (query.numRowsAffected() > 0) {
         if (exit)
-            QMessageBox::information(this, "Success", "Domain exits but its information updated successfully!");
-        else
             QMessageBox::information(this, "Success", "Domain and its information inserted successfully!");
+        else
+            QMessageBox::information(this, "Failed", "Can not insert the domain.");
     }
     else
         QMessageBox::warning(this, "Warning", "No information was updated.");

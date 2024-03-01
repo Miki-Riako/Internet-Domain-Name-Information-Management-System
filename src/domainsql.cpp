@@ -172,7 +172,7 @@ bool domainsql::insert(const QString &target, const int &level, const QString &u
     }
     if (domainExists(target)) {
         QMessageBox::warning(nullptr, "Error", "Already exits!");
-        return false;
+        return true;
     }
     QSqlQuery query(db);
     query.prepare("INSERT INTO domain (DomainName, DomainLevel, Creator, CreateDate) VALUES (:DomainName, :DomainLevel, :Creator, :CreateDate)");
@@ -188,10 +188,8 @@ bool domainsql::insert(const QString &target, const int &level, const QString &u
 }
 bool domainsql::remove(const QString &target)
 { // Delete a node
-    if (!domainExists(target)) {
-        QMessageBox::warning(nullptr, "Error", "Not Found!");
-        return false;
-    }
+    if (!domainExists(target))
+        return true;
     QSqlQuery query(db);
     query.prepare("DELETE FROM domain WHERE DomainName = :DomainName");
     query.bindValue(":DomainName", target);
