@@ -167,7 +167,7 @@ bool domainsql::insert(const QString &target, const int &level, const QString &u
 { // Insert a node
     QRegExp regex("^[A-Za-z0-9-]+(\\.[A-Za-z0-9-]+)*$");
     if (!regex.exactMatch(target)) {
-        QMessageBox::warning(nullptr, "Error", "Invalid domain name: " + target);
+        QMessageBox::warning(nullptr, "Error", "Invalid domain name!");
         return false;
     }
     if (domainExists(target)) {

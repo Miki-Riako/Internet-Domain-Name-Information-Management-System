@@ -28,10 +28,8 @@ void categorizedialog::on_addButton_clicked()
         return;
     }
     QString alterQuery = QString("ALTER TABLE domain ADD COLUMN %1 VARCHAR(255)").arg(columnName);
-    if (query.exec(alterQuery)) {
-        ui->tips->textLabel->setText("Success!");
-        ui->tips->animationStart();
-    }
+    if (query.exec(alterQuery))
+        QMessageBox::information(this, "Success", "Column added successfully!");
     else
         QMessageBox::warning(this, "Error", "Failed! Error: " + query.lastError().text());
 }
@@ -40,8 +38,7 @@ void categorizedialog::on_deleteButton_clicked()
     emit send_request();
     QString columnName = ui->deleteLineEdit->text().trimmed();
     if (columnName.isEmpty()) {
-        ui->tips->textLabel->setText("Column name is empty!");
-        ui->tips->animationStart();
+        QMessageBox::information(this, "Failed", "Column name is empty!");
         return;
     }
     QSqlQuery query(categorizeOp->db);
@@ -52,10 +49,8 @@ void categorizedialog::on_deleteButton_clicked()
     }
     if (columnExists(columnName)) {
         QString alterQuery = QString("ALTER TABLE domain DROP COLUMN %1").arg(columnName);
-        if (query.exec(alterQuery)) {
-            ui->tips->textLabel->setText("Success!");
-            ui->tips->animationStart();
-        }
+        if (query.exec(alterQuery))
+            QMessageBox::information(this, "Success", "Column deleted successfully!");
         else
             QMessageBox::warning(this, "Error", "Failed! Error: " + query.lastError().text());
     } else
@@ -67,18 +62,15 @@ void categorizedialog::on_changeButton_clicked()
     QSqlQuery query(categorizeOp->db);
     QString domain = ui->domainLineEdit->text();
     if (!categorizeOp->domainExists(domain)) {
-        ui->tips->textLabel->setText("Not Found!");
-        ui->tips->animationStart();
+        QMessageBox::information(this, "Failed", "Domain not found!");
         return;
     }
     QString updateQuery = QString("UPDATE domain SET %1 = :newValue WHERE DomainName = :DomainName").arg(ui->typeLineEdit->text().trimmed());
     query.prepare(updateQuery);
     query.bindValue(":newValue", ui->contentLineEdit->text().trimmed());
     query.bindValue(":DomainName", domain);
-    if (query.exec()) {
-        ui->tips->textLabel->setText("Success!");
-        ui->tips->animationStart();
-    }
+    if (query.exec())
+        QMessageBox::information(this, "Success", "Domain updated successfully!");
     else
         QMessageBox::warning(this, "Error", "Failed! Error: " + query.lastError().text());
 }

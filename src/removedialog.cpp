@@ -4,7 +4,6 @@
 removedialog::removedialog(QWidget *parent) : QDialog(parent), ui(new Ui::removedialog)
 {
     ui->setupUi(this);
-    ui->tips->setFixedHeight(20);
 }
 
 removedialog::~removedialog()
@@ -16,35 +15,32 @@ void removedialog::on_searchDomain_clicked()
 {
     emit send_request();
     QString target = ui->searchLineEdit->text();
-    if (target.isEmpty()){ // No text
-        ui->tips->textLabel->setText("Please input the remove target!");
-        ui->tips->animationStart();
+    if (target.isEmpty()) { // No text
+        QMessageBox::warning(this, "Warning", "Please input the search target!");
         return;
     }
-    if (target == "root"){ // Root
-        ui->tips->textLabel->setText("Cannot remove root domain!");
-        ui->tips->animationStart();
+    if (target == "root") { // Root
+        QMessageBox::warning(this, "Warning", "Cannot remove root domain!");
         return;
     }
     if (removeOp->hasChildren(target)) {
         QMessageBox::StandardButton confirmDeleteChildren = QMessageBox::question(this, "Confirm Delete", "The domain '" + target + "' has child domains. Do you want to delete this domain and all its children?", QMessageBox::Yes | QMessageBox::No);
         if (confirmDeleteChildren == QMessageBox::Yes) {
             if (removeOp->removeWithChildren(target))
-                ui->tips->textLabel->setText("Success!");
+                QMessageBox::information(this, "Success", "Successfully deleted the domain '" + target + "' and all its children!");
             else
-                ui->tips->textLabel->setText("Failed!");
+                QMessageBox::warning(this, "Warning", "Failed to delete the domain '" + target + "' and all its children!");
         } else
-            ui->tips->textLabel->setText("Deletion canceled.");
+            QMessageBox::information(this, "Cancel", "Deletion canceled.");
     } else {
         QMessageBox::StandardButton confirmDelete = QMessageBox::question(this, "Confirm Delete", "Are you sure you want to delete the domain: " + target, QMessageBox::Yes | QMessageBox::No);
         if (confirmDelete == QMessageBox::Yes) {
             if (removeOp->remove(target))
-                ui->tips->textLabel->setText("Success!");
+                QMessageBox::information(this, "Success", "Successfully deleted the domain '" + target + "'!");
             else
-                ui->tips->textLabel->setText("Failed!");
+                QMessageBox::warning(this, "Warning", "Failed to delete the domain '" + target + "'!");
         } else
-            ui->tips->textLabel->setText("Deletion canceled.");
+            QMessageBox::information(this, "Cancel", "Deletion canceled.");
     }
-    ui->tips->animationStart();
 }
 

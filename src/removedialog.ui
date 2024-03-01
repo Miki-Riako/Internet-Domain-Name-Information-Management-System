@@ -46,9 +46,6 @@
    </property>
    <layout class="QVBoxLayout" name="verticalLayout">
     <item>
-     <widget class="Scroll" name="tips" native="true"/>
-    </item>
-    <item>
      <widget class="QLabel" name="label_25">
       <property name="styleSheet">
        <string notr="true">font: 700 24pt &quot;Microsoft YaHei UI&quot;;</string>
@@ -124,12 +121,6 @@ QPushButton:hover {
    <class>QtMaterialAutoComplete</class>
    <extends>QLineEdit</extends>
    <header location="global">qtmaterialautocomplete.h</header>
-  </customwidget>
-  <customwidget>
-   <class>Scroll</class>
-   <extends>QWidget</extends>
-   <header location="global">Scroll.h</header>
-   <container>1</container>
   </customwidget>
  </customwidgets>
  <resources>

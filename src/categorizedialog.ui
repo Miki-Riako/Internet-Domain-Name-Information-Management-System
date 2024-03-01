@@ -59,9 +59,6 @@
      </widget>
     </item>
     <item>
-     <widget class="Scroll" name="tips" native="true"/>
-    </item>
-    <item>
      <widget class="QWidget" name="widget_2" native="true">
       <layout class="QGridLayout" name="gridLayout">
        <item row="1" column="2">
@@ -248,12 +245,6 @@ QPushButton:hover {
    <class>QtMaterialAutoComplete</class>
    <extends>QLineEdit</extends>
    <header location="global">qtmaterialautocomplete.h</header>
-  </customwidget>
-  <customwidget>
-   <class>Scroll</class>
-   <extends>QWidget</extends>
-   <header location="global">Scroll.h</header>
-   <container>1</container>
   </customwidget>
  </customwidgets>
  <resources>

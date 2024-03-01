@@ -79,56 +79,7 @@
        </size>
       </property>
       <layout class="QGridLayout" name="gridLayout">
-       <item row="2" column="1">
-        <widget class="QPushButton" name="fileButton">
-         <property name="minimumSize">
-          <size>
-           <width>82</width>
-           <height>20</height>
-          </size>
-         </property>
-         <property name="cursor">
-          <cursorShape>PointingHandCursor</cursorShape>
-         </property>
-         <property name="styleSheet">
-          <string notr="true">QPushButton {
-	border: 0.5px solid white;
-	border-radius: 6px;
-	background-color: rgb(90, 194, 198);
-	min-width: 80px;
-	font-family: &quot;Times New Roman&quot;;
-	font-size: 11pt;
-	font-weight: bold;
-	color: white;
-}
-
-QPushButton:hover {
-	border: 0.5px solid white;
-	border-radius: 6px;
-	background-color: #1fab89;
-	min-width: 80px;
-	font-family: &quot;Times New Roman&quot;;
-	font-size: 10pt;
-	font-weight: bold;
-	color: white;
-}</string>
-         </property>
-         <property name="text">
-          <string>创建</string>
-         </property>
-        </widget>
-       </item>
-       <item row="2" column="0">
-        <widget class="QLabel" name="label">
-         <property name="styleSheet">
-          <string notr="true">font: 12pt &quot;Microsoft YaHei UI&quot;;</string>
-         </property>
-         <property name="text">
-          <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;文件输入&lt;/p&gt;&lt;p&gt;选择txt文件以直接导入大量的数据。&lt;/p&gt;&lt;p&gt;每个域名占用一行即可。&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-         </property>
-        </widget>
-       </item>
-       <item row="1" column="0">
+       <item row="0" column="0">
         <widget class="QWidget" name="widget_6" native="true">
          <layout class="QVBoxLayout" name="verticalLayout_2">
           <item>
@@ -176,8 +127,8 @@ QPushButton:hover {
          </layout>
         </widget>
        </item>
-       <item row="3" column="1">
-        <widget class="QPushButton" name="peopleButton">
+       <item row="1" column="1">
+        <widget class="QPushButton" name="fileButton">
          <property name="minimumSize">
           <size>
            <width>82</width>
@@ -215,7 +166,7 @@ QPushButton:hover {
          </property>
         </widget>
        </item>
-       <item row="3" column="0">
+       <item row="2" column="0">
         <widget class="QtMaterialAutoComplete" name="searchLineEdit">
          <property name="echoMode">
           <enum>QLineEdit::Normal</enum>
@@ -225,7 +176,17 @@ QPushButton:hover {
          </property>
         </widget>
        </item>
-       <item row="1" column="1">
+       <item row="1" column="0">
+        <widget class="QLabel" name="label">
+         <property name="styleSheet">
+          <string notr="true">font: 12pt &quot;Microsoft YaHei UI&quot;;</string>
+         </property>
+         <property name="text">
+          <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;文件输入&lt;/p&gt;&lt;p&gt;选择txt文件以直接导入大量的数据。&lt;/p&gt;&lt;p&gt;每个域名占用一行即可。&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+         </property>
+        </widget>
+       </item>
+       <item row="0" column="1">
         <widget class="QPushButton" name="randomButton">
          <property name="minimumSize">
           <size>
@@ -264,13 +225,42 @@ QPushButton:hover {
          </property>
         </widget>
        </item>
-       <item row="0" column="0">
-        <widget class="Scroll" name="tips" native="true">
-         <property name="maximumSize">
+       <item row="2" column="1">
+        <widget class="QPushButton" name="peopleButton">
+         <property name="minimumSize">
           <size>
-           <width>16777215</width>
-           <height>60</height>
+           <width>82</width>
+           <height>20</height>
           </size>
+         </property>
+         <property name="cursor">
+          <cursorShape>PointingHandCursor</cursorShape>
+         </property>
+         <property name="styleSheet">
+          <string notr="true">QPushButton {
+	border: 0.5px solid white;
+	border-radius: 6px;
+	background-color: rgb(90, 194, 198);
+	min-width: 80px;
+	font-family: &quot;Times New Roman&quot;;
+	font-size: 11pt;
+	font-weight: bold;
+	color: white;
+}
+
+QPushButton:hover {
+	border: 0.5px solid white;
+	border-radius: 6px;
+	background-color: #1fab89;
+	min-width: 80px;
+	font-family: &quot;Times New Roman&quot;;
+	font-size: 10pt;
+	font-weight: bold;
+	color: white;
+}</string>
+         </property>
+         <property name="text">
+          <string>创建</string>
          </property>
         </widget>
        </item>
@@ -285,12 +275,6 @@ QPushButton:hover {
    <class>QtMaterialAutoComplete</class>
    <extends>QLineEdit</extends>
    <header location="global">qtmaterialautocomplete.h</header>
-  </customwidget>
-  <customwidget>
-   <class>Scroll</class>
-   <extends>QWidget</extends>
-   <header location="global">Scroll.h</header>
-   <container>1</container>
   </customwidget>
  </customwidgets>
  <resources>

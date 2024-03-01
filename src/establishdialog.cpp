@@ -3,7 +3,6 @@
 establishdialog::establishdialog(QWidget *parent) : QDialog(parent), ui(new Ui::establishdialog)
 {
     ui->setupUi(this);
-    ui->tips->setFixedHeight(20);
 }
 establishdialog::~establishdialog()
 {
@@ -48,10 +47,9 @@ void establishdialog::establish(QString domain)
             isSuccess = isSuccess && establishOp->insert(currentDomain, level, user);
     }
     if (isSuccess)
-        ui->tips->textLabel->setText("Domain established!");
+        QMessageBox::information(this, "Success", "Domain established!");
     else
-        ui->tips->textLabel->setText("Failed to establish domain!");
-    ui->tips->animationStart();
+        QMessageBox::critical(this, "Error", "Failed to establish domain!");
 }
 void establishdialog::on_randomButton_clicked()
 {
@@ -88,8 +86,7 @@ void establishdialog::on_fileButton_clicked()
         QString line = in.readLine();
         establish(line);
     }
-    ui->tips->textLabel->setText("Success!");
-    ui->tips->animationStart();
+    QMessageBox::information(this, "Success", "Successfully read the file!");
     file.close();
 }
 void establishdialog::on_peopleButton_clicked()
