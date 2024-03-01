@@ -26,7 +26,7 @@ QString establishdialog::randomString(int length)
 bool establishdialog::establish(QString domain)
 { // Give a whole domain and create it
     if (domain.isEmpty())
-        return;
+        return false;
     int level = establishOp->getLevel(domain);
     QStack<QString> domainStack;
     for (int i = 0; i < level; ++i) {
@@ -41,7 +41,7 @@ bool establishdialog::establish(QString domain)
         query.bindValue(":DomainName", currentDomain);
         if (!query.exec()) {
             QMessageBox::critical(this, "Error", "Failed to establish domain! Error: " + query.lastError().text());
-            return;
+            return false;
         }
         if (query.next() && query.value(0).toInt() == 0)
             isSuccess = isSuccess && establishOp->insert(currentDomain, level, user);

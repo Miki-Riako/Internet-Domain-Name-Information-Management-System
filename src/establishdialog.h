@@ -16,7 +16,7 @@ public:
     QString user = "Unknown";
     domainsql *establishOp = nullptr;
     QString randomString(int length);
-    void establish(QString domain);
+    bool establish(QString domain);
     ~establishdialog();
 
 signals:
