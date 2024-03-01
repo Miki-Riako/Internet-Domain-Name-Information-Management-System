@@ -88,7 +88,7 @@ IDNIMS::IDNIMS(QWidget *parent) : QMainWindow(parent), ui(new Ui::IDNIMS), drawe
 }
 IDNIMS::~IDNIMS() {delete ui;}
 
-void IDNIMS::fade(auto *control, int duration, int startValue, int endValue)
+void IDNIMS::fade(auto *control, const int &duration, const int &startValue, const int &endValue)
 { // The function can provide the fade in and fade out animations.
     QGraphicsOpacityEffect *opacityEffect = new QGraphicsOpacityEffect(control);
     control->setGraphicsEffect(opacityEffect);
@@ -98,13 +98,6 @@ void IDNIMS::fade(auto *control, int duration, int startValue, int endValue)
     animation->setEndValue(endValue);
     animation->setEasingCurve(QEasingCurve::Linear);
     animation->start();
-}
-QString IDNIMS::removeFirstSegment(QString& input)
-{ // A small function to cut off the part after the first dot
-    int dotIndex = input.indexOf('.');
-    if (dotIndex != -1)
-        return input.mid(dotIndex + 1);
-    return input;
 }
 void IDNIMS::enter(void)
 { // When enter the main window
@@ -119,7 +112,7 @@ void IDNIMS::enter(void)
     ui->userLabel->setText("Welcome! " + user);
     changePage(0);
 }
-void IDNIMS::changePage(int page)
+void IDNIMS::changePage(const int &page)
 { // The small function aims to change the pages
     ui->stackedWidget->setCurrentIndex(page);
     if (inSSL)
@@ -214,7 +207,7 @@ void IDNIMS::initialSettingPage(void)
     else
         ui->saveButton->setChecked(false);
 }
-void IDNIMS::loadDomainData(int level)
+void IDNIMS::loadDomainData(const int &level)
 { // Show the domain data
     QSqlQuery query(sql.db);
     QString queryString = level == -1 ? "SELECT * FROM domain" : QString("SELECT * FROM domain WHERE DomainLevel = %1").arg(level);

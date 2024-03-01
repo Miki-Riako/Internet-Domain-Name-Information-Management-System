@@ -31,15 +31,14 @@ public:
     bool inSSL = false;
     bool state[3] = {false, false, false};
     bool first[3] = {true, true, true};
-    void fade(auto *control, int duration, int startValue, int endValue);
+    void fade(auto *control, const int &duration, const int &startValue, const int &endValue);
     void enter(void);
-    void changePage(int page);
+    void changePage(const int &page);
     void initialHomePage(void);
     void initialLogPage(void);
     void initialSettingPage(void);
-    void loadDomainData(int level);
+    void loadDomainData(const int &level);
     void keyPressEvent(QKeyEvent *event);
-    QString removeFirstSegment(QString& input);
     QtMaterialAutoComplete *pwdLineEdit[3];
 
 private slots:

@@ -18,6 +18,7 @@ public:
     QString Sha256Encode(const QString &originalPwd);
     QString removeFirstSegment(const QString &domain);
     int getLevel(const QString &domain);
+    bool domainExists(const QString &domainName);
     bool insert(const QString &target, const int &level, const QString &user);
     bool remove(const QString &target);
 

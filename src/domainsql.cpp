@@ -136,9 +136,22 @@ int domainsql::getLevel(const QString &domain)
         return 0;
     return domain.count('.') + 1;
 }
+bool domainsql::domainExists(const QString &domainName)
+{
+    QSqlQuery query(db);
+    query.prepare("SELECT COUNT(*) FROM domain WHERE DomainName = :DomainName");
+    query.bindValue(":DomainName", domainName);
+    if (!query.exec()) {
+        QMessageBox::critical(nullptr, "Error", query.lastError().text());
+        return false;
+    }
+    if (query.next())
+        return query.value(0).toInt() > 0;
+    return false;
+}
 bool domainsql::insert(const QString &target, const int &level, const QString &user)
 { // Insert a node
-    QSqlQuery query(this->db);
+    QSqlQuery query(db);
     query.prepare("INSERT INTO domain (DomainName, DomainLevel, Creator, CreateDate) VALUES (:DomainName, :DomainLevel, :Creator, :CreateDate)");
     query.bindValue(":DomainName", target);
     query.bindValue(":DomainLevel", level);
@@ -152,7 +165,7 @@ bool domainsql::insert(const QString &target, const int &level, const QString &u
 }
 bool domainsql::remove(const QString &target)
 { // Delete a node
-    QSqlQuery query(this->db);
+    QSqlQuery query(db);
     query.prepare("DELETE FROM domain WHERE DomainName = :DomainName");
     query.bindValue(":DomainName", target);
     if (!query.exec()) {

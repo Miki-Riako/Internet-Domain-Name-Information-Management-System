@@ -145,13 +145,6 @@ border: none;</string>
           </widget>
          </item>
          <item>
-          <widget class="QtMaterialAutoComplete" name="createDateLineEdit">
-           <property name="placeholderText">
-            <string>创建日期</string>
-           </property>
-          </widget>
-         </item>
-         <item>
           <widget class="QtMaterialAutoComplete" name="updateDateLineEdit">
            <property name="placeholderText">
             <string>更新日期</string>
