@@ -65,10 +65,16 @@ void categorizedialog::on_changeButton_clicked()
 {
     emit send_request();
     QSqlQuery query(categorizeOp->db);
+    QString domain = ui->domainLineEdit->text();
+    if (!categorizeOp->domainExists(domain)) {
+        ui->tips->textLabel->setText("Not Found!");
+        ui->tips->animationStart();
+        return;
+    }
     QString updateQuery = QString("UPDATE domain SET %1 = :newValue WHERE DomainName = :DomainName").arg(ui->typeLineEdit->text().trimmed());
     query.prepare(updateQuery);
     query.bindValue(":newValue", ui->contentLineEdit->text().trimmed());
-    query.bindValue(":DomainName", ui->domainLineEdit->text().trimmed());
+    query.bindValue(":DomainName", domain);
     if (query.exec()) {
         ui->tips->textLabel->setText("Success!");
         ui->tips->animationStart();
@@ -76,4 +82,3 @@ void categorizedialog::on_changeButton_clicked()
     else
         QMessageBox::warning(this, "Error", "Failed! Error: " + query.lastError().text());
 }
-

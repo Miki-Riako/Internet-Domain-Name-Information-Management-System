@@ -70,7 +70,7 @@ bool domainsql::connecting(void)
             return db.open();
         }
         if (query.next() && query.value(0).toInt() == 0) {
-            if (!query.exec("INSERT INTO domain (DomainName, DomainLevel) VALUES ('root', 0)")) {
+            if (!query.exec("INSERT INTO domain (DomainName, DomainType, DomainLevel) VALUES ('root', 'root', 0)")) {
                 QMessageBox::critical(nullptr, "Error", "When initialized, unable to insert root node record.");
                 return db.open();
             }
@@ -170,6 +170,10 @@ bool domainsql::insert(const QString &target, const int &level, const QString &u
         QMessageBox::warning(nullptr, "Error", "Invalid domain name: " + target);
         return false;
     }
+    if (domainExists(target)) {
+        QMessageBox::warning(nullptr, "Error", "Already exits!");
+        return false;
+    }
     QSqlQuery query(db);
     query.prepare("INSERT INTO domain (DomainName, DomainLevel, Creator, CreateDate) VALUES (:DomainName, :DomainLevel, :Creator, :CreateDate)");
     query.bindValue(":DomainName", target);
@@ -184,6 +188,10 @@ bool domainsql::insert(const QString &target, const int &level, const QString &u
 }
 bool domainsql::remove(const QString &target)
 { // Delete a node
+    if (!domainExists(target)) {
+        QMessageBox::warning(nullptr, "Error", "Not Found!");
+        return false;
+    }
     QSqlQuery query(db);
     query.prepare("DELETE FROM domain WHERE DomainName = :DomainName");
     query.bindValue(":DomainName", target);

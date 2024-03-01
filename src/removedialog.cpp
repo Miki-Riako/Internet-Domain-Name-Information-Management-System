@@ -26,11 +26,6 @@ void removedialog::on_searchDomain_clicked()
         ui->tips->animationStart();
         return;
     }
-    if (!removeOp->domainExists(target)) { // Not Found
-        ui->tips->textLabel->setText("Not Found!");
-        ui->tips->animationStart();
-        return;
-    }
     if (removeOp->hasChildren(target)) {
         QMessageBox::StandardButton confirmDeleteChildren = QMessageBox::question(this, "Confirm Delete", "The domain '" + target + "' has child domains. Do you want to delete this domain and all its children?", QMessageBox::Yes | QMessageBox::No);
         if (confirmDeleteChildren == QMessageBox::Yes) {

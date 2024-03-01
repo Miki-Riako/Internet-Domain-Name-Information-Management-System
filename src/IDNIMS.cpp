@@ -405,6 +405,8 @@ void IDNIMS::on_calculateType_clicked()
     QMap<QString, int> typeStatistics;
     while (query.next()) {
         QString type = query.value(0).toString();
+        if (type.isEmpty())
+            type = "Unknown";
         int count = query.value(1).toInt();
         typeStatistics[type] = count;
     }
