@@ -1,0 +1,1556 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>IDNIMS</class>
+ <widget class="QMainWindow" name="IDNIMS">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>1233</width>
+    <height>889</height>
+   </rect>
+  </property>
+  <property name="minimumSize">
+   <size>
+    <width>0</width>
+    <height>0</height>
+   </size>
+  </property>
+  <property name="windowTitle">
+   <string>Internet Domain Name Information Management System</string>
+  </property>
+  <property name="windowIcon">
+   <iconset resource="resource.qrc">
+    <normaloff>:/images/logoTest.ico</normaloff>:/images/logoTest.ico</iconset>
+  </property>
+  <property name="styleSheet">
+   <string notr="true">QMainWindow#widget
+{
+	background-image: url(:/images/loginbackground.jpeg);
+}</string>
+  </property>
+  <widget class="QWidget" name="centralwidget">
+   <property name="styleSheet">
+    <string notr="true">QWidget#centralwidget
+{
+	border-image: url(:/images/loginbackground.jpeg);
+}</string>
+   </property>
+   <layout class="QVBoxLayout" name="verticalLayout">
+    <item>
+     <widget class="QWidget" name="widget" native="true">
+      <property name="styleSheet">
+       <string notr="true"/>
+      </property>
+      <layout class="QGridLayout" name="gridLayout_3">
+       <property name="leftMargin">
+        <number>9</number>
+       </property>
+       <property name="topMargin">
+        <number>9</number>
+       </property>
+       <property name="rightMargin">
+        <number>9</number>
+       </property>
+       <property name="bottomMargin">
+        <number>9</number>
+       </property>
+       <property name="spacing">
+        <number>6</number>
+       </property>
+       <item row="0" column="0">
+        <layout class="QHBoxLayout" name="headingLayout" stretch="1,1,1">
+         <item>
+          <layout class="QHBoxLayout" name="horizontalLayout_4">
+           <item>
+            <widget class="QPushButton" name="drawerButton">
+             <property name="cursor">
+              <cursorShape>PointingHandCursor</cursorShape>
+             </property>
+             <property name="styleSheet">
+              <string notr="true">QPushButton {
+	background-color: transparent;
+	image: url(:/images/drawer.png);
+}
+
+QPushButton:hover {
+	background-color: transparent;
+	image: url(:/images/opendrawer.png);
+}</string>
+             </property>
+             <property name="text">
+              <string/>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <spacer name="horizontalSpacer">
+             <property name="orientation">
+              <enum>Qt::Horizontal</enum>
+             </property>
+             <property name="sizeHint" stdset="0">
+              <size>
+               <width>40</width>
+               <height>20</height>
+              </size>
+             </property>
+            </spacer>
+           </item>
+          </layout>
+         </item>
+         <item>
+          <widget class="QLabel" name="label">
+           <property name="styleSheet">
+            <string notr="true">font: 700 24pt &quot;Microsoft YaHei UI&quot;;</string>
+           </property>
+           <property name="text">
+            <string>互联网域名信息管理系统</string>
+           </property>
+           <property name="alignment">
+            <set>Qt::AlignCenter</set>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QLabel" name="userLabel">
+           <property name="styleSheet">
+            <string notr="true">font: 700 12pt &quot;Microsoft YaHei UI&quot;;</string>
+           </property>
+           <property name="text">
+            <string/>
+           </property>
+           <property name="alignment">
+            <set>Qt::AlignBottom|Qt::AlignRight|Qt::AlignTrailing</set>
+           </property>
+          </widget>
+         </item>
+        </layout>
+       </item>
+       <item row="1" column="0">
+        <layout class="QHBoxLayout" name="mainLayout" stretch="0,0">
+         <property name="leftMargin">
+          <number>10</number>
+         </property>
+         <property name="topMargin">
+          <number>15</number>
+         </property>
+         <property name="rightMargin">
+          <number>10</number>
+         </property>
+         <property name="bottomMargin">
+          <number>5</number>
+         </property>
+         <item>
+          <widget class="QTableWidget" name="tableWidget">
+           <property name="styleSheet">
+            <string notr="true"/>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QStackedWidget" name="stackedWidget">
+           <property name="currentIndex">
+            <number>6</number>
+           </property>
+           <widget class="QWidget" name="pageHome">
+            <layout class="QGridLayout" name="gridLayout_4">
+             <property name="bottomMargin">
+              <number>0</number>
+             </property>
+             <item row="1" column="0">
+              <widget class="QLabel" name="label_20">
+               <property name="styleSheet">
+                <string notr="true">font: 700 24pt &quot;Microsoft YaHei UI&quot;;</string>
+               </property>
+               <property name="text">
+                <string>欢迎来到互联网域名信息管理系统！</string>
+               </property>
+               <property name="alignment">
+                <set>Qt::AlignCenter</set>
+               </property>
+              </widget>
+             </item>
+             <item row="4" column="0">
+              <widget class="QLabel" name="numberLabel">
+               <property name="styleSheet">
+                <string notr="true">font: 700 16pt &quot;Microsoft YaHei UI&quot;;</string>
+               </property>
+               <property name="text">
+                <string>. . . Now the number of domain names: 0</string>
+               </property>
+               <property name="alignment">
+                <set>Qt::AlignCenter</set>
+               </property>
+              </widget>
+             </item>
+             <item row="5" column="0">
+              <widget class="QWidget" name="widget_3" native="true">
+               <layout class="QGridLayout" name="gridLayout_6" columnstretch="6,4">
+                <item row="0" column="0">
+                 <widget class="QLabel" name="label_12">
+                  <property name="styleSheet">
+                   <string notr="true">image: url(:/images/welcome.jpeg);</string>
+                  </property>
+                  <property name="text">
+                   <string/>
+                  </property>
+                 </widget>
+                </item>
+                <item row="0" column="1">
+                 <widget class="QLabel" name="label_9">
+                  <property name="styleSheet">
+                   <string notr="true">font: 700 16pt &quot;Microsoft YaHei UI&quot;;</string>
+                  </property>
+                  <property name="text">
+                   <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;域名如名，数据如心&lt;/p&gt;&lt;p&gt;名正心诚，网站兴旺&lt;/p&gt;&lt;p&gt;名不虚传，心有灵犀&lt;/p&gt;&lt;p&gt;网站如人，自强不息&lt;/p&gt;&lt;p&gt;&lt;br/&gt;&lt;/p&gt;&lt;p&gt;欢迎！&lt;/p&gt;&lt;p&gt;点击左上角以切换页面&lt;/p&gt;&lt;p&gt;...&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+                  </property>
+                  <property name="alignment">
+                   <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+                  </property>
+                 </widget>
+                </item>
+               </layout>
+              </widget>
+             </item>
+             <item row="3" column="0">
+              <widget class="QWidget" name="widget_7" native="true">
+               <layout class="QHBoxLayout" name="horizontalLayout_2">
+                <item>
+                 <widget class="QPushButton" name="loadAll">
+                  <property name="cursor">
+                   <cursorShape>PointingHandCursor</cursorShape>
+                  </property>
+                  <property name="styleSheet">
+                   <string notr="true">QPushButton {
+	border: 0px;
+	min-width: 80px;
+	font-family: &quot;Microsoft YaHei UI&quot;;
+	font-size: 25pt;
+	font-weight: bold;
+	color: rgb(0, 0, 0);
+}
+QPushButton:hover {
+	border: 0px;
+	min-width: 80px;
+	font-family: &quot;Microsoft YaHei UI&quot;;
+	font-size: 24pt;
+	font-weight: bold;
+	color: rgb(50, 50, 50);
+}</string>
+                  </property>
+                  <property name="text">
+                   <string>载入域名</string>
+                  </property>
+                 </widget>
+                </item>
+                <item>
+                 <widget class="QPushButton" name="clearAll">
+                  <property name="cursor">
+                   <cursorShape>PointingHandCursor</cursorShape>
+                  </property>
+                  <property name="styleSheet">
+                   <string notr="true">QPushButton {
+	border: 0px;
+	min-width: 80px;
+	font-family: &quot;Microsoft YaHei UI&quot;;
+	font-size: 25pt;
+	font-weight: bold;
+	color: rgb(0, 0, 0);
+}
+QPushButton:hover {
+	border: 0px;
+	min-width: 80px;
+	font-family: &quot;Microsoft YaHei UI&quot;;
+	font-size: 24pt;
+	font-weight: bold;
+	color: rgb(50, 50, 50);
+}</string>
+                  </property>
+                  <property name="text">
+                   <string>清空域名</string>
+                  </property>
+                 </widget>
+                </item>
+               </layout>
+              </widget>
+             </item>
+             <item row="0" column="0">
+              <widget class="QLabel" name="welcomeLabel">
+               <property name="maximumSize">
+                <size>
+                 <width>16777215</width>
+                 <height>200</height>
+                </size>
+               </property>
+               <property name="styleSheet">
+                <string notr="true">font: 700 20pt &quot;Microsoft YaHei UI&quot;;</string>
+               </property>
+               <property name="text">
+                <string>welcomeLabel</string>
+               </property>
+               <property name="alignment">
+                <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+               </property>
+              </widget>
+             </item>
+             <item row="2" column="0">
+              <widget class="QLabel" name="label_28">
+               <property name="styleSheet">
+                <string notr="true">font: 700 16pt &quot;Microsoft YaHei UI&quot;;</string>
+               </property>
+               <property name="text">
+                <string>左上角以开始！</string>
+               </property>
+               <property name="alignment">
+                <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+               </property>
+              </widget>
+             </item>
+            </layout>
+           </widget>
+           <widget class="QWidget" name="pageManage">
+            <layout class="QGridLayout" name="gridLayout_7">
+             <item row="3" column="1">
+              <widget class="QPushButton" name="removeButton">
+               <property name="maximumSize">
+                <size>
+                 <width>200</width>
+                 <height>16777215</height>
+                </size>
+               </property>
+               <property name="cursor">
+                <cursorShape>PointingHandCursor</cursorShape>
+               </property>
+               <property name="styleSheet">
+                <string notr="true">QPushButton {
+	border: 0.5px solid white;
+	border-radius: 6px;
+	background-color: rgb(90, 194, 198);
+	min-width: 80px;
+	font-family: &quot;Times New Roman&quot;;
+	font-size: 11pt;
+	font-weight: bold;
+	color: white;
+}
+
+QPushButton:hover {
+	border: 0.5px solid white;
+	border-radius: 6px;
+	background-color: #1fab89;
+	min-width: 80px;
+	font-family: &quot;Times New Roman&quot;;
+	font-size: 10pt;
+	font-weight: bold;
+	color: white;
+}</string>
+               </property>
+               <property name="text">
+                <string>删除</string>
+               </property>
+              </widget>
+             </item>
+             <item row="2" column="0">
+              <widget class="QLabel" name="label_15">
+               <property name="styleSheet">
+                <string notr="true">image: url(:/images/stick.png);</string>
+               </property>
+               <property name="text">
+                <string/>
+               </property>
+              </widget>
+             </item>
+             <item row="4" column="0">
+              <widget class="QLabel" name="label_17">
+               <property name="styleSheet">
+                <string notr="true">image: url(:/images/modify.png);</string>
+               </property>
+               <property name="text">
+                <string/>
+               </property>
+              </widget>
+             </item>
+             <item row="5" column="1">
+              <widget class="QPushButton" name="domainButton">
+               <property name="maximumSize">
+                <size>
+                 <width>200</width>
+                 <height>16777215</height>
+                </size>
+               </property>
+               <property name="cursor">
+                <cursorShape>PointingHandCursor</cursorShape>
+               </property>
+               <property name="styleSheet">
+                <string notr="true">QPushButton {
+	border: 0.5px solid white;
+	border-radius: 6px;
+	background-color: rgb(90, 194, 198);
+	min-width: 80px;
+	font-family: &quot;Times New Roman&quot;;
+	font-size: 11pt;
+	font-weight: bold;
+	color: white;
+}
+
+QPushButton:hover {
+	border: 0.5px solid white;
+	border-radius: 6px;
+	background-color: #1fab89;
+	min-width: 80px;
+	font-family: &quot;Times New Roman&quot;;
+	font-size: 10pt;
+	font-weight: bold;
+	color: white;
+}</string>
+               </property>
+               <property name="text">
+                <string>只显示完整域名</string>
+               </property>
+              </widget>
+             </item>
+             <item row="0" column="1">
+              <widget class="QLabel" name="label_14">
+               <property name="styleSheet">
+                <string notr="true">image: url(:/images/categorize.png);</string>
+               </property>
+               <property name="text">
+                <string/>
+               </property>
+              </widget>
+             </item>
+             <item row="2" column="1">
+              <widget class="QLabel" name="label_16">
+               <property name="styleSheet">
+                <string notr="true">image: url(:/images/remove.png);</string>
+               </property>
+               <property name="text">
+                <string/>
+               </property>
+              </widget>
+             </item>
+             <item row="1" column="1">
+              <widget class="QPushButton" name="categorizeButton">
+               <property name="maximumSize">
+                <size>
+                 <width>200</width>
+                 <height>16777215</height>
+                </size>
+               </property>
+               <property name="cursor">
+                <cursorShape>PointingHandCursor</cursorShape>
+               </property>
+               <property name="styleSheet">
+                <string notr="true">QPushButton {
+	border: 0.5px solid white;
+	border-radius: 6px;
+	background-color: rgb(90, 194, 198);
+	min-width: 80px;
+	font-family: &quot;Times New Roman&quot;;
+	font-size: 11pt;
+	font-weight: bold;
+	color: white;
+}
+
+QPushButton:hover {
+	border: 0.5px solid white;
+	border-radius: 6px;
+	background-color: #1fab89;
+	min-width: 80px;
+	font-family: &quot;Times New Roman&quot;;
+	font-size: 10pt;
+	font-weight: bold;
+	color: white;
+}</string>
+               </property>
+               <property name="text">
+                <string>分类</string>
+               </property>
+              </widget>
+             </item>
+             <item row="5" column="0">
+              <widget class="QPushButton" name="modifyButton">
+               <property name="maximumSize">
+                <size>
+                 <width>200</width>
+                 <height>16777215</height>
+                </size>
+               </property>
+               <property name="cursor">
+                <cursorShape>PointingHandCursor</cursorShape>
+               </property>
+               <property name="styleSheet">
+                <string notr="true">QPushButton {
+	border: 0.5px solid white;
+	border-radius: 6px;
+	background-color: rgb(90, 194, 198);
+	min-width: 80px;
+	font-family: &quot;Times New Roman&quot;;
+	font-size: 11pt;
+	font-weight: bold;
+	color: white;
+}
+
+QPushButton:hover {
+	border: 0.5px solid white;
+	border-radius: 6px;
+	background-color: #1fab89;
+	min-width: 80px;
+	font-family: &quot;Times New Roman&quot;;
+	font-size: 10pt;
+	font-weight: bold;
+	color: white;
+}</string>
+               </property>
+               <property name="text">
+                <string>修改</string>
+               </property>
+              </widget>
+             </item>
+             <item row="4" column="1">
+              <widget class="QLabel" name="label_18">
+               <property name="styleSheet">
+                <string notr="true">image: url(:/images/domain.png);</string>
+               </property>
+               <property name="text">
+                <string/>
+               </property>
+              </widget>
+             </item>
+             <item row="3" column="0">
+              <widget class="QPushButton" name="insertButton">
+               <property name="maximumSize">
+                <size>
+                 <width>200</width>
+                 <height>16777215</height>
+                </size>
+               </property>
+               <property name="cursor">
+                <cursorShape>PointingHandCursor</cursorShape>
+               </property>
+               <property name="styleSheet">
+                <string notr="true">QPushButton {
+	border: 0.5px solid white;
+	border-radius: 6px;
+	background-color: rgb(90, 194, 198);
+	min-width: 80px;
+	font-family: &quot;Times New Roman&quot;;
+	font-size: 11pt;
+	font-weight: bold;
+	color: white;
+}
+
+QPushButton:hover {
+	border: 0.5px solid white;
+	border-radius: 6px;
+	background-color: #1fab89;
+	min-width: 80px;
+	font-family: &quot;Times New Roman&quot;;
+	font-size: 10pt;
+	font-weight: bold;
+	color: white;
+}</string>
+               </property>
+               <property name="text">
+                <string>插入</string>
+               </property>
+              </widget>
+             </item>
+             <item row="0" column="0">
+              <widget class="QLabel" name="label_13">
+               <property name="styleSheet">
+                <string notr="true">image: url(:/images/establish.png);</string>
+               </property>
+               <property name="text">
+                <string/>
+               </property>
+              </widget>
+             </item>
+             <item row="1" column="0">
+              <widget class="QPushButton" name="establishButton">
+               <property name="maximumSize">
+                <size>
+                 <width>200</width>
+                 <height>16777215</height>
+                </size>
+               </property>
+               <property name="cursor">
+                <cursorShape>PointingHandCursor</cursorShape>
+               </property>
+               <property name="styleSheet">
+                <string notr="true">QPushButton {
+	border: 0.5px solid white;
+	border-radius: 6px;
+	background-color: rgb(90, 194, 198);
+	min-width: 80px;
+	font-family: &quot;Times New Roman&quot;;
+	font-size: 11pt;
+	font-weight: bold;
+	color: white;
+}
+
+QPushButton:hover {
+	border: 0.5px solid white;
+	border-radius: 6px;
+	background-color: #1fab89;
+	min-width: 80px;
+	font-family: &quot;Times New Roman&quot;;
+	font-size: 10pt;
+	font-weight: bold;
+	color: white;
+}</string>
+               </property>
+               <property name="text">
+                <string>创建</string>
+               </property>
+              </widget>
+             </item>
+            </layout>
+           </widget>
+           <widget class="QWidget" name="pageSearching">
+            <layout class="QVBoxLayout" name="verticalLayout_6">
+             <property name="leftMargin">
+              <number>20</number>
+             </property>
+             <property name="topMargin">
+              <number>30</number>
+             </property>
+             <property name="rightMargin">
+              <number>20</number>
+             </property>
+             <property name="bottomMargin">
+              <number>30</number>
+             </property>
+             <item>
+              <widget class="QLabel" name="label_25">
+               <property name="styleSheet">
+                <string notr="true">font: 700 24pt &quot;Microsoft YaHei UI&quot;;</string>
+               </property>
+               <property name="text">
+                <string>搜索域名</string>
+               </property>
+               <property name="alignment">
+                <set>Qt::AlignCenter</set>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <widget class="QLabel" name="timeLabel">
+               <property name="styleSheet">
+                <string notr="true">font: 12pt &quot;Microsoft YaHei UI&quot;;</string>
+               </property>
+               <property name="text">
+                <string>Seach Time：. . .</string>
+               </property>
+               <property name="alignment">
+                <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <widget class="QWidget" name="widget_11" native="true">
+               <layout class="QHBoxLayout" name="horizontalLayout_3">
+                <item>
+                 <widget class="QtMaterialAutoComplete" name="typeLineEdit">
+                  <property name="echoMode">
+                   <enum>QLineEdit::Normal</enum>
+                  </property>
+                  <property name="placeholderText">
+                   <string>在类型中搜索（默认为域名搜索）. . .</string>
+                  </property>
+                 </widget>
+                </item>
+                <item>
+                 <widget class="QtMaterialAutoComplete" name="searchLineEdit">
+                  <property name="echoMode">
+                   <enum>QLineEdit::Normal</enum>
+                  </property>
+                  <property name="placeholderText">
+                   <string>输入. . .</string>
+                  </property>
+                 </widget>
+                </item>
+                <item>
+                 <widget class="QPushButton" name="searchDomain">
+                  <property name="minimumSize">
+                   <size>
+                    <width>82</width>
+                    <height>20</height>
+                   </size>
+                  </property>
+                  <property name="cursor">
+                   <cursorShape>PointingHandCursor</cursorShape>
+                  </property>
+                  <property name="styleSheet">
+                   <string notr="true">QPushButton {
+	border: 0.5px solid white;
+	border-radius: 6px;
+	background-color: rgb(90, 194, 198);
+	min-width: 80px;
+	font-family: &quot;Times New Roman&quot;;
+	font-size: 11pt;
+	font-weight: bold;
+	color: white;
+}
+
+QPushButton:hover {
+	border: 0.5px solid white;
+	border-radius: 6px;
+	background-color: #1fab89;
+	min-width: 80px;
+	font-family: &quot;Times New Roman&quot;;
+	font-size: 10pt;
+	font-weight: bold;
+	color: white;
+}</string>
+                  </property>
+                  <property name="text">
+                   <string>搜索</string>
+                  </property>
+                 </widget>
+                </item>
+               </layout>
+              </widget>
+             </item>
+             <item>
+              <widget class="QTableWidget" name="searchWidget"/>
+             </item>
+            </layout>
+           </widget>
+           <widget class="QWidget" name="pageStatistic">
+            <layout class="QVBoxLayout" name="verticalLayout_7" stretch="0">
+             <item>
+              <layout class="QVBoxLayout" name="verticalLayout_8">
+               <item>
+                <widget class="QLabel" name="label_27">
+                 <property name="styleSheet">
+                  <string notr="true">font: 700 24pt &quot;Microsoft YaHei UI&quot;;</string>
+                 </property>
+                 <property name="text">
+                  <string>统计域名</string>
+                 </property>
+                 <property name="alignment">
+                  <set>Qt::AlignCenter</set>
+                 </property>
+                </widget>
+               </item>
+               <item>
+                <widget class="QWidget" name="widget_9" native="true">
+                 <property name="minimumSize">
+                  <size>
+                   <width>0</width>
+                   <height>0</height>
+                  </size>
+                 </property>
+                 <layout class="QHBoxLayout" name="horizontalLayout_5">
+                  <item>
+                   <widget class="QPushButton" name="calculateName">
+                    <property name="minimumSize">
+                     <size>
+                      <width>82</width>
+                      <height>20</height>
+                     </size>
+                    </property>
+                    <property name="cursor">
+                     <cursorShape>PointingHandCursor</cursorShape>
+                    </property>
+                    <property name="styleSheet">
+                     <string notr="true">QPushButton {
+	border: 0.5px solid white;
+	border-radius: 6px;
+	background-color: rgb(90, 194, 198);
+	min-width: 80px;
+	font-family: &quot;Times New Roman&quot;;
+	font-size: 11pt;
+	font-weight: bold;
+	color: white;
+}
+
+QPushButton:hover {
+	border: 0.5px solid white;
+	border-radius: 6px;
+	background-color: #1fab89;
+	min-width: 80px;
+	font-family: &quot;Times New Roman&quot;;
+	font-size: 10pt;
+	font-weight: bold;
+	color: white;
+}</string>
+                    </property>
+                    <property name="text">
+                     <string>统计域名数量</string>
+                    </property>
+                   </widget>
+                  </item>
+                  <item>
+                   <widget class="QPushButton" name="calculateType">
+                    <property name="minimumSize">
+                     <size>
+                      <width>82</width>
+                      <height>20</height>
+                     </size>
+                    </property>
+                    <property name="cursor">
+                     <cursorShape>PointingHandCursor</cursorShape>
+                    </property>
+                    <property name="styleSheet">
+                     <string notr="true">QPushButton {
+	border: 0.5px solid white;
+	border-radius: 6px;
+	background-color: rgb(90, 194, 198);
+	min-width: 80px;
+	font-family: &quot;Times New Roman&quot;;
+	font-size: 11pt;
+	font-weight: bold;
+	color: white;
+}
+
+QPushButton:hover {
+	border: 0.5px solid white;
+	border-radius: 6px;
+	background-color: #1fab89;
+	min-width: 80px;
+	font-family: &quot;Times New Roman&quot;;
+	font-size: 10pt;
+	font-weight: bold;
+	color: white;
+}</string>
+                    </property>
+                    <property name="text">
+                     <string>统计域名类型</string>
+                    </property>
+                   </widget>
+                  </item>
+                  <item>
+                   <widget class="QPushButton" name="calculateLevel">
+                    <property name="minimumSize">
+                     <size>
+                      <width>82</width>
+                      <height>20</height>
+                     </size>
+                    </property>
+                    <property name="cursor">
+                     <cursorShape>PointingHandCursor</cursorShape>
+                    </property>
+                    <property name="styleSheet">
+                     <string notr="true">QPushButton {
+	border: 0.5px solid white;
+	border-radius: 6px;
+	background-color: rgb(90, 194, 198);
+	min-width: 80px;
+	font-family: &quot;Times New Roman&quot;;
+	font-size: 11pt;
+	font-weight: bold;
+	color: white;
+}
+
+QPushButton:hover {
+	border: 0.5px solid white;
+	border-radius: 6px;
+	background-color: #1fab89;
+	min-width: 80px;
+	font-family: &quot;Times New Roman&quot;;
+	font-size: 10pt;
+	font-weight: bold;
+	color: white;
+}</string>
+                    </property>
+                    <property name="text">
+                     <string>统计域名等级</string>
+                    </property>
+                   </widget>
+                  </item>
+                 </layout>
+                </widget>
+               </item>
+               <item>
+                <widget class="QStackedWidget" name="statisticWidget">
+                 <property name="currentIndex">
+                  <number>3</number>
+                 </property>
+                 <widget class="QWidget" name="page">
+                  <layout class="QVBoxLayout" name="verticalLayout_9">
+                   <item>
+                    <widget class="QWidget" name="showWidgetName" native="true"/>
+                   </item>
+                  </layout>
+                 </widget>
+                 <widget class="QWidget" name="page_2">
+                  <layout class="QVBoxLayout" name="verticalLayout_10">
+                   <item>
+                    <widget class="QWidget" name="showWidgetType" native="true"/>
+                   </item>
+                  </layout>
+                 </widget>
+                 <widget class="QWidget" name="page_3">
+                  <layout class="QVBoxLayout" name="verticalLayout_11">
+                   <item>
+                    <widget class="QWidget" name="showWidgetLevel" native="true">
+                     <property name="minimumSize">
+                      <size>
+                       <width>0</width>
+                       <height>0</height>
+                      </size>
+                     </property>
+                    </widget>
+                   </item>
+                  </layout>
+                 </widget>
+                 <widget class="QWidget" name="page_4">
+                  <layout class="QVBoxLayout" name="verticalLayout_12">
+                   <item>
+                    <widget class="QLabel" name="label_22">
+                     <property name="styleSheet">
+                      <string notr="true">font: 12pt &quot;Microsoft YaHei UI&quot;;</string>
+                     </property>
+                     <property name="text">
+                      <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;统计功能&lt;/p&gt;&lt;p&gt;点击以开始！&lt;/p&gt;&lt;p&gt;鼠标左右键点击或拖动以缩小放大。&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+                     </property>
+                    </widget>
+                   </item>
+                  </layout>
+                 </widget>
+                </widget>
+               </item>
+              </layout>
+             </item>
+            </layout>
+           </widget>
+           <widget class="QWidget" name="pageLog">
+            <layout class="QGridLayout" name="gridLayout_8">
+             <property name="leftMargin">
+              <number>20</number>
+             </property>
+             <property name="topMargin">
+              <number>30</number>
+             </property>
+             <property name="rightMargin">
+              <number>20</number>
+             </property>
+             <property name="bottomMargin">
+              <number>30</number>
+             </property>
+             <item row="1" column="0">
+              <widget class="QTextEdit" name="textEdit">
+               <property name="styleSheet">
+                <string notr="true">font: 12pt &quot;Microsoft YaHei UI&quot;;</string>
+               </property>
+              </widget>
+             </item>
+             <item row="0" column="0">
+              <widget class="QLabel" name="label_21">
+               <property name="styleSheet">
+                <string notr="true">font: 700 24pt &quot;Microsoft YaHei UI&quot;;</string>
+               </property>
+               <property name="text">
+                <string>互联网域名信息管理日志</string>
+               </property>
+               <property name="alignment">
+                <set>Qt::AlignCenter</set>
+               </property>
+              </widget>
+             </item>
+            </layout>
+           </widget>
+           <widget class="QWidget" name="pageSetting">
+            <layout class="QGridLayout" name="gridLayout_5">
+             <item row="0" column="0">
+              <widget class="QWidget" name="widget_2" native="true">
+               <layout class="QVBoxLayout" name="verticalLayout_4">
+                <item>
+                 <widget class="QWidget" name="widget_6" native="true">
+                  <property name="minimumSize">
+                   <size>
+                    <width>0</width>
+                    <height>100</height>
+                   </size>
+                  </property>
+                  <layout class="QHBoxLayout" name="horizontalLayout">
+                   <item>
+                    <widget class="QWidget" name="widget_4" native="true">
+                     <property name="minimumSize">
+                      <size>
+                       <width>0</width>
+                       <height>0</height>
+                      </size>
+                     </property>
+                     <layout class="QVBoxLayout" name="verticalLayout_2">
+                      <item>
+                       <widget class="Scroll" name="tipsL" native="true">
+                        <property name="minimumSize">
+                         <size>
+                          <width>0</width>
+                          <height>30</height>
+                         </size>
+                        </property>
+                       </widget>
+                      </item>
+                      <item>
+                       <widget class="QLabel" name="label_2">
+                        <property name="styleSheet">
+                         <string notr="true">font: 700 12pt &quot;Microsoft YaHei UI&quot;;</string>
+                        </property>
+                        <property name="text">
+                         <string>数据库设置</string>
+                        </property>
+                        <property name="alignment">
+                         <set>Qt::AlignCenter</set>
+                        </property>
+                       </widget>
+                      </item>
+                      <item>
+                       <widget class="QtMaterialAutoComplete" name="sqlDbNameLineEdit">
+                        <property name="placeholderText">
+                         <string>数据库名（注意是接口数据库）</string>
+                        </property>
+                       </widget>
+                      </item>
+                      <item>
+                       <widget class="QtMaterialAutoComplete" name="sqlUsernameLineEdit">
+                        <property name="placeholderText">
+                         <string>用户名（MySQL用户名）</string>
+                        </property>
+                       </widget>
+                      </item>
+                      <item>
+                       <widget class="QtMaterialAutoComplete" name="sqlPwdLineEdit">
+                        <property name="echoMode">
+                         <enum>QLineEdit::Password</enum>
+                        </property>
+                        <property name="placeholderText">
+                         <string>密码（MySQL密码）</string>
+                        </property>
+                       </widget>
+                      </item>
+                      <item>
+                       <widget class="QPushButton" name="loadHost">
+                        <property name="minimumSize">
+                         <size>
+                          <width>82</width>
+                          <height>20</height>
+                         </size>
+                        </property>
+                        <property name="cursor">
+                         <cursorShape>PointingHandCursor</cursorShape>
+                        </property>
+                        <property name="styleSheet">
+                         <string notr="true">QPushButton {
+	border: 0.5px solid white;
+	border-radius: 6px;
+	background-color: rgb(90, 194, 198);
+	min-width: 80px;
+	font-family: &quot;Times New Roman&quot;;
+	font-size: 11pt;
+	font-weight: bold;
+	color: white;
+}
+
+QPushButton:hover {
+	border: 0.5px solid white;
+	border-radius: 6px;
+	background-color: #1fab89;
+	min-width: 80px;
+	font-family: &quot;Times New Roman&quot;;
+	font-size: 10pt;
+	font-weight: bold;
+	color: white;
+}</string>
+                        </property>
+                        <property name="text">
+                         <string>载入</string>
+                        </property>
+                       </widget>
+                      </item>
+                     </layout>
+                    </widget>
+                   </item>
+                   <item>
+                    <widget class="QWidget" name="widget_5" native="true">
+                     <property name="minimumSize">
+                      <size>
+                       <width>0</width>
+                       <height>0</height>
+                      </size>
+                     </property>
+                     <layout class="QVBoxLayout" name="verticalLayout_3">
+                      <item>
+                       <widget class="Scroll" name="tipsR" native="true">
+                        <property name="minimumSize">
+                         <size>
+                          <width>0</width>
+                          <height>30</height>
+                         </size>
+                        </property>
+                       </widget>
+                      </item>
+                      <item>
+                       <widget class="QLabel" name="label_19">
+                        <property name="styleSheet">
+                         <string notr="true">font: 700 12pt &quot;Microsoft YaHei UI&quot;;</string>
+                        </property>
+                        <property name="text">
+                         <string>密码修改</string>
+                        </property>
+                        <property name="alignment">
+                         <set>Qt::AlignCenter</set>
+                        </property>
+                       </widget>
+                      </item>
+                      <item>
+                       <widget class="QtMaterialAutoComplete" name="oldPwdLineEdit">
+                        <property name="echoMode">
+                         <enum>QLineEdit::Password</enum>
+                        </property>
+                        <property name="placeholderText">
+                         <string>原密码</string>
+                        </property>
+                       </widget>
+                      </item>
+                      <item>
+                       <widget class="QtMaterialAutoComplete" name="changePwdLineEdit">
+                        <property name="echoMode">
+                         <enum>QLineEdit::Password</enum>
+                        </property>
+                        <property name="placeholderText">
+                         <string>密码</string>
+                        </property>
+                       </widget>
+                      </item>
+                      <item>
+                       <widget class="QtMaterialAutoComplete" name="changeConfirmLineEdit">
+                        <property name="echoMode">
+                         <enum>QLineEdit::Password</enum>
+                        </property>
+                        <property name="placeholderText">
+                         <string>确认密码</string>
+                        </property>
+                       </widget>
+                      </item>
+                      <item>
+                       <widget class="QPushButton" name="loadChange">
+                        <property name="minimumSize">
+                         <size>
+                          <width>82</width>
+                          <height>20</height>
+                         </size>
+                        </property>
+                        <property name="cursor">
+                         <cursorShape>PointingHandCursor</cursorShape>
+                        </property>
+                        <property name="styleSheet">
+                         <string notr="true">QPushButton {
+	border: 0.5px solid white;
+	border-radius: 6px;
+	background-color: rgb(90, 194, 198);
+	min-width: 80px;
+	font-family: &quot;Times New Roman&quot;;
+	font-size: 11pt;
+	font-weight: bold;
+	color: white;
+}
+
+QPushButton:hover {
+	border: 0.5px solid white;
+	border-radius: 6px;
+	background-color: #1fab89;
+	min-width: 80px;
+	font-family: &quot;Times New Roman&quot;;
+	font-size: 10pt;
+	font-weight: bold;
+	color: white;
+}</string>
+                        </property>
+                        <property name="text">
+                         <string>确认</string>
+                        </property>
+                       </widget>
+                      </item>
+                     </layout>
+                    </widget>
+                   </item>
+                  </layout>
+                 </widget>
+                </item>
+                <item>
+                 <widget class="QWidget" name="widget_8" native="true">
+                  <property name="minimumSize">
+                   <size>
+                    <width>0</width>
+                    <height>100</height>
+                   </size>
+                  </property>
+                  <layout class="QVBoxLayout" name="verticalLayout_5">
+                   <item>
+                    <widget class="QLabel" name="label_29">
+                     <property name="styleSheet">
+                      <string notr="true">font: 700 12pt &quot;Microsoft YaHei UI&quot;;</string>
+                     </property>
+                     <property name="text">
+                      <string>数据备份</string>
+                     </property>
+                     <property name="alignment">
+                      <set>Qt::AlignCenter</set>
+                     </property>
+                    </widget>
+                   </item>
+                   <item>
+                    <widget class="QCheckBox" name="saveButton">
+                     <property name="text">
+                      <string>启用数据备份</string>
+                     </property>
+                     <property name="checkable">
+                      <bool>true</bool>
+                     </property>
+                     <property name="checked">
+                      <bool>false</bool>
+                     </property>
+                    </widget>
+                   </item>
+                   <item>
+                    <widget class="QLabel" name="label_30">
+                     <property name="styleSheet">
+                      <string notr="true">font: 9pt &quot;Microsoft YaHei UI&quot;;</string>
+                     </property>
+                     <property name="text">
+                      <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;该操作会在每一次打开程序时，先为你的域名文件备份。&lt;/p&gt;&lt;p&gt;数据备份将降低数据丢失的风险，但是会导致每次上传数据时的速度更慢。&lt;/p&gt;&lt;p&gt;当你的数据丢失时，备份的文件名为domain_backup&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+                     </property>
+                    </widget>
+                   </item>
+                   <item>
+                    <widget class="QLabel" name="label_34">
+                     <property name="styleSheet">
+                      <string notr="true">font: 700 12pt &quot;Microsoft YaHei UI&quot;;</string>
+                     </property>
+                     <property name="text">
+                      <string>域名等级设置</string>
+                     </property>
+                     <property name="alignment">
+                      <set>Qt::AlignCenter</set>
+                     </property>
+                    </widget>
+                   </item>
+                   <item>
+                    <widget class="QSpinBox" name="spinBox">
+                     <property name="value">
+                      <number>4</number>
+                     </property>
+                    </widget>
+                   </item>
+                   <item>
+                    <widget class="QLabel" name="label_35">
+                     <property name="styleSheet">
+                      <string notr="true">font: 9pt &quot;Microsoft YaHei UI&quot;;</string>
+                     </property>
+                     <property name="text">
+                      <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;显示完整域名时，期望的满级域名，默认为4级。&lt;/p&gt;&lt;p&gt;此处设置可以在Manage页面中显示你期望看到的域名等级。&lt;/p&gt;&lt;p&gt;域名最大为4级，本程序兼容但不支持输入比4级更大的域名等级，实际上等级大于4级的域名无意义。&lt;br/&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+                     </property>
+                    </widget>
+                   </item>
+                   <item>
+                    <widget class="QLabel" name="label_32">
+                     <property name="styleSheet">
+                      <string notr="true">font: 700 12pt &quot;Microsoft YaHei UI&quot;;</string>
+                     </property>
+                     <property name="text">
+                      <string>高级设置</string>
+                     </property>
+                     <property name="alignment">
+                      <set>Qt::AlignCenter</set>
+                     </property>
+                    </widget>
+                   </item>
+                   <item>
+                    <layout class="QHBoxLayout" name="horizontalLayout_6">
+                     <item>
+                      <widget class="QtMaterialAutoComplete" name="sqlDbHostName">
+                       <property name="placeholderText">
+                        <string>主机（默认为127.0.0.1）</string>
+                       </property>
+                      </widget>
+                     </item>
+                     <item>
+                      <widget class="QPushButton" name="loadHostName">
+                       <property name="minimumSize">
+                        <size>
+                         <width>82</width>
+                         <height>20</height>
+                        </size>
+                       </property>
+                       <property name="cursor">
+                        <cursorShape>PointingHandCursor</cursorShape>
+                       </property>
+                       <property name="styleSheet">
+                        <string notr="true">QPushButton {
+	border: 0.5px solid white;
+	border-radius: 6px;
+	background-color: rgb(90, 194, 198);
+	min-width: 80px;
+	font-family: &quot;Times New Roman&quot;;
+	font-size: 11pt;
+	font-weight: bold;
+	color: white;
+}
+
+QPushButton:hover {
+	border: 0.5px solid white;
+	border-radius: 6px;
+	background-color: #1fab89;
+	min-width: 80px;
+	font-family: &quot;Times New Roman&quot;;
+	font-size: 10pt;
+	font-weight: bold;
+	color: white;
+}</string>
+                       </property>
+                       <property name="text">
+                        <string>确认</string>
+                       </property>
+                      </widget>
+                     </item>
+                    </layout>
+                   </item>
+                   <item>
+                    <layout class="QHBoxLayout" name="horizontalLayout_7">
+                     <item>
+                      <widget class="QtMaterialAutoComplete" name="sqlDbPort">
+                       <property name="placeholderText">
+                        <string>端口（默认为3306）</string>
+                       </property>
+                      </widget>
+                     </item>
+                     <item>
+                      <widget class="QPushButton" name="loadPort">
+                       <property name="minimumSize">
+                        <size>
+                         <width>82</width>
+                         <height>20</height>
+                        </size>
+                       </property>
+                       <property name="cursor">
+                        <cursorShape>PointingHandCursor</cursorShape>
+                       </property>
+                       <property name="styleSheet">
+                        <string notr="true">QPushButton {
+	border: 0.5px solid white;
+	border-radius: 6px;
+	background-color: rgb(90, 194, 198);
+	min-width: 80px;
+	font-family: &quot;Times New Roman&quot;;
+	font-size: 11pt;
+	font-weight: bold;
+	color: white;
+}
+
+QPushButton:hover {
+	border: 0.5px solid white;
+	border-radius: 6px;
+	background-color: #1fab89;
+	min-width: 80px;
+	font-family: &quot;Times New Roman&quot;;
+	font-size: 10pt;
+	font-weight: bold;
+	color: white;
+}</string>
+                       </property>
+                       <property name="text">
+                        <string>确认</string>
+                       </property>
+                      </widget>
+                     </item>
+                    </layout>
+                   </item>
+                   <item>
+                    <widget class="QLabel" name="label_33">
+                     <property name="styleSheet">
+                      <string notr="true">font: 9pt &quot;Microsoft YaHei UI&quot;;</string>
+                     </property>
+                     <property name="text">
+                      <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;主机和端口一般不需要修改。&lt;/p&gt;&lt;p&gt;如果主机和端口被人为设置，则需要在这里进行更新。&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+                     </property>
+                    </widget>
+                   </item>
+                  </layout>
+                 </widget>
+                </item>
+                <item>
+                 <widget class="QLabel" name="label_26">
+                  <property name="styleSheet">
+                   <string notr="true">font: 700 12pt &quot;Microsoft YaHei UI&quot;;</string>
+                  </property>
+                  <property name="text">
+                   <string>注意：某些设置需要重启以生效！</string>
+                  </property>
+                 </widget>
+                </item>
+               </layout>
+              </widget>
+             </item>
+            </layout>
+           </widget>
+           <widget class="QWidget" name="pageAbout">
+            <layout class="QGridLayout" name="gridLayout_2">
+             <property name="topMargin">
+              <number>12</number>
+             </property>
+             <property name="bottomMargin">
+              <number>12</number>
+             </property>
+             <item row="1" column="0">
+              <widget class="QLabel" name="label_4">
+               <property name="styleSheet">
+                <string notr="true">font: 12pt &quot;Microsoft YaHei UI&quot;;</string>
+               </property>
+               <property name="text">
+                <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;联系作者：20225443@stu.neu.edu.cn&lt;/p&gt;&lt;p&gt;已知的小Bug：暂无，如果发现请务必联系作者，十分感谢。&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+               </property>
+              </widget>
+             </item>
+             <item row="7" column="0">
+              <widget class="QLabel" name="label_8">
+               <property name="styleSheet">
+                <string notr="true">font: 12pt &quot;Microsoft YaHei UI&quot;;</string>
+               </property>
+               <property name="text">
+                <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Design by &lt;a href=&quot;https://github.com/Miki-Riako&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#007af4;&quot;&gt;Miki_Riako&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;&lt;p&gt;本项目用到的开源框架：QT可视化框架&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+               </property>
+               <property name="openExternalLinks">
+                <bool>true</bool>
+               </property>
+              </widget>
+             </item>
+             <item row="0" column="0">
+              <widget class="QLabel" name="label_3">
+               <property name="styleSheet">
+                <string notr="true">font: 700 16pt &quot;Microsoft YaHei UI&quot;;</string>
+               </property>
+               <property name="text">
+                <string>公告</string>
+               </property>
+               <property name="alignment">
+                <set>Qt::AlignCenter</set>
+               </property>
+              </widget>
+             </item>
+             <item row="2" column="0">
+              <widget class="QLabel" name="label_5">
+               <property name="styleSheet">
+                <string notr="true">font: 700 16pt &quot;Microsoft YaHei UI&quot;;</string>
+               </property>
+               <property name="text">
+                <string>使用说明</string>
+               </property>
+               <property name="alignment">
+                <set>Qt::AlignCenter</set>
+               </property>
+              </widget>
+             </item>
+             <item row="4" column="0">
+              <widget class="QLabel" name="label_10">
+               <property name="styleSheet">
+                <string notr="true">font: 700 16pt &quot;Microsoft YaHei UI&quot;;</string>
+               </property>
+               <property name="text">
+                <string>帮助</string>
+               </property>
+               <property name="alignment">
+                <set>Qt::AlignCenter</set>
+               </property>
+              </widget>
+             </item>
+             <item row="6" column="0">
+              <widget class="QLabel" name="label_7">
+               <property name="styleSheet">
+                <string notr="true">font: 700 16pt &quot;Microsoft YaHei UI&quot;;</string>
+               </property>
+               <property name="text">
+                <string>关于IDNIMS</string>
+               </property>
+               <property name="alignment">
+                <set>Qt::AlignCenter</set>
+               </property>
+              </widget>
+             </item>
+             <item row="3" column="0">
+              <widget class="QLabel" name="label_6">
+               <property name="styleSheet">
+                <string notr="true">font: 12pt &quot;Microsoft YaHei UI&quot;;</string>
+               </property>
+               <property name="text">
+                <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;须知：&lt;/p&gt;&lt;p&gt;数据库使用MySQL，接口使用ODBC，请用户提前配置好相关操作。&lt;/p&gt;&lt;p&gt;首先创建一个空库，假设名为example。或提前已存在一个空库。&lt;/p&gt;&lt;p&gt;在配置ODBC时，数据源选择，ODBC Unicode Driver，库为example。&lt;/p&gt;&lt;p&gt;兼容性：&lt;/p&gt;&lt;p&gt;数据库是全局数据库，意味着用户可以在其他程序调用本程序的数据。&lt;/p&gt;&lt;p&gt;&lt;a href=&quot;https://www.mysql.com/&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#007af4;&quot;&gt;MySQL官网&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;&lt;p&gt;&lt;a href=&quot;https://dev.mysql.com/downloads/connector/odbc/&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#007af4;&quot;&gt;ODBC接口下载&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+               </property>
+               <property name="openExternalLinks">
+                <bool>true</bool>
+               </property>
+              </widget>
+             </item>
+             <item row="5" column="0">
+              <widget class="QLabel" name="label_11">
+               <property name="styleSheet">
+                <string notr="true">font: 12pt &quot;Microsoft YaHei UI&quot;;</string>
+               </property>
+               <property name="text">
+                <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;无法连接？&lt;/p&gt;&lt;p&gt;检查是否使用MySQL及其ODBC接口？&lt;/p&gt;&lt;p&gt;检查主机是否被占用？主机问题请手动设置主机。&lt;/p&gt;&lt;p&gt;检查端口是否为3306？否则请手动在设置页面修改端口。&lt;/p&gt;&lt;p&gt;用户设置及库设置？&lt;/p&gt;&lt;p&gt;没有表格时会自动创建，之后将正常运行。&lt;br/&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+               </property>
+              </widget>
+             </item>
+            </layout>
+           </widget>
+          </widget>
+         </item>
+        </layout>
+       </item>
+      </layout>
+     </widget>
+    </item>
+   </layout>
+  </widget>
+  <widget class="QMenuBar" name="menubar">
+   <property name="geometry">
+    <rect>
+     <x>0</x>
+     <y>0</y>
+     <width>1233</width>
+     <height>21</height>
+    </rect>
+   </property>
+  </widget>
+  <widget class="QStatusBar" name="statusbar"/>
+ </widget>
+ <customwidgets>
+  <customwidget>
+   <class>QtMaterialAutoComplete</class>
+   <extends>QLineEdit</extends>
+   <header location="global">qtmaterialautocomplete.h</header>
+  </customwidget>
+  <customwidget>
+   <class>Scroll</class>
+   <extends>QWidget</extends>
+   <header location="global">Scroll.h</header>
+   <container>1</container>
+  </customwidget>
+ </customwidgets>
+ <tabstops>
+  <tabstop>drawerButton</tabstop>
+  <tabstop>tableWidget</tabstop>
+  <tabstop>loadAll</tabstop>
+  <tabstop>clearAll</tabstop>
+  <tabstop>establishButton</tabstop>
+  <tabstop>categorizeButton</tabstop>
+  <tabstop>insertButton</tabstop>
+  <tabstop>removeButton</tabstop>
+  <tabstop>modifyButton</tabstop>
+  <tabstop>domainButton</tabstop>
+  <tabstop>textEdit</tabstop>
+  <tabstop>sqlDbNameLineEdit</tabstop>
+  <tabstop>sqlUsernameLineEdit</tabstop>
+  <tabstop>sqlPwdLineEdit</tabstop>
+  <tabstop>loadHost</tabstop>
+  <tabstop>oldPwdLineEdit</tabstop>
+  <tabstop>changePwdLineEdit</tabstop>
+  <tabstop>changeConfirmLineEdit</tabstop>
+  <tabstop>loadChange</tabstop>
+ </tabstops>
+ <resources>
+  <include location="resource.qrc"/>
+ </resources>
+ <connections/>
+</ui>
