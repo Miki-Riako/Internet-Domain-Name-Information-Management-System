@@ -22,17 +22,17 @@ void insertdialog::on_confirmButton_clicked()
     }
     insertOp->insert(domainName, domainName.count('.') + 1, user);
     QSqlQuery query(insertOp->db);
-    query.prepare("UPDATE domain SET DomainNameType = :DomainNameType, WebName = :WebName, SponsorName = :SponsorName, Status = :Status, DomainRegister = :DomainRegister, ContactInfo = :ContactInfo, Memo = :Memo, UpdateDate = :UpdateDate, ExpirationDate = :ExpirationDate WHERE DomainName = :DomainName");
+    query.prepare("UPDATE domain SET DomainType = :DomainType, WebName = :WebName, SponsorName = :SponsorName, Status = :Status, Register = :Register, ContactInformation = :ContactInformation, Memo = :Memo, UpdatedDate = :UpdatedDate, ExpiredDate = :ExpiredDate WHERE DomainName = :DomainName");
     query.bindValue(":DomainName", domainName);
-    query.bindValue(":DomainNameType", ui->domainTypeLineEdit->text().trimmed());
+    query.bindValue(":DomainType", ui->domainTypeLineEdit->text().trimmed());
     query.bindValue(":WebName", ui->webNameLineEdit->text().trimmed());
     query.bindValue(":SponsorName", ui->sponsorNameLineEdit->text().trimmed());
     query.bindValue(":Status", ui->statusLineEdit->text().trimmed());
-    query.bindValue(":DomainRegister", ui->registerLineEdit->text().trimmed());
-    query.bindValue(":ContactInfo", ui->contactInfoLineEdit->text().trimmed());
+    query.bindValue(":Register", ui->registerLineEdit->text().trimmed());
+    query.bindValue(":ContactInformation", ui->contactInfoLineEdit->text().trimmed());
     query.bindValue(":Memo", ui->memoLineEdit->text().trimmed());
-    query.bindValue(":UpdateDate", ui->updateDateLineEdit->text().trimmed());
-    query.bindValue(":ExpirationDate", ui->expirationDateLineEdit->text().trimmed());
+    query.bindValue(":UpdatedDate", ui->updateDateLineEdit->text().trimmed());
+    query.bindValue(":ExpiredDate", ui->expirationDateLineEdit->text().trimmed());
     if (!query.exec()) {
         QMessageBox::critical(this, "Error", query.lastError().text());
         return;

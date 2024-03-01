@@ -151,6 +151,11 @@ bool domainsql::domainExists(const QString &domainName)
 }
 bool domainsql::insert(const QString &target, const int &level, const QString &user)
 { // Insert a node
+    QRegExp regex("^[A-Za-z0-9-]+(\\.[A-Za-z0-9-]+)*$");
+    if (!regex.exactMatch(target)) {
+        QMessageBox::warning(nullptr, "Error", "Invalid domain name: " + target);
+        return false;
+    }
     QSqlQuery query(db);
     query.prepare("INSERT INTO domain (DomainName, DomainLevel, Creator, CreateDate) VALUES (:DomainName, :DomainLevel, :Creator, :CreateDate)");
     query.bindValue(":DomainName", target);
