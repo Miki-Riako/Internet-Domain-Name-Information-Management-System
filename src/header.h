@@ -27,6 +27,7 @@
 #include <QMap>
 #include <QMessageBox>
 #include <QObject>
+#include <QPixmap>
 #include <QPropertyAnimation>
 #include <QPushButton>
 #include <QRadioButton>

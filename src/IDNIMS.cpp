@@ -519,6 +519,40 @@ void IDNIMS::on_calculateLevel_clicked()
     chartView->setInteractive(true);
     layout->addWidget(chartView);
 }
+void IDNIMS::on_pushButton_clicked()
+{
+    int currentIndex = ui->statisticWidget->currentIndex();
+    QChartView *currentChartView = nullptr;
+    switch (currentIndex) {
+        case 0:
+            currentChartView = qobject_cast<QChartView*>(ui->showWidgetName->layout()->itemAt(0)->widget());
+            break;
+        case 1:
+            currentChartView = qobject_cast<QChartView*>(ui->showWidgetType->layout()->itemAt(0)->widget());
+            break;
+        case 2:
+            currentChartView = qobject_cast<QChartView*>(ui->showWidgetLevel->layout()->itemAt(0)->widget());
+            break;
+        default:
+            QMessageBox::warning(this, "Error", "No chart is currently being displayed.");
+            return;
+    }
+    if (!currentChartView) {
+        QMessageBox::warning(this, "Error", "Could not find the chart view.");
+        return;
+    }
+    QString filters = "PNG Files (*.png);;JPEG Files (*.jpg);;BMP Files (*.bmp)";
+    QString defaultFilter = "PNG Files (*.png)";
+    QString fileName = QFileDialog::getSaveFileName(this, tr("Save Chart As Image"), "", filters, &defaultFilter);
+    if (fileName.isEmpty())
+        return;
+    QPixmap pixmap = currentChartView->grab();
+    if (!pixmap.save(fileName)) {
+        QMessageBox::critical(this, "Error", "Failed to save the chart as an image.");
+    } else {
+        QMessageBox::information(this, "Success", "Chart saved successfully to " + fileName);
+    }
+}
 // The button on page 6
 void IDNIMS::on_loadHost_clicked()
 { // Get the string on the three line edit and load into the local

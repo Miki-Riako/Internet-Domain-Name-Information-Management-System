@@ -60,6 +60,7 @@ private slots:
     void on_calculateName_clicked();
     void on_calculateType_clicked();
     void on_calculateLevel_clicked();
+    void on_pushButton_clicked();
     void on_loadHostName_clicked();
     void on_loadPort_clicked();
 
