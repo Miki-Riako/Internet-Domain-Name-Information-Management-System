@@ -250,7 +250,9 @@ void IDNIMS::on_clearAll_clicked()
 }
 void IDNIMS::on_deriveAll_clicked()
 {
-    QString fileName = QFileDialog::getSaveFileName(this, tr("Save File"), "", tr("Text Files (*.txt)"));
+    QString filters = "CSV Files (*.csv);;JSON Files (*.json)";
+    QString defaultFilter = "CSV Files (*.csv)";
+    QString fileName = QFileDialog::getSaveFileName(this, tr("Save File"), "", filters, &defaultFilter);
     if (fileName.isEmpty())
         return;
     QFile file(fileName);
@@ -260,14 +262,47 @@ void IDNIMS::on_deriveAll_clicked()
     }
     QTextStream out(&file);
     QSqlQuery query;
-    if (!query.exec("SELECT DomainName FROM domain")) {
+    if (!query.exec("SELECT * FROM domain")) {
         QMessageBox::critical(this, "Error", query.lastError().text());
         file.close();
         return;
     }
-    while(query.next()) {
-        QString domainName = query.value(0).toString();
-        out << domainName << "\n";
+    if (fileName.endsWith(".csv")) {
+        QStringList columnTitles = {
+            "id",
+            "DomainName",
+            "DomainType",
+            "DomainLevel",
+            "WebName", 
+            "SponsorName",
+            "Status",
+            "Register",
+            "ContactInformation", 
+            "Creator",
+            "CreateDate",
+            "Memo",
+            "UpdatedDate",
+            "ExpiredDate"
+        };
+        out << columnTitles.join(",") << "\n";
+        while(query.next()) {
+            QStringList row;
+            for (int i = 0; i < columnTitles.size(); ++i) {
+                row.append("\"" + query.value(i).toString() + "\"");
+            }
+            out << row.join(",") << "\n";
+        }
+    } else if (fileName.endsWith(".json")) {
+        QJsonArray jsonArray;
+        while (query.next()) {
+            QJsonObject jsonObj;
+            for (int i = 0; i < query.record().count(); ++i) {
+                jsonObj.insert(query.record().fieldName(i), QJsonValue::fromVariant(query.value(i)));
+            }
+            jsonArray.append(jsonObj);
+        }
+        QJsonDocument jsonDoc(jsonArray);
+        out << jsonDoc.toJson();
     }
     file.close();
     QMessageBox::information(this, "Success", "All domains were successfully exported to " + fileName);
