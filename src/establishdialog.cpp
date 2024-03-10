@@ -15,8 +15,7 @@ QString establishdialog::randomString(int length)
     mt19937 rng(static_cast<unsigned>(time(0)));
     int charsetLength = charset.length();
     string randomString;
-    for (int i = 0; i < length; ++i)
-    { // Give the random value
+    for (int i = 0; i < length; ++i) { // Give the random value
         uniform_int_distribution<> distribution(0, charsetLength - 1);
         int index = distribution(rng);
         randomString += charset[index];

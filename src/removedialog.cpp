@@ -30,16 +30,19 @@ void removedialog::on_searchDomain_clicked()
                 QMessageBox::information(this, "Success", "Successfully deleted the domain '" + target + "' and all its children!");
             else
                 QMessageBox::warning(this, "Warning", "Failed to delete the domain '" + target + "' and all its children!");
-        } else
+        }
+        else
             QMessageBox::information(this, "Cancel", "Deletion canceled.");
-    } else {
+    }
+    else {
         QMessageBox::StandardButton confirmDelete = QMessageBox::question(this, "Confirm Delete", "Are you sure you want to delete the domain: " + target, QMessageBox::Yes | QMessageBox::No);
         if (confirmDelete == QMessageBox::Yes) {
             if (removeOp->remove(target))
                 QMessageBox::information(this, "Success", "Successfully deleted the domain '" + target + "'!");
             else
                 QMessageBox::warning(this, "Warning", "Failed to delete the domain '" + target + "'!");
-        } else
+        }
+    else
             QMessageBox::information(this, "Cancel", "Deletion canceled.");
     }
 }

@@ -82,8 +82,9 @@ IDNIMS::IDNIMS(QWidget *parent) : QMainWindow(parent), ui(new Ui::IDNIMS), drawe
         modifyWindow.user = user;
         modifyWindow.modifyOp = &sql;
     });
-    for (int i = 0; i < 7; i++)
+    for (int i = 0; i < 7; i++) {
         connect(drawerButtons[i], &QPushButton::clicked, this, [=](){changePage(i);});
+    }
     // Connect
 }
 IDNIMS::~IDNIMS() {delete ui;}
@@ -369,18 +370,21 @@ void IDNIMS::on_searchDomain_clicked()
         int rowCount = 0;
         ui->searchWidget->setColumnCount(columnCount);
         QStringList headerLabels;
-        for (int i = 0; i < columnCount; ++i)
+        for (int i = 0; i < columnCount; ++i) {
             headerLabels << query.record().fieldName(i);
+        }
         ui->searchWidget->setHorizontalHeaderLabels(headerLabels);
         while (query.next()) {
             ui->searchWidget->insertRow(rowCount);
-            for (int j = 0; j < columnCount; ++j)
+            for (int j = 0; j < columnCount; ++j) {
                 ui->searchWidget->setItem(rowCount, j, new QTableWidgetItem(query.value(j).toString()));
+            }
             ++rowCount;
         }
         if (rowCount == 0)
             QMessageBox::information(nullptr, "Search Result", "No results found.");
-    } else
+    }
+    else
         QMessageBox::warning(nullptr, "Error", "Load the database failed, please check your database!");
     auto endTime = std::chrono::high_resolution_clock::now();
     auto duration = std::chrono::duration<double, std::milli>(endTime - startTime).count();
@@ -498,8 +502,9 @@ void IDNIMS::on_calculateLevel_clicked()
     QChart *chart = new QChart();
     chart->setTitle("Domain Name Level Distribution");
     QBarSet *set = new QBarSet("Level");
-    for (int i = 0; i < 5; i++)
+    for (int i = 0; i < 5; i++) {
         *set << statisticLevel[i];
+    }
     QStringList categories = {"Level 0", "Level 1", "Level 2", "Level 3", "Level 4"};
     QBarSeries *series = new QBarSeries();
     series->append(set);
@@ -547,11 +552,10 @@ void IDNIMS::on_pushButton_clicked()
     if (fileName.isEmpty())
         return;
     QPixmap pixmap = currentChartView->grab();
-    if (!pixmap.save(fileName)) {
+    if (!pixmap.save(fileName))
         QMessageBox::critical(this, "Error", "Failed to save the chart as an image.");
-    } else {
+    else
         QMessageBox::information(this, "Success", "Chart saved successfully to " + fileName);
-    }
 }
 // The button on page 6
 void IDNIMS::on_loadHost_clicked()
@@ -612,7 +616,8 @@ void IDNIMS::on_loadChange_clicked()
                 return;
             }
         }
-    } else
+    }
+    else
         QMessageBox::information(this, "Guest", "You are Guest!");
 }
 void IDNIMS::on_saveButton_clicked(bool checked)

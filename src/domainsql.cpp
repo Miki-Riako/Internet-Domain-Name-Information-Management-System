@@ -5,8 +5,9 @@ QString domainsql::XOREncode(const QString &originalPwd)
 { // Encode and Decode
     QString key = "a-secret-key-a-secret-key-a-secret-key-a-secret-key-a-secret-key-a-secret-key-a-secret-key-a-secret-key-a-secret-key-a-secret-key";
     QString encodedPwd;
-    for(int i = 0; i < originalPwd.length(); ++i)
+    for(int i = 0; i < originalPwd.length(); ++i) {
         encodedPwd.append(QChar(originalPwd[i].unicode() ^ key[i % key.length()].unicode()));
+    }
     return encodedPwd;
 }
 QString domainsql::Sha256Encode(const QString &originalPwd) {
@@ -125,7 +126,8 @@ bool domainsql::connectDataBase(void)
     if (!connecting()) {
         QMessageBox::information(nullptr, "Unable to open database", "Error occurred! You may input the wrong information. Or the database has already been connected.");
         return false;
-    } else {
+    }
+    else {
         QMessageBox::information(nullptr, "Connected to database", "Connected to database successfully.");
         return true;
     }
@@ -209,7 +211,8 @@ bool domainsql::removeWithChildren(const QString &domainName)
         }
         db.commit();
         return true;
-    } catch (...) {
+    }
+    catch (...) {
         db.rollback();
         return false;
     }
