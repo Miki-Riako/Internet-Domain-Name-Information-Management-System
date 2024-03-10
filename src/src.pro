@@ -3,6 +3,9 @@ QT       += charts
 QT       += sql
 QT       += network
 
+TRANSLATIONS = Translate_EN.ts \
+                Translate_CN.ts
+
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
 CONFIG += c++17

@@ -33,6 +33,7 @@ public:
     bool first[3] = {true, true, true};
     void clearLayout(QLayout *layout);
     void fade(auto *control, const int &duration, const int &startValue, const int &endValue);
+    bool checkPasswordStrength(const QString &password);
     void enter(void);
     void changePage(const int &page);
     void initialHomePage(void);

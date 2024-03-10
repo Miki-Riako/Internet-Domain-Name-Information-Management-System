@@ -106,6 +106,11 @@ void IDNIMS::fade(auto *control, const int &duration, const int &startValue, con
     animation->setEasingCurve(QEasingCurve::Linear);
     animation->start();
 }
+bool IDNIMS::checkPasswordStrength(const QString &password)
+{ // Check whether powerful
+    QRegExp passwordExpr("^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[^\\da-zA-Z]).{8,}$");
+    return passwordExpr.exactMatch(password);
+}
 void IDNIMS::enter(void)
 { // When enter the main window
     login.hide();
@@ -250,6 +255,7 @@ void IDNIMS::on_clearAll_clicked()
 }
 void IDNIMS::on_deriveAll_clicked()
 {
+    int level = ui->spinBox->value();
     QString filters = "CSV Files (*.csv);;JSON Files (*.json)";
     QString defaultFilter = "CSV Files (*.csv)";
     QString fileName = QFileDialog::getSaveFileName(this, tr("Save File"), "", filters, &defaultFilter);
@@ -261,8 +267,9 @@ void IDNIMS::on_deriveAll_clicked()
         return;
     }
     QTextStream out(&file);
-    QSqlQuery query;
-    if (!query.exec("SELECT * FROM domain")) {
+    QSqlQuery query(sql.db);
+    QString queryString = level == -1 ? "SELECT * FROM domain" : QString("SELECT * FROM domain WHERE DomainLevel = %1").arg(level);
+    if (!query.exec(queryString)) {
         QMessageBox::critical(this, "Error", query.lastError().text());
         file.close();
         return;
@@ -540,6 +547,8 @@ void IDNIMS::on_loadChange_clicked()
             ui->tipsR->textLabel->setText("Please enter the pwd!");
             ui->tipsR->animationStart();
         }
+        else if (!checkPasswordStrength(password))
+            QMessageBox::warning(this, "Warning", "Password is too weak! It must contain upper and lower case letters, numbers, and symbols, and be at least 8 characters long.");
         else if (password != passwordConfirm) { // The case when the both password are not the same
             ui->tipsR->textLabel->setText("The password is not the same!");
             ui->tipsR->animationStart();

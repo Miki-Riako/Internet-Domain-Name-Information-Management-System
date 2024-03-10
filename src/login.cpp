@@ -45,7 +45,7 @@ Login::Login(QWidget *parent) : QWidget(parent), ui(new Ui::Login)
 }
 Login::~Login() {delete ui;}
 
-void Login::fade(auto *control, int duration, int startValue, int endValue)
+void Login::fade(auto *control, const int &duration, const int &startValue, const int &endValue)
 { // The function can provide the fade in and fade out animations.
     QGraphicsOpacityEffect *opacityEffect = new QGraphicsOpacityEffect(control);
     control->setGraphicsEffect(opacityEffect);
@@ -78,10 +78,16 @@ void Login::showLayout(auto *layout)
         }
     }
 }
-QString Login::Sha256Encode(QString originalPwd) {
+QString Login::Sha256Encode(QString originalPwd)
+{ // Encode
     QCryptographicHash hash(QCryptographicHash::Sha256);
     hash.addData(originalPwd.toUtf8());
     return hash.result().toHex();
+}
+bool Login::checkPasswordStrength(const QString &password)
+{ // Check whether powerful
+    QRegExp passwordExpr("^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[^\\da-zA-Z]).{8,}$");
+    return passwordExpr.exactMatch(password);
 }
 void Login::on_loginButton_clicked()
 {
@@ -122,6 +128,8 @@ void Login::on_registerButton_clicked()
         ui->tipsL->textLabel->setText("The password is not the same!");
         ui->tipsL->animationStart();
     }
+    else if (!checkPasswordStrength(password))
+        QMessageBox::warning(this, "Warning", "Password is too weak! It must contain upper and lower case letters, numbers, and symbols, and be at least 8 characters long.");
     else { // Successfully register
         QSqlQuery queryCheck;
         queryCheck.prepare("SELECT user_name FROM user WHERE user_name = :userName");
