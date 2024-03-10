@@ -86,6 +86,36 @@ IDNIMS::IDNIMS(QWidget *parent) : QMainWindow(parent), ui(new Ui::IDNIMS), drawe
         connect(drawerButtons[i], &QPushButton::clicked, this, [=](){changePage(i);});
     }
     // Connect
+    /*
+    File
+    The following contains are about the local files.
+    */
+    QFile configFile("config.ini");
+    if (!configFile.exists())
+        if (configFile.open(QIODevice::WriteOnly | QIODevice::Text)) {
+            QTextStream out(&configFile);
+            out << "[Database]\n";
+            out << "Name=\n";
+            out << "User=\n";
+            out << "Password=\n";
+            out << "HostName=127.0.0.1\n";
+            out << "Port=3306\n\n";
+            out << "[Settings]\n";
+            out << "DataBackup=true\n";
+            configFile.close();
+        }
+    QFile logFile("log.idnims");
+    if (!logFile.exists())
+        if (logFile.open(QIODevice::WriteOnly | QIODevice::Text)) {
+            QTextStream out(&logFile);
+            out << "This is the IDNIMS Log\n";
+            out << "You can record what you want to write here.\n";
+            out << "Press ctrl+s to save it.\n";
+            out << "Each time you open the log, it will remind you of what you need to do.\n";
+            out << "Enjoy!\n";
+            logFile.close();
+        }
+    // File
 }
 IDNIMS::~IDNIMS() {delete ui;}
 void IDNIMS::clearLayout(QLayout *layout)
