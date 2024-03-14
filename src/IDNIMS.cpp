@@ -102,6 +102,7 @@ IDNIMS::IDNIMS(QWidget *parent) : QMainWindow(parent), ui(new Ui::IDNIMS), drawe
             out << "Port=3306\n\n";
             out << "[Settings]\n";
             out << "DataBackup=true\n";
+            out << "HomePage=0\n";
             configFile.close();
         }
     QFile logFile("log.idnims");
@@ -153,17 +154,14 @@ void IDNIMS::enter(void)
     if (!administratorRights)
         user = "Guest";
     ui->userLabel->setText("Welcome! " + user);
-    changePage(0);
+    QSettings settings("config.ini", QSettings::IniFormat);
+    changePage(settings.value("Settings/HomePage").toInt());
 }
 void IDNIMS::changePage(const int &page)
 { // The small function aims to change the pages
     ui->stackedWidget->setCurrentIndex(page);
-    if (inSSL)
-        inSSL = false;
     if (page != 2 && page != 3 && page != 4)
         fade(pagePtr[page], 2000, 0, 1);
-    else
-        inSSL = true;
 }
 void IDNIMS::keyPressEvent(QKeyEvent *event)
 { // Ctrl+S to save the log
@@ -193,7 +191,8 @@ void IDNIMS::initialHomePage(void)
     else
         greeting = "Good Evening, ";
     ui->welcomeLabel->setText(greeting + user + "!");
-    ui->stackedWidget->setCurrentIndex(0);
+    QSettings settings("config.ini", QSettings::IniFormat);
+    ui->stackedWidget->setCurrentIndex(settings.value("Settings/HomePage").toInt());
 }
 void IDNIMS::initialLogPage(void)
 { // This function aims to set the log page
@@ -710,3 +709,47 @@ void IDNIMS::on_loadPort_clicked()
     settings.setValue("Database/Port", ui->sqlDbPort->text());
     sql.connectDataBase();
 }
+void IDNIMS::on_rewriteTable_clicked()
+{
+    if (administratorRights) {
+        QMessageBox::StandardButton reply;
+        reply = QMessageBox::question(
+            this,
+            "Confirm Backup Restoration",
+            "This will overwrite existing data with backup data. Are you sure you want to proceed?",
+            QMessageBox::Yes|QMessageBox::No
+            );
+        if (reply == QMessageBox::No)
+            return;
+        QSqlQuery query(sql.db);
+        if (!query.exec("SHOW TABLES LIKE 'domain_backup'")) {
+            QMessageBox::critical(this, "Error", "Failed to check for backup table existence.");
+            return;
+        }
+        if (!query.next()) {
+            QMessageBox::information(this, "No Backup", "No backup data found.");
+            return;
+        }
+        if (!query.exec("DROP TABLE IF EXISTS domain")) {
+            QMessageBox::critical(this, "Error", "Failed to drop existing domain table.");
+            return;
+        }
+        if (!query.exec("CREATE TABLE domain AS SELECT * FROM domain_backup")) {
+            QMessageBox::critical(this, "Error", "Failed to create domain table from backup.");
+            return;
+        }
+        QMessageBox::information(this, "Success", "Data restoration from backup completed successfully.");
+    }
+    else
+        QMessageBox::information(this, "Guest", "You are Guest!");
+}
+void IDNIMS::on_setHomeButton_clicked()
+{
+    int pageNumber = ui->spinBoxPage->value();
+    QSettings settings("config.ini", QSettings::IniFormat);
+    settings.beginGroup("Settings");
+    settings.setValue("HomePage", pageNumber);
+    settings.endGroup();
+    QMessageBox::information(this, "Settings Updated", "Default home page set to " + QString::number(pageNumber));
+}
+

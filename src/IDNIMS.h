@@ -28,7 +28,6 @@ public:
     domainsql sql;
     bool staticsAllowed[3] = {true, true, true};
     bool administratorRights = false;
-    bool inSSL = false;
     bool state[3] = {false, false, false};
     bool first[3] = {true, true, true};
     void clearLayout(QLayout *layout);
@@ -63,6 +62,8 @@ private slots:
     void on_pushButton_clicked();
     void on_loadHostName_clicked();
     void on_loadPort_clicked();
+    void on_rewriteTable_clicked();
+    void on_setHomeButton_clicked();
 
 private:
     Ui::IDNIMS *ui;
