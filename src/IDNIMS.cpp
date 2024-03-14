@@ -390,10 +390,23 @@ void IDNIMS::on_searchDomain_clicked()
 { // Search the target domain and show it
     QString targetDomain = ui->searchLineEdit->text().trimmed();
     QString targetType = ui->typeLineEdit->text().trimmed().isEmpty() ? "DomainName" : ui->typeLineEdit->text().trimmed();
+    QString lengthFilter = ui->lenLineEdit->text().trimmed();
+    QString lengthSql;
+    QRegExp regex("^(-?\\d*)-?(\\d*)$");
+    if (regex.exactMatch(lengthFilter)) {
+        int minLength = regex.cap(1).toInt();
+        int maxLength = regex.cap(2).toInt();
+        if (minLength > 0 && maxLength > 0)
+            lengthSql = QString(" AND LENGTH(%1) BETWEEN %2 AND %3").arg(targetType).arg(minLength).arg(maxLength);
+        else if (minLength > 0)
+            lengthSql = QString(" AND LENGTH(%1) >= %2").arg(targetType).arg(minLength);
+        else if (maxLength > 0)
+            lengthSql = QString(" AND LENGTH(%1) <= %2").arg(targetType).arg(maxLength);
+    }
     QSqlQuery query(sql.db);
     ui->searchWidget->clearContents();
     ui->searchWidget->setRowCount(0);
-    QString queryString = QString("SELECT * FROM domain WHERE %1 LIKE '%%2%'").arg(targetType).arg(targetDomain);
+    QString queryString = QString("SELECT * FROM domain WHERE %1 LIKE '%%2%'%3").arg(targetType).arg(targetDomain).arg(lengthSql);
     auto startTime = std::chrono::high_resolution_clock::now();
     if (query.exec(queryString)) {
         int columnCount = query.record().count();

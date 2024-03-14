@@ -150,7 +150,7 @@ QPushButton:hover {
          <item>
           <widget class="QStackedWidget" name="stackedWidget">
            <property name="currentIndex">
-            <number>3</number>
+            <number>2</number>
            </property>
            <widget class="QWidget" name="pageHome">
             <layout class="QGridLayout" name="gridLayout_4">
@@ -675,41 +675,66 @@ QPushButton:hover {
               </widget>
              </item>
              <item>
-              <widget class="QWidget" name="widget_11" native="true">
-               <layout class="QHBoxLayout" name="horizontalLayout_3">
+              <widget class="QWidget" name="widget_10" native="true">
+               <property name="minimumSize">
+                <size>
+                 <width>0</width>
+                 <height>0</height>
+                </size>
+               </property>
+               <layout class="QVBoxLayout" name="verticalLayout_13">
                 <item>
-                 <widget class="QtMaterialAutoComplete" name="typeLineEdit">
-                  <property name="echoMode">
-                   <enum>QLineEdit::Normal</enum>
-                  </property>
-                  <property name="placeholderText">
-                   <string>在类型中搜索（默认为域名搜索）. . .</string>
-                  </property>
+                 <widget class="QWidget" name="widget_11" native="true">
+                  <layout class="QHBoxLayout" name="horizontalLayout_3">
+                   <item>
+                    <widget class="QtMaterialAutoComplete" name="typeLineEdit">
+                     <property name="echoMode">
+                      <enum>QLineEdit::Normal</enum>
+                     </property>
+                     <property name="placeholderText">
+                      <string>在类型中搜索（默认为域名搜索）. . .</string>
+                     </property>
+                    </widget>
+                   </item>
+                   <item>
+                    <widget class="QtMaterialAutoComplete" name="lenLineEdit">
+                     <property name="echoMode">
+                      <enum>QLineEdit::Normal</enum>
+                     </property>
+                     <property name="placeholderText">
+                      <string>限制搜索长度，使用案例例如2-6</string>
+                     </property>
+                    </widget>
+                   </item>
+                  </layout>
                  </widget>
                 </item>
                 <item>
-                 <widget class="QtMaterialAutoComplete" name="searchLineEdit">
-                  <property name="echoMode">
-                   <enum>QLineEdit::Normal</enum>
-                  </property>
-                  <property name="placeholderText">
-                   <string>输入. . .</string>
-                  </property>
-                 </widget>
-                </item>
-                <item>
-                 <widget class="QPushButton" name="searchDomain">
-                  <property name="minimumSize">
-                   <size>
-                    <width>82</width>
-                    <height>20</height>
-                   </size>
-                  </property>
-                  <property name="cursor">
-                   <cursorShape>PointingHandCursor</cursorShape>
-                  </property>
-                  <property name="styleSheet">
-                   <string notr="true">QPushButton {
+                 <widget class="QWidget" name="widget_12" native="true">
+                  <layout class="QHBoxLayout" name="horizontalLayout_9">
+                   <item>
+                    <widget class="QtMaterialAutoComplete" name="searchLineEdit">
+                     <property name="echoMode">
+                      <enum>QLineEdit::Normal</enum>
+                     </property>
+                     <property name="placeholderText">
+                      <string>输入. . .</string>
+                     </property>
+                    </widget>
+                   </item>
+                   <item>
+                    <widget class="QPushButton" name="searchDomain">
+                     <property name="minimumSize">
+                      <size>
+                       <width>82</width>
+                       <height>20</height>
+                      </size>
+                     </property>
+                     <property name="cursor">
+                      <cursorShape>PointingHandCursor</cursorShape>
+                     </property>
+                     <property name="styleSheet">
+                      <string notr="true">QPushButton {
 	border: 0.5px solid white;
 	border-radius: 6px;
 	background-color: rgb(90, 194, 198);
@@ -730,10 +755,13 @@ QPushButton:hover {
 	font-weight: bold;
 	color: white;
 }</string>
-                  </property>
-                  <property name="text">
-                   <string>搜索</string>
-                  </property>
+                     </property>
+                     <property name="text">
+                      <string>搜索</string>
+                     </property>
+                    </widget>
+                   </item>
+                  </layout>
                  </widget>
                 </item>
                </layout>
