@@ -86,8 +86,19 @@ QString Login::Sha256Encode(QString originalPwd)
 }
 bool Login::checkPasswordStrength(const QString &password)
 { // Check whether powerful
-    QRegExp passwordExpr("^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[^\\da-zA-Z]).{8,}$");
-    return passwordExpr.exactMatch(password);
+    bool hasLetter = false;
+    bool hasDigit = false;
+    bool hasSpecialChar = false;
+    for (const QChar &ch : password) {
+        if (ch.isLetter())
+            hasLetter = true;
+        else if (ch.isDigit())
+            hasDigit = true;
+        else if (!ch.isSpace())
+            hasSpecialChar = true;
+    }
+    int validTypesCount = (hasLetter ? 1 : 0) + (hasDigit ? 1 : 0) + (hasSpecialChar ? 1 : 0);
+    return password.length() >= 8 && validTypesCount >= 2;
 }
 void Login::on_loginButton_clicked()
 {
@@ -129,7 +140,7 @@ void Login::on_registerButton_clicked()
         ui->tipsL->animationStart();
     }
     else if (!checkPasswordStrength(password))
-        QMessageBox::warning(this, "Warning", "Password is too weak! It must contain upper and lower case letters, numbers, and symbols, and be at least 8 characters long.");
+        QMessageBox::warning(this, "Warning", "Password is too weak! It must contain two of the letters, numbers, and symbols, and be at least 8 characters long.");
     else { // Successfully register
         QSqlQuery queryCheck;
         queryCheck.prepare("SELECT user_name FROM user WHERE user_name = :userName");

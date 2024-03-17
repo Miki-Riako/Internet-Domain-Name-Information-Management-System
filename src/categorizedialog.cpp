@@ -21,6 +21,7 @@ bool categorizedialog::columnExists(QString columnName)
 void categorizedialog::on_addButton_clicked()
 {
     emit send_request();
+    auto start = std::chrono::high_resolution_clock::now();
     QSqlQuery query(categorizeOp->db);
     QString columnName = ui->addLineEdit->text().trimmed();
     if (columnExists(columnName)) {
@@ -28,14 +29,17 @@ void categorizedialog::on_addButton_clicked()
         return;
     }
     QString alterQuery = QString("ALTER TABLE domain ADD COLUMN %1 VARCHAR(255)").arg(columnName);
+    auto end = std::chrono::high_resolution_clock::now();
+    std::chrono::duration<double, std::milli> elapsed = end - start;
     if (query.exec(alterQuery))
-        QMessageBox::information(this, "Success", "Column added successfully!");
+        QMessageBox::information(this, "Success", "Column added successfully! Time elapsed: " + QString::number(elapsed.count()) + " ms");
     else
         QMessageBox::warning(this, "Error", "Failed! Error: " + query.lastError().text());
 }
 void categorizedialog::on_deleteButton_clicked()
 {
     emit send_request();
+    auto start = std::chrono::high_resolution_clock::now();
     QString columnName = ui->deleteLineEdit->text().trimmed();
     if (columnName.isEmpty()) {
         QMessageBox::information(this, "Failed", "Column name is empty!");
@@ -49,16 +53,19 @@ void categorizedialog::on_deleteButton_clicked()
     }
     if (columnExists(columnName)) {
         QString alterQuery = QString("ALTER TABLE domain DROP COLUMN %1").arg(columnName);
+        auto end = std::chrono::high_resolution_clock::now();
+        std::chrono::duration<double, std::milli> elapsed = end - start;
         if (query.exec(alterQuery))
-            QMessageBox::information(this, "Success", "Column deleted successfully!");
+            QMessageBox::information(this, "Success", "Column deleted successfully! Time elapsed: " + QString::number(elapsed.count()) + " ms");
         else
-            QMessageBox::warning(this, "Error", "Failed! Error: " + query.lastError().text());
+            QMessageBox::warning(this, "Error", "Failed! Error: " + query.lastError().text() + ". Time elapsed: " + QString::number(elapsed.count()) + " ms");
     } else
         QMessageBox::information(this, "Failed", "The column does not exist!");
 }
 void categorizedialog::on_changeButton_clicked()
 {
     emit send_request();
+    auto start = std::chrono::high_resolution_clock::now();
     QSqlQuery query(categorizeOp->db);
     QString domain = ui->domainLineEdit->text();
     if (!categorizeOp->domainExists(domain)) {
@@ -69,8 +76,10 @@ void categorizedialog::on_changeButton_clicked()
     query.prepare(updateQuery);
     query.bindValue(":newValue", ui->contentLineEdit->text().trimmed());
     query.bindValue(":DomainName", domain);
+    auto end = std::chrono::high_resolution_clock::now();
+    std::chrono::duration<double, std::milli> elapsed = end - start;
     if (query.exec())
-        QMessageBox::information(this, "Success", "Domain updated successfully!");
+        QMessageBox::information(this, "Success", "Domain updated successfully! Time elapsed: " + QString::number(elapsed.count()) + " ms");
     else
-        QMessageBox::warning(this, "Error", "Failed! Error: " + query.lastError().text());
+        QMessageBox::warning(this, "Error", "Failed! Error: " + query.lastError().text() + ". Time elapsed: " + QString::number(elapsed.count()) + " ms");
 }

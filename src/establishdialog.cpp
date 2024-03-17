@@ -53,6 +53,7 @@ bool establishdialog::establish(QString domain)
 void establishdialog::on_randomButton_clicked()
 {
     emit send_request();
+    auto start = std::chrono::high_resolution_clock::now();
     int length = ui->lengthBox->value();
     bool success = false;
     switch (ui->spinBox->value()) { // Create the domain name with the level
@@ -69,14 +70,18 @@ void establishdialog::on_randomButton_clicked()
         success = establish(randomString(length));
         break;
     }
+    auto end = std::chrono::high_resolution_clock::now();
+    std::chrono::duration<double, std::milli> elapsed = end - start;
+    QString timeMessage = "Time elapsed: " + QString::number(elapsed.count()) + " ms";
     if (success)
-        QMessageBox::information(this, "Success", "Domain established successfully!");
+        QMessageBox::information(this, "Success", "Domain established successfully! " + timeMessage);
     else
-        QMessageBox::critical(this, "Error", "Failed to establish domain!");
+        QMessageBox::critical(this, "Error", "Failed to establish domain! " + timeMessage);
 }
 void establishdialog::on_fileButton_clicked()
 {
     emit send_request();
+    auto start = std::chrono::high_resolution_clock::now();
     bool success = true;
     QString fileName = QFileDialog::getOpenFileName(this, tr("Open File"), "", tr("Text Files (*.txt)"));
     if (fileName.isEmpty())
@@ -93,16 +98,24 @@ void establishdialog::on_fileButton_clicked()
             success = false;
     }
     file.close();
+    auto end = std::chrono::high_resolution_clock::now();
+    std::chrono::duration<double, std::milli> elapsed = end - start;
+    QString timeMessage = "Time elapsed: " + QString::number(elapsed.count()) + " ms";
     if (success)
-        QMessageBox::information(this, "Success", "Domains established successfully!");
+        QMessageBox::information(this, "Success", "Domain established successfully! " + timeMessage);
     else
-        QMessageBox::critical(this, "Error", "Failed to establish domains!");
+        QMessageBox::critical(this, "Error", "Failed to establish domain! " + timeMessage);
 }
 void establishdialog::on_peopleButton_clicked()
 {
     emit send_request();
-    if (establish(ui->searchLineEdit->text()))
-        QMessageBox::information(this, "Success", "Domain established successfully!");
+    auto start = std::chrono::high_resolution_clock::now();
+    bool success = establish(ui->searchLineEdit->text());
+    auto end = std::chrono::high_resolution_clock::now();
+    std::chrono::duration<double, std::milli> elapsed = end - start;
+    QString timeMessage = "Time elapsed: " + QString::number(elapsed.count()) + " ms";
+    if (success)
+        QMessageBox::information(this, "Success", "Domain established successfully! " + timeMessage);
     else
-        QMessageBox::critical(this, "Error", "Failed to establish domain!");
+        QMessageBox::critical(this, "Error", "Failed to establish domain! " + timeMessage);
 }
