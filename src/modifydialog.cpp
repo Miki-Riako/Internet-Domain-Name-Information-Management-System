@@ -14,6 +14,7 @@ modifydialog::~modifydialog()
 void modifydialog::on_confirmButton_clicked()
 {
     emit send_request();
+    auto start = std::chrono::high_resolution_clock::now();
     QString target = ui->domainNameLineEdit->text();
     if (target.isEmpty()){ // No text
         QMessageBox::information(this, "Failed", "Please input the remove target!");
@@ -41,8 +42,11 @@ void modifydialog::on_confirmButton_clicked()
     query.bindValue(":CreateDate", ui->createDateLineEdit->text().trimmed());
     query.bindValue(":UpdatedDate", ui->updateDateLineEdit->text().trimmed());
     query.bindValue(":ExpiredDate", ui->expirationDateLineEdit->text().trimmed());
+    auto end = std::chrono::high_resolution_clock::now();
+    std::chrono::duration<double, std::milli> elapsed = end - start;
+    QString timeMessage = "Time elapsed: " + QString::number(elapsed.count()) + " ms";
     if (query.exec())
-        QMessageBox::information(this, "Success", "Modify Successfully!");
+        QMessageBox::information(this, "Success", "Modify Successfully! " + timeMessage);
     else
-        QMessageBox::critical(this, "Error", "Failed to modify: " + query.lastError().text());
+        QMessageBox::critical(this, "Error", "Failed to modify: " + query.lastError().text() + ". " + timeMessage);
 }

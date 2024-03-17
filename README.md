@@ -1,4 +1,4 @@
-# IDNIMS-InternetDomainNameInformationManagementSystem
+# IDNIMS-Internet Domain Name Information Management System
 
 This is Internet Domain Name Information Management System
 

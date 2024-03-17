@@ -1,3 +1,5 @@
+#ifndef HEADER_H
+#define HEADER_H
 #include <QtCharts>
 #include <QtCharts/QBarSeries>
 #include <QtCharts/QBarSet>
@@ -65,3 +67,4 @@
 #define MAXSIZE 256
 #define endl "\n"
 using namespace std;
+#endif
