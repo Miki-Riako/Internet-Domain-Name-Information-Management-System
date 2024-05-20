@@ -62,7 +62,7 @@ void Login::fade(auto *control, const int &duration, const int &startValue, cons
 void Login::hideLayout(auto *layout)
 { // The function aims to hide a layout
     layout->setEnabled(false);
-    for (auto i = 0; i < layout->count(); i++) { // Traverse all the item
+    for (auto i = 0; i < layout->count(); ++i) { // Traverse all the item
         QWidget *ptr = layout->itemAt(i)->widget();
         if (ptr != nullptr) { // And then set it invisible
             ptr->setVisible(false);
@@ -73,7 +73,7 @@ void Login::hideLayout(auto *layout)
 void Login::showLayout(auto *layout)
 { // The function aims to show the layout hided
     layout->setEnabled(true);
-    for (auto i = 0; i < layout->count(); i++) { // Traverse all the item
+    for (auto i = 0; i < layout->count(); ++i) { // Traverse all the item
         QWidget *ptr = layout->itemAt(i)->widget();
         if (ptr != nullptr) { // And then set it visible
             ptr->setVisible(true);

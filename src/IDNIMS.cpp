@@ -392,6 +392,11 @@ void IDNIMS::on_searchDomain_clicked()
     QString lengthFilter = ui->lenLineEdit->text().trimmed();
     QString lengthSql;
     QRegExp regex("^(-?\\d*)-?(\\d*)$");
+    
+    // if (targetType == "id" || targetType == "DomainLevel") {
+
+    // }
+
     if (regex.exactMatch(lengthFilter)) {
         int minLength = regex.cap(1).toInt();
         int maxLength = regex.cap(2).toInt();
@@ -402,11 +407,13 @@ void IDNIMS::on_searchDomain_clicked()
         else if (maxLength > 0)
             lengthSql = QString(" AND LENGTH(%1) <= %2").arg(targetType).arg(maxLength);
     }
+
     QSqlQuery query(sql.db);
     ui->searchWidget->clearContents();
     ui->searchWidget->setRowCount(0);
-    QString queryString = QString("SELECT * FROM domain WHERE %1 LIKE '%%2%'%3").arg(targetType).arg(targetDomain).arg(lengthSql);
+    QString queryString = QString("SELECT * FROM domain WHERE %1 LIKE '%2%'%3").arg(targetType).arg(targetDomain).arg(lengthSql);
     auto startTime = std::chrono::high_resolution_clock::now();
+
     if (query.exec(queryString)) {
         int columnCount = query.record().count();
         int rowCount = 0;
@@ -425,9 +432,9 @@ void IDNIMS::on_searchDomain_clicked()
         }
         if (rowCount == 0)
             QMessageBox::information(nullptr, "Search Result", "No results found.");
-    }
-    else
+    } else
         QMessageBox::warning(nullptr, "Error", "Load the database failed, please check your database!");
+
     auto endTime = std::chrono::high_resolution_clock::now();
     auto duration = std::chrono::duration<double, std::milli>(endTime - startTime).count();
     ui->timeLabel->setText("Search Time: " + QString::number(duration / 1000, 'f', 4) + "s");
