@@ -1,5 +1,8 @@
 #include "login.h"
 #include "ui_login.h"
+
+bool debug_mode = true;
+
 Login::Login(QWidget *parent) : QWidget(parent), ui(new Ui::Login)
 {
     ui->setupUi(this);
@@ -102,13 +105,17 @@ bool Login::checkPasswordStrength(const QString &password)
 }
 void Login::on_loginButton_clicked()
 {
+    if (debug_mode) {
+        name = "DEBUG_USER";
+        emit enter();
+        return;
+    }
     QString userName = ui->loginUsernameLineEdit->text();
     QString password = Sha256Encode(ui->loginPwdLineEdit->text());
     if (userName.isEmpty() || password.isEmpty()) { // The case when the username and the password are all empty
         ui->tipsR->textLabel->setText("Please enter the username and pwd!");
         ui->tipsR->animationStart();
-    }
-    else { // Check wether can enter the program
+    } else { // Check wether can enter the program
         QSqlQuery query;
         QString qs = QString("select * from user where user_name = '%1' and password='%2'").arg(userName).arg(password);
         if (!query.exec(qs)) { // Password is not right
@@ -119,6 +126,7 @@ void Login::on_loginButton_clicked()
         if (query.next()) { // Get the info
             name = userName;
             emit enter();
+            return;
         }
         else { // Enter failed
             ui->tipsR->textLabel->setText("Login Failed! Check your username and password.");

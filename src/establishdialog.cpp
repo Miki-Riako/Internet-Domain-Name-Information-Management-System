@@ -74,7 +74,7 @@ void establishdialog::on_randomButton_clicked()
     std::chrono::duration<double, std::milli> elapsed = end - start;
     QString timeMessage = "Time elapsed: " + QString::number(elapsed.count()) + " ms";
     if (success)
-        QMessageBox::information(this, "Success", "Domain established successfully! " + timeMessage);
+        QMessageBox::information(this, "Success", "Domain established. " + timeMessage);
     else
         QMessageBox::critical(this, "Error", "Failed to establish domain! " + timeMessage);
 }
@@ -102,7 +102,7 @@ void establishdialog::on_fileButton_clicked()
     std::chrono::duration<double, std::milli> elapsed = end - start;
     QString timeMessage = "Time elapsed: " + QString::number(elapsed.count()) + " ms";
     if (success)
-        QMessageBox::information(this, "Success", "Domain established successfully! " + timeMessage);
+        QMessageBox::information(this, "Success", "Domain successfully. " + timeMessage);
     else
         QMessageBox::critical(this, "Error", "Failed to establish domain! " + timeMessage);
 }
@@ -115,7 +115,7 @@ void establishdialog::on_peopleButton_clicked()
     std::chrono::duration<double, std::milli> elapsed = end - start;
     QString timeMessage = "Time elapsed: " + QString::number(elapsed.count()) + " ms";
     if (success)
-        QMessageBox::information(this, "Success", "Domain established successfully! " + timeMessage);
+        QMessageBox::information(this, "Success", "Domain established. " + timeMessage);
     else
         QMessageBox::critical(this, "Error", "Failed to establish domain! " + timeMessage);
 }
