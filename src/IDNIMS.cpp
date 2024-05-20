@@ -149,6 +149,7 @@ void IDNIMS::enter(void)
     this->show();
     this->showMaximized();
     initialHomePage();
+    initialSearchPage();
     initialLogPage();
     initialSettingPage();
     if (!administratorRights)
@@ -156,6 +157,10 @@ void IDNIMS::enter(void)
     ui->userLabel->setText("Welcome! " + user);
     QSettings settings("config.ini", QSettings::IniFormat);
     changePage(settings.value("Settings/HomePage").toInt());
+    fade(ui->nameSortButton, 2000, 0, 1);
+    fade(ui->typeSortButton, 2000, 0, 1);
+    fade(ui->levelSortButton, 2000, 0, 1);
+    fade(ui->sortRadio, 2000, 0, 1);
 }
 void IDNIMS::changePage(const int &page)
 { // The small function aims to change the pages
@@ -193,6 +198,10 @@ void IDNIMS::initialHomePage(void)
     ui->welcomeLabel->setText(greeting + user + "!");
     QSettings settings("config.ini", QSettings::IniFormat);
     ui->stackedWidget->setCurrentIndex(settings.value("Settings/HomePage").toInt());
+}
+void IDNIMS::initialSearchPage(void)
+{ // This function aims to set the searching page
+    ui->searchRadio->setChecked(true);
 }
 void IDNIMS::initialLogPage(void)
 { // This function aims to set the log page
@@ -273,6 +282,34 @@ void IDNIMS::loadDomainData(const int &level)
     }
     ui->numberLabel->setText(". . . Now the number of domain names: " + QString::number(rowCount));
 }
+void IDNIMS::displaySortedData(const QString &queryString)
+{
+    QSqlQuery query(sql.db);
+    if (!query.exec(queryString)) {
+        QMessageBox::warning(this, "Error!", "Cannot get data from database!");
+        return;
+    }
+
+    int columnCount = query.record().count();
+    int rowCount = 0;
+    ui->tableWidget->setColumnCount(columnCount);
+    ui->tableWidget->setRowCount(0);
+    QStringList headerLabels;
+    for (int i = 0; i < columnCount; ++i)
+        headerLabels << query.record().fieldName(i);
+    ui->tableWidget->setHorizontalHeaderLabels(headerLabels);
+
+    while (query.next()) {
+        ui->tableWidget->insertRow(rowCount);
+        for (int j = 0; j < columnCount; ++j) {
+            ui->tableWidget->setItem(rowCount, j, new QTableWidgetItem(query.value(j).toString()));
+        }
+        ++rowCount;
+    }
+
+    ui->numberLabel->setText(". . . Now the number of domain names: " + QString::number(rowCount));
+}
+
 // The button on page 1
 void IDNIMS::on_loadAll_clicked()
 {
@@ -392,10 +429,6 @@ void IDNIMS::on_searchDomain_clicked()
     QString lengthFilter = ui->lenLineEdit->text().trimmed();
     QString lengthSql;
     QRegExp regex("^(-?\\d*)-?(\\d*)$");
-    
-    // if (targetType == "id" || targetType == "DomainLevel") {
-
-    // }
 
     if (regex.exactMatch(lengthFilter)) {
         int minLength = regex.cap(1).toInt();
@@ -411,7 +444,14 @@ void IDNIMS::on_searchDomain_clicked()
     QSqlQuery query(sql.db);
     ui->searchWidget->clearContents();
     ui->searchWidget->setRowCount(0);
-    QString queryString = QString("SELECT * FROM domain WHERE %1 LIKE '%2%'%3").arg(targetType).arg(targetDomain).arg(lengthSql);
+
+    QString queryString;
+    if (ui->searchRadio->isChecked()) {
+        QString command = "SELECT * FROM domain WHERE " + targetType + " LIKE '%" + targetDomain + "%'" + lengthSql;
+        queryString = command;
+    }
+    else
+        queryString = QString("SELECT * FROM domain WHERE %1 LIKE '%2' %3").arg(targetType).arg(targetDomain).arg(lengthSql);
     auto startTime = std::chrono::high_resolution_clock::now();
 
     if (query.exec(queryString)) {
@@ -759,4 +799,21 @@ void IDNIMS::on_setHomeButton_clicked()
     settings.endGroup();
     QMessageBox::information(this, "Settings Updated", "Default home page set to " + QString::number(pageNumber));
 }
-
+void IDNIMS::on_nameSortButton_clicked()
+{
+    QString order = ui->sortRadio->isChecked() ? "DESC" : "ASC";
+    QString queryString = QString("SELECT * FROM domain ORDER BY DomainName %1").arg(order);
+    displaySortedData(queryString);
+}
+void IDNIMS::on_typeSortButton_clicked()
+{
+    QString order = ui->sortRadio->isChecked() ? "DESC" : "ASC";
+    QString queryString = QString("SELECT * FROM domain ORDER BY DomainType %1").arg(order);
+    displaySortedData(queryString);
+}
+void IDNIMS::on_levelSortButton_clicked()
+{
+    QString order = ui->sortRadio->isChecked() ? "DESC" : "ASC";
+    QString queryString = QString("SELECT * FROM domain ORDER BY DomainLevel %1").arg(order);
+    displaySortedData(queryString);
+}

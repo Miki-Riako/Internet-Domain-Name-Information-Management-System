@@ -36,10 +36,12 @@ public:
     void enter(void);
     void changePage(const int &page);
     void initialHomePage(void);
+    void initialSearchPage(void);
     void initialLogPage(void);
     void initialSettingPage(void);
     void loadDomainData(const int &level);
     void keyPressEvent(QKeyEvent *event);
+    void displaySortedData(const QString &queryString);
     QtMaterialAutoComplete *pwdLineEdit[3];
 
 private slots:
@@ -64,6 +66,9 @@ private slots:
     void on_loadPort_clicked();
     void on_rewriteTable_clicked();
     void on_setHomeButton_clicked();
+    void on_nameSortButton_clicked();
+    void on_typeSortButton_clicked();
+    void on_levelSortButton_clicked();
 
 private:
     Ui::IDNIMS *ui;

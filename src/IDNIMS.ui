@@ -141,16 +141,170 @@ QPushButton:hover {
           <number>5</number>
          </property>
          <item>
-          <widget class="QTableWidget" name="tableWidget">
-           <property name="styleSheet">
-            <string notr="true"/>
+          <widget class="QWidget" name="widget_17" native="true">
+           <property name="minimumSize">
+            <size>
+             <width>0</width>
+             <height>0</height>
+            </size>
            </property>
+           <layout class="QVBoxLayout" name="verticalLayout_16">
+            <item>
+             <widget class="QWidget" name="widget_18" native="true">
+              <property name="minimumSize">
+               <size>
+                <width>100</width>
+                <height>0</height>
+               </size>
+              </property>
+              <layout class="QHBoxLayout" name="horizontalLayout_8" stretch="3,3,3,1">
+               <property name="leftMargin">
+                <number>20</number>
+               </property>
+               <property name="rightMargin">
+                <number>20</number>
+               </property>
+               <item>
+                <widget class="QPushButton" name="nameSortButton">
+                 <property name="minimumSize">
+                  <size>
+                   <width>82</width>
+                   <height>20</height>
+                  </size>
+                 </property>
+                 <property name="cursor">
+                  <cursorShape>PointingHandCursor</cursorShape>
+                 </property>
+                 <property name="styleSheet">
+                  <string notr="true">QPushButton {
+	border: 0.5px solid white;
+	border-radius: 6px;
+	background-color: rgb(90, 194, 198);
+	min-width: 80px;
+	font-family: &quot;Times New Roman&quot;;
+	font-size: 11pt;
+	font-weight: bold;
+	color: white;
+}
+
+QPushButton:hover {
+	border: 0.5px solid white;
+	border-radius: 6px;
+	background-color: #1fab89;
+	min-width: 80px;
+	font-family: &quot;Times New Roman&quot;;
+	font-size: 10pt;
+	font-weight: bold;
+	color: white;
+}</string>
+                 </property>
+                 <property name="text">
+                  <string>按域名排序</string>
+                 </property>
+                </widget>
+               </item>
+               <item>
+                <widget class="QPushButton" name="typeSortButton">
+                 <property name="minimumSize">
+                  <size>
+                   <width>82</width>
+                   <height>20</height>
+                  </size>
+                 </property>
+                 <property name="cursor">
+                  <cursorShape>PointingHandCursor</cursorShape>
+                 </property>
+                 <property name="styleSheet">
+                  <string notr="true">QPushButton {
+	border: 0.5px solid white;
+	border-radius: 6px;
+	background-color: rgb(90, 194, 198);
+	min-width: 80px;
+	font-family: &quot;Times New Roman&quot;;
+	font-size: 11pt;
+	font-weight: bold;
+	color: white;
+}
+
+QPushButton:hover {
+	border: 0.5px solid white;
+	border-radius: 6px;
+	background-color: #1fab89;
+	min-width: 80px;
+	font-family: &quot;Times New Roman&quot;;
+	font-size: 10pt;
+	font-weight: bold;
+	color: white;
+}</string>
+                 </property>
+                 <property name="text">
+                  <string>按类型排序</string>
+                 </property>
+                </widget>
+               </item>
+               <item>
+                <widget class="QPushButton" name="levelSortButton">
+                 <property name="minimumSize">
+                  <size>
+                   <width>82</width>
+                   <height>20</height>
+                  </size>
+                 </property>
+                 <property name="cursor">
+                  <cursorShape>PointingHandCursor</cursorShape>
+                 </property>
+                 <property name="styleSheet">
+                  <string notr="true">QPushButton {
+	border: 0.5px solid white;
+	border-radius: 6px;
+	background-color: rgb(90, 194, 198);
+	min-width: 80px;
+	font-family: &quot;Times New Roman&quot;;
+	font-size: 11pt;
+	font-weight: bold;
+	color: white;
+}
+
+QPushButton:hover {
+	border: 0.5px solid white;
+	border-radius: 6px;
+	background-color: #1fab89;
+	min-width: 80px;
+	font-family: &quot;Times New Roman&quot;;
+	font-size: 10pt;
+	font-weight: bold;
+	color: white;
+}</string>
+                 </property>
+                 <property name="text">
+                  <string>按等级排序</string>
+                 </property>
+                </widget>
+               </item>
+               <item>
+                <widget class="QRadioButton" name="sortRadio">
+                 <property name="text">
+                  <string>逆序</string>
+                 </property>
+                </widget>
+               </item>
+              </layout>
+             </widget>
+            </item>
+            <item>
+             <widget class="QTableWidget" name="tableWidget">
+              <property name="styleSheet">
+               <string notr="true"/>
+              </property>
+             </widget>
+            </item>
+           </layout>
           </widget>
          </item>
          <item>
           <widget class="QStackedWidget" name="stackedWidget">
            <property name="currentIndex">
-            <number>3</number>
+            <number>2</number>
            </property>
            <widget class="QWidget" name="pageHome">
             <layout class="QGridLayout" name="gridLayout_4">
@@ -712,6 +866,13 @@ QPushButton:hover {
                 <item>
                  <widget class="QWidget" name="widget_12" native="true">
                   <layout class="QHBoxLayout" name="horizontalLayout_9">
+                   <item>
+                    <widget class="QRadioButton" name="searchRadio">
+                     <property name="text">
+                      <string>模糊搜索</string>
+                     </property>
+                    </widget>
+                   </item>
                    <item>
                     <widget class="QtMaterialAutoComplete" name="searchLineEdit">
                      <property name="echoMode">
@@ -1760,7 +1921,6 @@ QPushButton:hover {
  </customwidgets>
  <tabstops>
   <tabstop>drawerButton</tabstop>
-  <tabstop>tableWidget</tabstop>
   <tabstop>loadAll</tabstop>
   <tabstop>clearAll</tabstop>
   <tabstop>establishButton</tabstop>
