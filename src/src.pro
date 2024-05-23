@@ -42,6 +42,8 @@ HEADERS += \
     login.h \
     modifydialog.h \
     removedialog.h \
+    libs/qtmaterialautocomplete.h \
+    libs/qtmaterialdrawer.h \
     scrolltext.h
 
 FORMS += \

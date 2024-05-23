@@ -15,11 +15,34 @@ namespace Ui
 }
 QT_END_NAMESPACE
 
+//************
+class MessageHandler {
+public:
+    virtual void showMessage() = 0;
+    virtual ~MessageHandler() {}
+};
+class GuestMessageHandler : public MessageHandler {
+public:
+    void showMessage() override { QMessageBox::information(nullptr, "Guest Access", "You have guest access with limited functionality."); }
+};
+class AdminMessageHandler : public MessageHandler {
+public:
+    void showMessage() override { QMessageBox::information(nullptr, "Admin Access", "You have administrator access with full functionality."); }
+};
+//************
+
 class IDNIMS : public QMainWindow
 {
     Q_OBJECT
 
 public:
+    void setUserType(bool isAdmin) {
+        delete messageHandler;
+        if (isAdmin) messageHandler = new AdminMessageHandler();
+        else messageHandler = new GuestMessageHandler();
+    }
+    void displayMessage() { if (messageHandler) messageHandler->showMessage(); }
+
     IDNIMS(QWidget *parent = nullptr);
     ~IDNIMS();
     QPushButton *drawerButtons[7];
@@ -79,5 +102,7 @@ private:
     removedialog removeWindow;
     modifydialog modifyWindow;
     QtMaterialDrawer *const drawer;
+
+    MessageHandler* messageHandler;
 };
 #endif // IDNIMS_H

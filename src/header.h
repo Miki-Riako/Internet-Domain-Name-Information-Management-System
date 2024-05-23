@@ -61,8 +61,8 @@
 #include <string>
 #include <vector>
 
-#include "qtmaterialautocomplete.h"
-#include "qtmaterialdrawer.h"
+#include "libs/qtmaterialautocomplete.h"
+#include "libs/qtmaterialdrawer.h"
 
 #define MAXSIZE 256
 #define endl "\n"

@@ -3,6 +3,8 @@
 
 IDNIMS::IDNIMS(QWidget *parent) : QMainWindow(parent), ui(new Ui::IDNIMS), drawer(new QtMaterialDrawer)
 {
+    messageHandler = new GuestMessageHandler();
+
     ui->setupUi(this);
     login.show();
     sql.loginConnect();
@@ -126,6 +128,7 @@ void IDNIMS::clearLayout(QLayout *layout)
         delete item->widget();
         delete item;
     }
+    delete messageHandler;
 }
 void IDNIMS::fade(auto *control, const int &duration, const int &startValue, const int &endValue)
 { // The function can provide the fade in and fade out animations.
@@ -161,6 +164,7 @@ void IDNIMS::enter(void)
     fade(ui->typeSortButton, 2000, 0, 1);
     fade(ui->levelSortButton, 2000, 0, 1);
     fade(ui->sortRadio, 2000, 0, 1);
+    messageHandler->showMessage();
 }
 void IDNIMS::changePage(const int &page)
 { // The small function aims to change the pages
