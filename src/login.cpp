@@ -1,7 +1,7 @@
 #include "login.h"
 #include "ui_login.h"
 
-bool debug_mode = true;
+bool debug_mode = false;
 
 Login::Login(QWidget *parent) : QWidget(parent), ui(new Ui::Login)
 {

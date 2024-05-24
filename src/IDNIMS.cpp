@@ -164,6 +164,8 @@ void IDNIMS::enter(void)
     fade(ui->typeSortButton, 2000, 0, 1);
     fade(ui->levelSortButton, 2000, 0, 1);
     fade(ui->sortRadio, 2000, 0, 1);
+
+    setUserType(administratorRights);
     messageHandler->showMessage();
 }
 void IDNIMS::changePage(const int &page)
