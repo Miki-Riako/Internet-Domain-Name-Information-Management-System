@@ -46,11 +46,6 @@ void categorizedialog::on_deleteButton_clicked()
         return;
     }
     QSqlQuery query(categorizeOp->db);
-    QString checkQuery = QString("SELECT COUNT(*) FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_SCHEMA = 'YourDatabaseName' AND TABLE_NAME = 'domain' AND COLUMN_NAME = '%1'").arg(columnName);
-    if (!query.exec(checkQuery)) {
-        QMessageBox::warning(this, "Error", "Failed to check the column! Error: " + query.lastError().text());
-        return;
-    }
     if (columnExists(columnName)) {
         QString alterQuery = QString("ALTER TABLE domain DROP COLUMN %1").arg(columnName);
         auto end = std::chrono::high_resolution_clock::now();
