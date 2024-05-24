@@ -10,6 +10,8 @@ IDE: VScode
 
 Development framework: QT
 
+Database: MySQL (ODBC interface)
+
 The program is a simulation of the Internet domain name information management program.
 
 The Internet domain name system is a typical tree hierarchy. The first level down from the root node is the top-level domains, such as cn, com, etc., and the bottom level (fourth level) is the leaf nodes, such as www, etc..
