@@ -17,7 +17,7 @@ void modifydialog::on_confirmButton_clicked()
     auto start = std::chrono::high_resolution_clock::now();
     QString target = ui->domainNameLineEdit->text();
     if (target.isEmpty()){ // No text
-        QMessageBox::information(this, "Failed", "Please input the remove target!");
+        QMessageBox::information(this, "Failed", "Please input the modified target!");
         return;
     }
     if (target == "root"){ // Root
