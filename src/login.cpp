@@ -137,8 +137,8 @@ void Login::on_loginButton_clicked()
 void Login::on_registerButton_clicked()
 {
     QString userName = ui->registerUsernameLineEdit->text();
-    QString password = Sha256Encode(ui->registerPwdLineEdit->text());
-    QString passwordConfirm = Sha256Encode(ui->registerConfirmLineEdit->text());
+    QString password = ui->registerPwdLineEdit->text();
+    QString passwordConfirm = ui->registerConfirmLineEdit->text();
     if (userName.isEmpty() || password.isEmpty() || passwordConfirm.isEmpty()) { // The case when all are empty
         ui->tipsL->textLabel->setText("Please enter the username and pwd!");
         ui->tipsL->animationStart();
@@ -151,6 +151,7 @@ void Login::on_registerButton_clicked()
         QMessageBox::warning(this, "Warning", "Password is too weak! It must contain two of the letters, numbers, and symbols, and be at least 8 characters long.");
     else { // Successfully register
         QSqlQuery queryCheck;
+        password = Sha256Encode(password);
         queryCheck.prepare("SELECT user_name FROM user WHERE user_name = :userName");
         queryCheck.bindValue(":userName", userName);
         if (queryCheck.exec() && queryCheck.next()) { // The condition that user already exits
