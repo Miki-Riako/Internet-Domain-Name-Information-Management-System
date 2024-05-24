@@ -120,7 +120,12 @@ IDNIMS::IDNIMS(QWidget *parent) : QMainWindow(parent), ui(new Ui::IDNIMS), drawe
         }
     // File
 }
-IDNIMS::~IDNIMS() {delete ui;}
+IDNIMS::~IDNIMS()
+{
+    delete ui;
+    delete messageHandler;
+}
+
 void IDNIMS::clearLayout(QLayout *layout)
 { // Clear the layout
     QLayoutItem *item;
@@ -128,7 +133,6 @@ void IDNIMS::clearLayout(QLayout *layout)
         delete item->widget();
         delete item;
     }
-    delete messageHandler;
 }
 void IDNIMS::fade(auto *control, const int &duration, const int &startValue, const int &endValue)
 { // The function can provide the fade in and fade out animations.
